@@ -1,0 +1,22 @@
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "mysql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  name  String
+}
+
+model Transaction {
+  id          String @id @default(cuid())
+  date        DateTime
+  description String
+  amount      Float
+  // tags: Tag[]!
+  user        String
+}
