@@ -1,9 +1,6 @@
 import { IRepository } from '@/infrastructure/repository/prisma'
 import { Transaction, makeCreateTransaction } from "@/server/models/Transaction";
-
-const generateId = () => {
-    return "1"
-}
+import { generateId } from '..';
 
 const validateModel = (data:Transaction) => {
     return

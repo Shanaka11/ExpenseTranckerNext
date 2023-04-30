@@ -13,6 +13,7 @@ export const makeCreateTag = ({
 
     return (data:Tag) => {
         if(!data.id)    data.id = generateId()
+        data.name = data.name.toLowerCase()
         validateModel(data)
         return {
             ...data,

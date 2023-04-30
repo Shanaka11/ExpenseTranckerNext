@@ -1,9 +1,6 @@
 import { Tag, makeCreateTag } from "@/server/models/Tag";
 import { IRepository } from '@/infrastructure/repository/prisma'
-
-const generateId = () => {
-    return "1"
-}
+import { generateId } from "..";
 
 const validateModel = (data:Tag) => {
     return
