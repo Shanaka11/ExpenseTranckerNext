@@ -1,16 +1,32 @@
 import { Tag } from "@/server/models/Tag"
-import { createBaseRepository } from "./BaseCrudRepository"
+import { prisma } from ".";
 
 export const makeTagRepository = () => {
-    const {
-        create,
-        remove,
-        findAll,
-        findById,
-        update
-    } = createBaseRepository<Tag>('Tag')
 
-    // If any changes are needed then override the above methods with a separate method and return it
+    const create = async (data: Tag) => {
+        const created = await prisma.tag.create({ data });
+        return created
+    }
+
+    const findById = async (id: string)=> {
+        const found = await prisma.tag.findUnique({ where: {id} })
+        return found || null;
+    }
+  
+    const findAll = async () => {
+        const all = await prisma.tag.findMany();
+        return all;
+    }
+  
+    const update = async (id: string, data: Tag) => {
+        const updated = await prisma.tag.update({ where: { id }, data });
+        return updated || null;
+    }
+  
+    const remove = async (id: string) => {
+        await prisma.tag.delete({ where: { id } });
+        return true;
+    }
 
     return {
         create,
