@@ -21,7 +21,8 @@ export const makeCreateTransaction = ({
         if(!data.id)    data.id = generateId()
         validateModel(data)
         return {
-            ...data
+            ...data,
+            id: data.id
         }
     }
 }

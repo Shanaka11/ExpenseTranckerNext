@@ -23,6 +23,7 @@ export const makeTagCrudUseCase = ({
             const response = await tagRepository.create(tag)
             return response
         } catch (e) {
+            console.log(e)
             throw e
         }
     }
@@ -44,11 +45,11 @@ export const makeTagCrudUseCase = ({
         }
     }
     
-    const update = async (data:Tag) => {
+    const update = async (id: string ,data:Tag) => {
         // Update the tag using the repository method
         try{
-            const tag = createTag(data)
-            const response = await tagRepository.update(tag.id, tag)
+            const tag = createTag({...data, id})
+            const response = await tagRepository.update(id, tag)
             return response
         } catch (e) {
             throw e

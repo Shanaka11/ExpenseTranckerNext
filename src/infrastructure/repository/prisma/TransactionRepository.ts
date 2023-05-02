@@ -3,17 +3,25 @@ import { prisma } from ".";
 
 export const makeTransactionRepository = () => {
     const create = async (data: Transaction) => {
-        const created = await prisma.transaction.create({ data });
+        const created = await prisma.transaction.create({ data, include: {
+            tags: true
+        } });
         return created
     }
 
     const findById = async (id: string) => {
-        const found = await prisma.transaction.findUnique({ where: {id} })
+        const found = await prisma.transaction.findUnique({ where: {id}, include: {
+            tags: true
+        } })
         return found || null
     }
   
     const findAll = async () => {
-        const all = await prisma.transaction.findMany();
+        const all = await prisma.transaction.findMany({
+            include: {
+                tags: true
+            }
+        });
         return all;
     }
   

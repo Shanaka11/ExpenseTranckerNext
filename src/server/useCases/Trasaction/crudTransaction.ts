@@ -44,11 +44,11 @@ export const makeTransactionCrudUseCase = ({
         }
     }
     
-    const update = async (data:Transaction) => {
+    const update = async (id:string, data:Transaction) => {
         // Update the Transaction using the repository method
         try{
             const transaction = createTransaction(data)
-            const response = await transactionRepository.update(transaction.id, transaction)
+            const response = await transactionRepository.update(id, transaction)
             return response
         } catch (e) {
             throw e
