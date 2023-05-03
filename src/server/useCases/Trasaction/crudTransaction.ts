@@ -1,25 +1,55 @@
 import { IRepository } from '@/infrastructure/repository/prisma'
 import { Transaction, makeCreateTransaction } from "@/server/models/Transaction";
+import { Tag } from "@/server/models/Tag"
 import { generateId } from '..';
+
+
+type createTransactionInput = {
+    date: Date,
+    description: string,
+    amount: number,
+    tags: string[],
+    user: string
+}
 
 const validateModel = (data:Transaction) => {
     return
 }
 
 export const makeTransactionCrudUseCase = ({
-    transactionRepository
+    transactionRepository,
+    tagRepository
 }:{ 
-    transactionRepository: IRepository<Transaction>
+    transactionRepository: IRepository<Transaction>,
+    tagRepository: IRepository<Tag>
 }) => {
     const createTransaction = makeCreateTransaction({
         generateId,
         validateModel
     })
     
-    const create = async (data:Transaction) => {
+    const create = async (data:createTransactionInput) => {
     
         try{
-            const transaction = createTransaction(data)
+            const rawTransaction= {
+                date: data.date,
+                description: data.description,
+                amount: data.amount,
+                user: data.user,
+            }
+            // First get the tag ids and then get the associated tags from the database
+            const tags = await Promise.all( data.tags.map(async (tagId) => {
+                const tag = await tagRepository.findById(tagId) 
+                if (tag) return tag
+                throw new Error('Tag does not exist')
+            }))
+            // Then create it
+            if(tags === null ) return
+
+            const transaction = createTransaction({
+                ...rawTransaction,
+                tags: tags
+            })
             const response = await transactionRepository.create(transaction)
             return response
         } catch (e) {
@@ -47,7 +77,7 @@ export const makeTransactionCrudUseCase = ({
     const update = async (id:string, data:Transaction) => {
         // Update the Transaction using the repository method
         try{
-            const transaction = createTransaction(data)
+            const transaction = createTransaction({...data, id})
             const response = await transactionRepository.update(id, transaction)
             return response
         } catch (e) {

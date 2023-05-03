@@ -1,11 +1,24 @@
 import { Transaction } from "@/server/models/Transaction"
+import { Transaction as PrismaTransaction} from "@prisma/client";
 import { prisma } from ".";
+
 
 export const makeTransactionRepository = () => {
     const create = async (data: Transaction) => {
-        const created = await prisma.transaction.create({ data, include: {
+
+        const prismaData = {
+            ...data,
+            tags: {
+                connect: data.tags?.map((tag) => {
+                    return { id: tag.id }
+                })
+            }
+        }
+
+        const created = await prisma.transaction.create({ data: prismaData, include: {
             tags: true
         } });
+
         return created
     }
 
@@ -26,7 +39,14 @@ export const makeTransactionRepository = () => {
     }
   
     const update = async (id: string, data: Transaction) => {
-        const updated = await prisma.transaction.update({ where: { id }, data });
+        const prismaData = {
+            ...data,
+            tags: {
+            }
+        }
+        const updated = await prisma.transaction.update({ where: { id }, data: prismaData, include: {
+            tags: true
+        } });
         return updated || null;
     }
   

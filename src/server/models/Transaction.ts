@@ -3,11 +3,11 @@ import { Tag } from "./Tag"
 
 
 export type Transaction = {
-    id: string,
+    id?: string,
     date: Date,
     description: string,
     amount: number,
-    tags: Tag[],
+    tags?: Tag[],
     user: string
 }
 
