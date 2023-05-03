@@ -8,7 +8,7 @@ export const PUT = async (request: NextRequest,
     }) => {
     try{
         const input = await request.json()
-        const response = await transactionApi.addTagToTransaction(params.id, input.tags)
+        const response = await transactionApi.removeTagFromTransaction(params.id, input.tags)
         return new Response(JSON.stringify(response), {
             status: 201
         })

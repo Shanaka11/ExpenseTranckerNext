@@ -31,7 +31,6 @@ export const PUT = async (
 ) => {
     try{
         const input = await request.json()
-        console.log(input)
         const tag = await transactionApi.update(params.id, input)
 
         return new Response(JSON.stringify(tag), {

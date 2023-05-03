@@ -42,6 +42,10 @@ export const makeTransactionRepository = () => {
         const prismaData = {
             ...data,
             tags: {
+                set: [],
+                connect: data.tags?.map((tag) => {
+                    return { id: tag.id }
+                })
             }
         }
         const updated = await prisma.transaction.update({ where: { id }, data: prismaData, include: {

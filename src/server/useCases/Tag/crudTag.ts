@@ -23,7 +23,6 @@ export const makeTagCrudUseCase = ({
             const response = await tagRepository.create(tag)
             return response
         } catch (e) {
-            console.log(e)
             throw e
         }
     }
