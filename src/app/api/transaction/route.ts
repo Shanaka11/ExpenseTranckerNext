@@ -1,11 +1,13 @@
+import checkPermissions from "@/app/util/checkPermissions";
 import { transactionApi } from "@/server/useCases";
-import { currentUser } from "@clerk/nextjs/app-beta";
 import { NextRequest } from "next/server";
 
 export const POST = async (request: NextRequest) => {
 
     try{
+        const userId = await checkPermissions()
         const input = await request.json()
+        input.user = userId
         const transaction = await transactionApi.create(input)
 
         return new Response(JSON.stringify(transaction), {
@@ -20,11 +22,8 @@ export const POST = async (request: NextRequest) => {
 }
 export const GET = async () => {
     try{
-        const user = await currentUser()
-    
-        if(!user){
-            throw 'You must be logged in'
-        }
+
+        const userId = await checkPermissions()
         
         const transactions = await transactionApi.retrieve()
 

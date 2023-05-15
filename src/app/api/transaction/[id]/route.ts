@@ -1,4 +1,5 @@
 
+import checkPermissions from "@/app/util/checkPermissions"
 import { transactionApi } from "@/server/useCases"
 import { NextRequest } from "next/server"
 
@@ -10,6 +11,7 @@ export const GET = async (
     }
 ) => {
     try{
+        const userId = await checkPermissions()
         const tag = await transactionApi.retrieve(params.id)
 
         return new Response(JSON.stringify(tag), {
