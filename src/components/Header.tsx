@@ -3,7 +3,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div className='h-12 bg-white border-b border-slate-300 px-4 flex items-center'>
+    <div className='h-12 bg-white border-b border-slate-300 px-10 md:px-8 flex items-center'>
         {/* Logo */}
         <h1 className='font-bold text-blue-500'>Expense Tracker</h1>
         {/* Sign in, Logout, Avatar */}

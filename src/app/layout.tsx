@@ -2,6 +2,7 @@ import { ClerkProvider, SignInButton } from '@clerk/nextjs'
 import './globals.css'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs/app-beta'
 import Header from '@/components/Header'
+import Sidebar from '@/components/Sidebar/Sidebar'
 // import { Inter } from 'next/font/google'
 
 // const inter = Inter({ subsets: ['latin'] })
@@ -18,12 +19,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className='flex flex-col h-screen'>
         <ClerkProvider>
           {/* Header */}
           <Header />
           {/* Sidebar should be shown on larger screen and should be an overlay on smaller screens */}
-          {children}
+          <div className='md:grid md:grid-cols-[240px_1fr]'>
+            <Sidebar />
+            <div className='px-10 md:px-2'>
+              {children}
+            </div>
+          </div>
         </ClerkProvider>
       </body>
     </html>
