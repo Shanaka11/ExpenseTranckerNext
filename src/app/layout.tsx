@@ -19,14 +19,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className='flex flex-col h-screen'>
+      <body className='flex flex-col h-screen bg-slate-100'>
         <ClerkProvider>
           {/* Header */}
           <Header />
           {/* Sidebar should be shown on larger screen and should be an overlay on smaller screens */}
           <div className='md:grid md:grid-cols-[240px_1fr]'>
             <Sidebar />
-            <div className='px-10 md:px-2'>
+            <div className='px-10 md:p-1'>
               {children}
             </div>
           </div>
