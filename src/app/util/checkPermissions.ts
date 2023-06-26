@@ -1,13 +1,13 @@
 import { currentUser } from "@clerk/nextjs/app-beta";
 
 const checkPermissions = async () => {
-    const user = await currentUser()
-    
-    if(!user){
-        throw 'You must be logged in'
-    }   
+  const user = await currentUser();
 
-    return user.id
-}
+  if (!user) {
+    throw "You must be logged in";
+  }
 
-export default checkPermissions
+  return user.id;
+};
+
+export default checkPermissions;
