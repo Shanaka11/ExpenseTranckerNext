@@ -3,6 +3,8 @@ import Input from '../Input';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import InputArea from '../InputArea';
 import Autocomplete from '../Autocomplete';
+import CloseIcon from '../Icons/CloseIcon';
+import Button from '../Button';
 
 const options = [
 	{ value: 1, label: 'Chocolate' },
@@ -46,12 +48,14 @@ const TransactionForm: React.FC<TransactinFormProps> = ({ initialAmount }) => {
 		<>
 			{/* Overlay */}
 			<div className='absolute left-0 top-0 z-10 h-screen w-screen cursor-pointer bg-slate-800/75' />
-			<div className='absolute right-0 top-0 z-20 grid h-screen w-screen grid-rows-[60px_1fr_60px] bg-white p-2 md:w-96'>
+			<div className='absolute right-0 top-0 z-20 grid h-screen w-screen grid-rows-[40px_1fr_40px] bg-white p-2 md:w-96'>
 				{/* Dialog Header (Title and Close Button) */}
-				<div>
+				<div className='flex items-center justify-between'>
 					<h1>Add New Transaction</h1>
 					{/* This button is common to all dialogs so keep this in the common component */}
-					<button>X</button>
+					<button>
+						<CloseIcon />
+					</button>
 				</div>
 				{/* Dialog Content */}
 				<form onSubmit={handleSubmit(onSubmit)}>
@@ -101,11 +105,14 @@ const TransactionForm: React.FC<TransactinFormProps> = ({ initialAmount }) => {
 				</form>
 				{/* Dialog Action Button (Save / Close etc) */}
 				<div className='flex'>
-					<button>Add Another</button>
+					<Button label='Add Another' />
 					{/* Default button Group (Ok, Cancel) */}
 					<div className='ml-auto flex'>
-						<button>Add</button>
-						<button className='ml-2'>Cancel</button>
+						<Button label='Add' />
+						<Button
+							label='Cancel'
+							className='ml-2 bg-red-400 hover:bg-red-500'
+						/>
 					</div>
 				</div>
 			</div>

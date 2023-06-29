@@ -28,7 +28,8 @@ const Autocomplete = (props: any) => {
 				menu: () => `mt-1 rounded-lg border border-gray-300 overflow-hidden`,
 				multiValue: () => `bg-blue-400 mr-1 rounded text-white overflow-hidden`,
 				multiValueLabel: () => `pt-1 pl-2 pb-1 pr-1`,
-				multiValueRemove: () => 'p-1 hover:bg-blue-500',
+				multiValueRemove: () =>
+					'p-1 hover:bg-blue-500 cursor-pointer transition-colors',
 			}}
 		/>
 	);
