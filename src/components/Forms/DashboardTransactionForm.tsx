@@ -1,13 +1,20 @@
 'use client';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import TransactionForm from './TransactionForm';
+import Input from '../Input';
+import { useState } from 'react';
+
+type FormInputs = {
+	amount: number | string;
+};
 
 const DashboardTransactionForm = () => {
-	type FormInputs = {
-		amount: number;
-	};
-
-	const { register, handleSubmit, reset } = useForm<FormInputs>();
+	const [amount, setAmount] = useState(0);
+	const { control, handleSubmit, reset } = useForm<FormInputs>({
+		defaultValues: {
+			amount: '',
+		},
+	});
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
 		console.log(data);
@@ -17,16 +24,24 @@ const DashboardTransactionForm = () => {
 	return (
 		<>
 			{/* Transaction Form : Temp */}
-			<TransactionForm />
+			<TransactionForm initialAmount={amount} />
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className='flex h-28 w-full flex-col justify-evenly align-middle md:col-span-2 md:h-full lg:col-span-1'
 			>
-				<input
-					className='w-full rounded-lg border border-slate-300 p-2 text-right outline-blue-400'
-					placeholder='New Transaction Amount'
-					type='number'
-					{...register('amount', { required: true })}
+				<Controller
+					name='amount'
+					control={control}
+					render={({ field }) => (
+						<Input
+							className='text-right'
+							placeholder='New Transaction Amount'
+							id='dashboardTransactionAmount'
+							type='number'
+							autoFocus
+							{...field}
+						/>
+					)}
 				/>
 				<button
 					className='cursor-pointer rounded-lg bg-blue-400 p-1 text-white '
