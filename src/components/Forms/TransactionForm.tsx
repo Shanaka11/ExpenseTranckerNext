@@ -58,7 +58,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({ initialAmount }) => {
 					</button>
 				</div>
 				{/* Dialog Content */}
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<form id='TransactionForm' onSubmit={handleSubmit(onSubmit)}>
 					<Controller
 						name='amount'
 						control={control}
@@ -105,10 +105,10 @@ const TransactionForm: React.FC<TransactinFormProps> = ({ initialAmount }) => {
 				</form>
 				{/* Dialog Action Button (Save / Close etc) */}
 				<div className='flex'>
-					<Button label='Add Another' />
+					<Button type='submit' form='TransactionForm' label='Add Another' />
 					{/* Default button Group (Ok, Cancel) */}
 					<div className='ml-auto flex'>
-						<Button label='Add' />
+						<Button type='button' label='Add' />
 						<Button
 							label='Cancel'
 							className='ml-2 bg-red-400 hover:bg-red-500'
