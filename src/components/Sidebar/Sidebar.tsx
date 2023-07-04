@@ -34,7 +34,7 @@ const Sidebar = () => {
 				/>
 			)}
 			<nav
-				className={`fixed top-0 z-20 flex h-screen w-60 flex-col bg-white px-8 md:relative md:z-0 md:flex-1 md:translate-x-0 ${
+				className={`fixed top-0 z-20 flex h-screen w-60 flex-col bg-white px-8 md:relative md:z-0 md:h-[calc(100vh-48px)] md:flex-1 md:translate-x-0 ${
 					size === 'CLOSE' && '-translate-x-full'
 				} transition-transform`}
 			>
