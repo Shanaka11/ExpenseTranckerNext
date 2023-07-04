@@ -9,8 +9,8 @@ type FormInputs = {
 };
 
 const DashboardTransactionForm = () => {
-	const [amount, setAmount] = useState(0);
-	const { control, handleSubmit, reset } = useForm<FormInputs>({
+	const [amount, setAmount] = useState<string | number>(0);
+	const { control, handleSubmit, reset, getValues } = useForm<FormInputs>({
 		defaultValues: {
 			amount: '',
 		},
@@ -18,17 +18,13 @@ const DashboardTransactionForm = () => {
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
 		console.log(data);
+		setAmount(data.amount);
 		reset();
 	};
 
 	return (
 		<>
-			{/* Transaction Form : Temp */}
-			<TransactionForm initialAmount={amount} />
-			<form
-				onSubmit={handleSubmit(onSubmit)}
-				className='flex h-28 w-full flex-col justify-evenly align-middle md:col-span-2 md:h-full lg:col-span-1'
-			>
+			<form onSubmit={handleSubmit(onSubmit)} id='DashboardTransactionForm'>
 				<Controller
 					name='amount'
 					control={control}
@@ -43,13 +39,11 @@ const DashboardTransactionForm = () => {
 						/>
 					)}
 				/>
-				<button
-					className='cursor-pointer rounded-lg bg-blue-400 p-1 text-white '
-					type='submit'
-				>
-					Add Transaction
-				</button>
 			</form>
+			<TransactionForm
+				baseFormId={'DashboardTransactionForm'}
+				initialAmount={amount}
+			/>
 		</>
 	);
 };

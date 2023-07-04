@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from '../Input';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import InputArea from '../InputArea';
 import Autocomplete from '../Autocomplete';
 import CloseIcon from '../Icons/CloseIcon';
 import Button from '../Button';
+import Dialog from '../Dialog/Dialog';
 
 const options = [
 	{ value: 1, label: 'Chocolate' },
@@ -26,38 +27,70 @@ type FormInputs = {
 };
 
 type TransactinFormProps = {
+	baseFormId?: string;
 	initialAmount: number | string;
 };
-const TransactionForm: React.FC<TransactinFormProps> = ({ initialAmount }) => {
-	const { control, handleSubmit, reset } = useForm<FormInputs>({
+const TransactionForm: React.FC<TransactinFormProps> = ({
+	baseFormId,
+	initialAmount,
+}) => {
+	const defaultValues = {
+		amount: 0,
+		date: `${date.getFullYear()}-${(date.getMonth() + 1)
+			.toString()
+			.padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
+		description: '',
+		tags: [],
+	};
+
+	const [openNewTransactionDialog, setOpenNewTransactionDialog] =
+		useState(false);
+	const [closeOnSuccessfullSave, setCloseOnSuccessfullSave] = useState(false);
+
+	const { control, handleSubmit, reset, setValue } = useForm<FormInputs>({
 		defaultValues: {
+			...defaultValues,
 			amount: initialAmount,
-			date: `${date.getFullYear()}-${(date.getMonth() + 1)
-				.toString()
-				.padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
-			description: '',
 		},
 	});
 
+	useEffect(() => {
+		setValue('amount', initialAmount);
+	}, [initialAmount, setValue]);
+
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
-		console.log(data);
-		reset();
+		reset(defaultValues);
 	};
+
+	const handleOnSubmitAndClose = () => {
+		// Setting this will close the dialog on successfull save
+		setCloseOnSuccessfullSave(true);
+		// Set this to false when an update request either succeeds or fails
+	};
+	const CustomActions = (
+		<>
+			<Button type='submit' form='TransactionForm' label='Add Another' />
+		</>
+	);
 
 	return (
 		<>
-			{/* Overlay */}
-			<div className='absolute left-0 top-0 z-10 h-screen w-screen cursor-pointer bg-slate-800/75' />
-			<div className='absolute right-0 top-0 z-20 grid h-screen w-screen grid-rows-[40px_1fr_40px] bg-white p-2 md:w-96'>
-				{/* Dialog Header (Title and Close Button) */}
-				<div className='flex items-center justify-between'>
-					<h1>Add New Transaction</h1>
-					{/* This button is common to all dialogs so keep this in the common component */}
-					<button>
-						<CloseIcon />
-					</button>
-				</div>
-				{/* Dialog Content */}
+			{/* Dialog Content */}
+			<Dialog
+				open={openNewTransactionDialog}
+				handleOpen={() => setOpenNewTransactionDialog(true)}
+				handleClose={() => setOpenNewTransactionDialog(false)}
+				handleSubmitAndClose={() => handleOnSubmitAndClose()}
+				title='Add New Transaction'
+				dialogButtonProps={{
+					className: 'cursor-pointer rounded-lg bg-blue-400 p-1 text-white ',
+					type: 'submit',
+					form: baseFormId,
+				}}
+				additionalActions={CustomActions}
+				defaultSubmit={false}
+				formId='TransactionForm'
+			>
 				<form id='TransactionForm' onSubmit={handleSubmit(onSubmit)}>
 					<Controller
 						name='amount'
@@ -69,7 +102,6 @@ const TransactionForm: React.FC<TransactinFormProps> = ({ initialAmount }) => {
 								label='Transaction Amount'
 								id='transaction'
 								className='text-right'
-								autoFocus
 								{...field}
 							/>
 						)}
@@ -78,7 +110,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({ initialAmount }) => {
 						name='date'
 						control={control}
 						render={({ field }) => (
-							<Input type='date' label='Date' id='date' {...field} />
+							<Input type='date' label='Date' autoFocus id='date' {...field} />
 						)}
 					/>
 					{/* This should be a multiline input */}
@@ -94,7 +126,6 @@ const TransactionForm: React.FC<TransactinFormProps> = ({ initialAmount }) => {
 							/>
 						)}
 					/>
-					{/* Tags - Should be something like mui Auto Complete should show chips for each selected tag */}
 					<Controller
 						name='tags'
 						control={control}
@@ -103,20 +134,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({ initialAmount }) => {
 						)}
 					/>
 				</form>
-				{/* Dialog Action Button (Save / Close etc) */}
-				<div className='flex'>
-					<Button type='submit' form='TransactionForm' label='Add Another' />
-					{/* Default button Group (Ok, Cancel) */}
-					<div className='ml-auto flex'>
-						<Button type='button' label='Add' />
-						<Button
-							label='Cancel'
-							className='ml-2 bg-red-400 hover:bg-red-500'
-						/>
-					</div>
-				</div>
-			</div>
-			{/* <Autocomplete /> */}
+			</Dialog>
 		</>
 	);
 };

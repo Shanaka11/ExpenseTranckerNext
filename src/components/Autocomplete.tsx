@@ -1,4 +1,4 @@
-import { ComponentType } from 'react';
+import { ComponentType, forwardRef } from 'react';
 import Select, {
 	ControlProps,
 	GroupBase,
@@ -6,25 +6,31 @@ import Select, {
 	Props as SelectProps,
 } from 'react-select';
 
-const Autocomplete = (props: any) => {
+const Autocomplete = forwardRef<SelectProps, any>((props, ref) => {
 	return (
 		<Select
+			ref={ref}
 			{...props}
 			maxMenuHeight={150}
 			isMulti
 			name='colors'
 			// options={options}
+			isClearable
 			unstyled
 			components={{ Control }}
-			placeholder=' '
+			placeholder='Select'
 			classNames={{
+				placeholder: () => 'hidden',
 				control: ({ isFocused }) =>
 					`border-1 block w-full appearance-none rounded-lg border p-2 text-sm text-gray-900 ${
 						isFocused
 							? 'border-blue-600 outline-none ring-0'
 							: 'border-gray-300'
 					}`,
-				option: () => `p-2 hover:bg-gray-300 cursor-pointer transition-colors`,
+				option: ({ isFocused }) =>
+					`p-2 hover:bg-gray-300 cursor-pointer transition-colors ${
+						isFocused ? 'bg-gray-300' : ''
+					}`,
 				menu: () => `mt-1 rounded-lg border border-gray-300 overflow-hidden`,
 				multiValue: () => `bg-blue-400 mr-1 rounded text-white overflow-hidden`,
 				multiValueLabel: () => `pt-1 pl-2 pb-1 pr-1`,
@@ -33,7 +39,9 @@ const Autocomplete = (props: any) => {
 			}}
 		/>
 	);
-};
+});
+
+Autocomplete.displayName = 'select';
 
 const Control:
 	| ComponentType<

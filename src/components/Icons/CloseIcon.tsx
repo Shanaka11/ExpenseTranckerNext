@@ -7,7 +7,7 @@ interface CloseIconProps {
 const CloseIcon: React.FC<CloseIconProps> = ({ classname }) => {
 	return (
 		<svg
-			className={`${classname} fill-slate-400 p-1 hover:fill-slate-950`}
+			className={`${classname} cursor-pointer fill-slate-400 p-1 transition-colors hover:fill-slate-950`}
 			xmlns='http://www.w3.org/2000/svg'
 			height='30'
 			viewBox='0 -960 960 960'
