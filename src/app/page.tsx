@@ -5,7 +5,7 @@ export default function Home() {
 	return (
 		// Grid container for mobile keep everything on a single column, spread out on other layouts
 		// md:grid-cols-[240px_1fr]
-		<div className='grid place-items-center gap-10 md:h-[calc(100vh-48px)] md:grid-cols-4 md:grid-rows-[120px_120px_400px_1fr] lg:grid-rows-[120px_400px_1fr]'>
+		<div className='grid place-items-center gap-10 md:h-[calc(100vh-48px)] md:grid-cols-4 md:grid-rows-[140px_140px_400px_400px] lg:grid-rows-[140px_400px_1fr]'>
 			{/* Input */}
 			<div className='flex h-28 w-full flex-col justify-evenly align-middle md:col-span-2 md:h-full lg:col-span-1'>
 				<DashboardTransactionForm />

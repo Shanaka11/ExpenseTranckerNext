@@ -29,12 +29,12 @@ const Sidebar = () => {
 			</button>
 			{size === 'OPEN' && (
 				<div
-					className='absolute top-0 z-10 h-screen w-screen cursor-pointer bg-slate-900 opacity-80 md:hidden'
+					className='fixed top-0 z-10 h-screen w-screen cursor-pointer bg-slate-900 opacity-80 md:hidden'
 					onClick={handleMenuClose}
 				/>
 			)}
 			<nav
-				className={`absolute top-0 z-20 flex h-screen w-60 flex-col bg-white px-8 md:relative md:z-0 md:h-[calc(100vh-48px)] md:flex-1 md:translate-x-0 ${
+				className={`fixed top-0 z-20 flex h-screen w-60 flex-col bg-white px-8 md:relative md:z-0 md:flex-1 md:translate-x-0 ${
 					size === 'CLOSE' && '-translate-x-full'
 				} transition-transform`}
 			>
