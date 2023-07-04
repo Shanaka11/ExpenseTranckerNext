@@ -1,19 +1,31 @@
 import React, { InputHTMLAttributes, forwardRef } from 'react';
 
+type InputSize = 'SMALL' | 'LARGE';
+
 type InputProps = {
 	label?: string;
 	id: string;
+	InputSize?: InputSize;
+	containerMargin?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 	return (
-		<div className='relative my-4'>
+		<div
+			className={`relative ${
+				props.containerMargin ? props.containerMargin : 'my-4'
+			}`}
+		>
 			<input
 				{...props}
 				ref={ref}
 				className={`border-1 peer block w-full appearance-none rounded-lg border border-gray-300 px-2.5 pb-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 ${
-					props.className
-				} ${props.label != undefined ? 'pt-4' : 'pt-2.5'}`}
+					props.className ? props.className : ' '
+				} ${
+					props.label != undefined || props.InputSize === 'SMALL'
+						? 'pt-2.5'
+						: 'pt-4'
+				}`}
 				placeholder={props.label != undefined ? ' ' : props.placeholder}
 			/>
 			{props.label != undefined && (
