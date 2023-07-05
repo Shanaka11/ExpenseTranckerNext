@@ -5,15 +5,15 @@ type InputSize = 'SMALL' | 'LARGE';
 type InputProps = {
 	label?: string;
 	id: string;
-	InputSize?: InputSize;
-	containerMargin?: string;
+	inputsize?: InputSize;
+	containermargin?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 	return (
 		<div
 			className={`relative ${
-				props.containerMargin ? props.containerMargin : 'my-4'
+				props.containermargin ? props.containermargin : 'my-4'
 			}`}
 		>
 			<input
@@ -22,7 +22,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 				className={`border-1 peer block w-full appearance-none rounded-lg border border-gray-300 px-2.5 pb-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 ${
 					props.className ? props.className : ' '
 				} ${
-					props.label != undefined || props.InputSize === 'SMALL'
+					props.label != undefined || props.inputsize === 'SMALL'
 						? 'pt-2.5'
 						: 'pt-4'
 				}`}

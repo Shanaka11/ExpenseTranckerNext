@@ -1,8 +1,34 @@
 import Button from '@/components/Button';
 import Input from '@/components/Input';
+import { auth } from '@clerk/nextjs';
 import React from 'react';
 
-const page = () => {
+type TagResponse = {
+	id: string;
+	name: string;
+};
+
+const getTags: () => Promise<TagResponse[]> = async () => {
+	const { getToken } = auth();
+	const token = await getToken();
+	const res = await fetch('http://localhost:3000/api/tag', {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+
+	if (!res.ok) {
+		throw new Error('Error');
+	}
+	// const test = await res.json();
+	return await res.json();
+};
+
+const page = async () => {
+	const data = await getTags();
+
+	console.log(data);
+
 	return (
 		<>
 			{/* // Container */}
@@ -19,16 +45,32 @@ const page = () => {
 							label='Search Tags'
 							id='SearchTags'
 							type='text'
-							containerMargin='m-0'
-							InputSize='SMALL'
+							containermargin='m-0'
+							inputsize='SMALL'
 						/>
 						<Button label='Search' type='submit' className='ml-1' />
 					</form>
 				</div>
 				{/* // Table Container */}
 				<div className='col-span-2 h-full w-full rounded-lg bg-white px-4 py-2 drop-shadow-md'>
-					<div>{/* // Table Header */}</div>
-					<div>{/* // Table Data */}</div>
+					{/* // Table Header */}
+					<div className='border-b border-slate-300 pb-1 text-center text-sm text-slate-600'>
+						<div>Name</div>
+					</div>
+					{/* Table Data */}
+					<div className='mt-1 grid'>
+						{data.map((item: any) => (
+							// Table raw
+							<div
+								className='flex h-10 cursor-pointer items-center text-center capitalize odd:bg-blue-100
+								even:bg-blue-300
+								hover:bg-blue-400'
+								key={item.id}
+							>
+								{item.name}
+							</div>
+						))}
+					</div>
 				</div>
 			</div>
 		</>
