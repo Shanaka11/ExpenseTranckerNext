@@ -62,7 +62,8 @@ const page = async () => {
 						{data.map((item: any) => (
 							// Table raw
 							<div
-								className='flex h-10 cursor-pointer items-center text-center capitalize odd:bg-blue-100
+								className='flex h-10 w-full cursor-pointer justify-center capitalize
+								odd:bg-blue-100
 								even:bg-blue-300
 								hover:bg-blue-400'
 								key={item.id}
