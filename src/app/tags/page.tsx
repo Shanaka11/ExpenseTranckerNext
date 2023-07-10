@@ -27,12 +27,10 @@ const getTags: () => Promise<TagResponse[]> = async () => {
 const page = async () => {
 	const data = await getTags();
 
-	console.log(data);
-
 	return (
 		<>
 			{/* // Container */}
-			<div className='grid h-full w-full grid-rows-[50px_60px_1fr] items-center gap-2'>
+			<div className='grid h-full w-full grid-cols-none grid-rows-[50px_60px_1fr] items-center gap-2'>
 				{/* Title */}
 				<h1 className='col-span-2 text-3xl font-bold'>Tags</h1>
 				{/* Action Section */}
@@ -59,7 +57,7 @@ const page = async () => {
 					</div>
 					{/* Table Data */}
 					<div className='mt-1 grid'>
-						{data.map((item: any) => (
+						{data.map((item: TagResponse) => (
 							// Table raw
 							<div
 								className='flex h-10 w-full cursor-pointer justify-center capitalize
