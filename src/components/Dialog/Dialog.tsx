@@ -1,3 +1,4 @@
+'use client';
 import React, { ReactNode, useState } from 'react';
 import CloseIcon from '../Icons/CloseIcon';
 import Button, { ButtonProps } from '../Button';
@@ -13,6 +14,7 @@ type DialogProps = {
 	children: ReactNode;
 	additionalActions?: ReactNode;
 	dialogButtonProps?: ButtonProps;
+	isLoading?: boolean;
 };
 
 const Dialog: React.FC<DialogProps> = ({
@@ -26,6 +28,7 @@ const Dialog: React.FC<DialogProps> = ({
 	dialogButtonProps,
 	formId,
 	handleSubmitAndClose,
+	isLoading,
 }) => {
 	return (
 		<>
@@ -57,11 +60,13 @@ const Dialog: React.FC<DialogProps> = ({
 									type={defaultSubmit ? 'submit' : 'submit'}
 									form={defaultSubmit ? formId : formId}
 									label='Add'
+									disabled={isLoading}
 								/>
 								<Button
 									onClick={() => handleClose()}
 									label='Cancel'
-									className='ml-2 bg-red-400 hover:bg-red-500'
+									className='ml-2 bg-red-400 hover:bg-red-500 disabled:bg-red-200'
+									disabled={isLoading}
 								/>
 							</div>
 						</div>

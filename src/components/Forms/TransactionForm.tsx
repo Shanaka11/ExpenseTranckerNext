@@ -7,6 +7,7 @@ import Autocomplete from '../Autocomplete';
 import CloseIcon from '../Icons/CloseIcon';
 import Button from '../Button';
 import Dialog from '../Dialog/Dialog';
+import useMutation from './useMutation';
 
 const options = [
 	{ value: 1, label: 'Chocolate' },
@@ -57,11 +58,20 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		},
 	});
 
+	const { isLoading, mutate } = useMutation(async (data: any) => {
+		await fetch('http://localhost:3000/api/transaction', {
+			method: 'POST',
+			body: JSON.stringify(data),
+		});
+	});
+
 	useEffect(() => {
 		setValue('amount', initialAmount ?? 0);
 	}, [initialAmount, setValue]);
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
+		data.date = new Date(date).toISOString();
+		mutate(data);
 		reset(defaultValues);
 	};
 
@@ -72,7 +82,12 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	};
 	const CustomActions = (
 		<>
-			<Button type='submit' form='TransactionForm' label='Add Another' />
+			<Button
+				type='submit'
+				form='TransactionForm'
+				label='Add Another'
+				disabled={isLoading}
+			/>
 		</>
 	);
 
@@ -94,8 +109,10 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 				additionalActions={CustomActions}
 				defaultSubmit={false}
 				formId='TransactionForm'
+				isLoading={isLoading}
 			>
 				<form id='TransactionForm' onSubmit={handleSubmit(onSubmit)}>
+					{isLoading && <div>Loading...</div>}
 					<Controller
 						name='amount'
 						control={control}
@@ -107,6 +124,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 								id='transaction'
 								className='text-right'
 								{...field}
+								onChange={(event) => field.onChange(+event.target.value)}
 							/>
 						)}
 					/>
