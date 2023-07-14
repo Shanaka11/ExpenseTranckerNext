@@ -46,18 +46,18 @@ const createRows = (columns: TableColumns[], data: any) => {
 	return rows;
 };
 
-const generateColumnLayout = (columns: TableColumns[]) => {
-	let layout = 'grid-cols-[';
+export const generateColumnLayout = (columns: TableColumns[]) => {
+	let layout = '';
 	columns.map((column) => {
 		if (column.columnSize === undefined) {
-			layout += '1fr_';
+			layout += '1fr ';
 		} else if (column.columnSize < 0 && column.columnSize > 1) {
 			throw new Error('Invalid column size');
 		} else {
-			layout += column.columnSize + 'fr_';
+			layout += column.columnSize + 'fr ';
 		}
 	});
-	return layout.slice(0, -1) + ']';
+	return layout.slice(0, -1);
 };
 
 // Input Props
@@ -71,7 +71,8 @@ const Table: React.FC<TableProps> = ({ columns, data }) => {
 		<>
 			{/* // Table Header */}
 			<div
-				className={`grid ${columnLayout} border-b border-slate-300 pb-1 text-center text-sm capitalize text-slate-600`}
+				className={`grid border-b border-slate-300 pb-1 text-center text-sm capitalize text-slate-600`}
+				style={{ gridTemplateColumns: columnLayout }}
 			>
 				{columns.map((column) => (
 					<div className='hover:bg-slate-200' key={column.label}>
@@ -85,11 +86,12 @@ const Table: React.FC<TableProps> = ({ columns, data }) => {
 				{rows.map((item: any) => (
 					// Table raw
 					<div
-						className={`grid h-10 w-full cursor-pointer ${columnLayout} items-center justify-center
+						className={`grid h-10 w-full cursor-pointer items-center justify-center
 								px-1
 								capitalize
 								odd:bg-blue-100
 								even:bg-blue-200 hover:bg-blue-400`}
+						style={{ gridTemplateColumns: columnLayout }}
 						key={item.id}
 					>
 						{item.cells.map((cell: any) => {

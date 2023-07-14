@@ -1,12 +1,25 @@
 import { useState } from 'react';
 
-const useMutation = (callback: any) => {
+type MutationOptions = {
+	onScucces?: (data: any) => void;
+	onError?: () => void;
+	temp: number;
+};
+
+const useMutation = (callback: any, options?: MutationOptions) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setError] = useState(false);
+
+	const handleMutationOnSuccess = (data: any) => {
+		if (options?.onScucces) {
+			options.onScucces(data);
+		}
+	};
 
 	const mutate = async (data: any) => {
 		setIsLoading(true);
 		const response = await callback(data);
+		// Assume this is a success
 		// Check for errors
 		setIsLoading(false);
 	};
