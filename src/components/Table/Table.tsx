@@ -71,7 +71,7 @@ const Table: React.FC<TableProps> = ({ columns, data }) => {
 		<>
 			{/* // Table Header */}
 			<div
-				className={`grid border-b border-slate-300 pb-1 text-center text-sm capitalize text-slate-600`}
+				className={`sticky top-0 grid border-b border-slate-300 bg-white pb-1 pt-2 text-center text-sm capitalize text-slate-600`}
 				style={{ gridTemplateColumns: columnLayout }}
 			>
 				{columns.map((column) => (

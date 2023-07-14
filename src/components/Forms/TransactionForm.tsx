@@ -22,7 +22,7 @@ const options = [
 const date = new Date();
 // This form will be used to create and edit transactions
 type FormInputs = {
-	amount: number | string;
+	amount: number;
 	date: string;
 	description: string;
 	tags: string[];
@@ -30,7 +30,7 @@ type FormInputs = {
 
 type TransactinFormProps = {
 	baseFormId?: string;
-	initialAmount?: number | string;
+	initialAmount?: number;
 	title?: string;
 };
 const TransactionForm: React.FC<TransactinFormProps> = ({
@@ -46,6 +46,8 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		description: '',
 		tags: [],
 	};
+
+	const [isExpense, setIsExpense] = useState(true);
 
 	const [openNewTransactionDialog, setOpenNewTransactionDialog] =
 		useState(false);
@@ -71,6 +73,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
 		data.date = new Date(date).toISOString();
+		data.amount = isExpense ? -1 * data.amount : data.amount;
 		mutate(data);
 		reset(defaultValues);
 	};
@@ -129,10 +132,16 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 						)}
 					/>
 					<label className='relative mb-5 inline-flex cursor-pointer items-center'>
-						<input type='checkbox' value='' className='peer sr-only' />
+						<input
+							type='checkbox'
+							value=''
+							onChange={(event) => setIsExpense((prevState) => !prevState)}
+							className='peer sr-only'
+							checked={isExpense}
+						/>
 						<div className="peer h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
 						<span className='ml-3 text-sm font-medium text-gray-900 dark:text-gray-300'>
-							Small toggle
+							Expense
 						</span>
 					</label>
 					<Controller
