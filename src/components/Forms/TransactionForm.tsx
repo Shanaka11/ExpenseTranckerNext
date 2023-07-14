@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import Input from '../Input';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -28,11 +29,13 @@ type FormInputs = {
 
 type TransactinFormProps = {
 	baseFormId?: string;
-	initialAmount: number | string;
+	initialAmount?: number | string;
+	title?: string;
 };
 const TransactionForm: React.FC<TransactinFormProps> = ({
 	baseFormId,
 	initialAmount,
+	title,
 }) => {
 	const defaultValues = {
 		amount: 0,
@@ -55,7 +58,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	});
 
 	useEffect(() => {
-		setValue('amount', initialAmount);
+		setValue('amount', initialAmount ?? 0);
 	}, [initialAmount, setValue]);
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
@@ -84,8 +87,9 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 				title='Add New Transaction'
 				dialogButtonProps={{
 					className: 'cursor-pointer rounded-lg bg-blue-400 p-1 text-white ',
-					type: 'submit',
+					type: { baseFormId } ? 'submit' : 'button',
 					form: baseFormId,
+					label: title ?? 'Add New Transactions',
 				}}
 				additionalActions={CustomActions}
 				defaultSubmit={false}

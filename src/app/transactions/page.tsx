@@ -1,4 +1,5 @@
 import Button from '@/components/Button';
+import TransactionForm from '@/components/Forms/TransactionForm';
 import Input from '@/components/Input';
 import Table, { TableColumns } from '@/components/Table/Table';
 import { auth } from '@clerk/nextjs';
@@ -61,8 +62,9 @@ const page = async () => {
 				{/* Title */}
 				<h1 className='col-span-2 text-3xl font-bold'>Transactions</h1>
 				{/* Action Section */}
-				<div className='col-span-2 flex h-14 items-center justify-between rounded-lg bg-white px-4 py-2 drop-shadow-md'>
-					<Button label='Add' />
+				<div className='col-span-2 flex h-14 items-center justify-between rounded-lg bg-white px-4 py-2'>
+					{/* <Button label='Add' /> */}
+					<TransactionForm title='Add' />
 					{/* // Add Item Button
 				// Search Box */}
 					<form className='flex'>

@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import CloseIcon from '../Icons/CloseIcon';
-import Button from '../Button';
+import Button, { ButtonProps } from '../Button';
 
 type DialogProps = {
 	open: boolean;
@@ -12,7 +12,7 @@ type DialogProps = {
 	handleSubmitAndClose: () => void;
 	children: ReactNode;
 	additionalActions?: ReactNode;
-	dialogButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+	dialogButtonProps?: ButtonProps;
 };
 
 const Dialog: React.FC<DialogProps> = ({
@@ -37,10 +37,10 @@ const Dialog: React.FC<DialogProps> = ({
 			{open && (
 				<>
 					<div
-						className='absolute left-0 top-0 z-10 h-screen w-screen cursor-pointer bg-slate-800/75'
+						className='absolute left-0 top-0 z-20 h-screen w-screen cursor-pointer bg-slate-800/75'
 						onClick={() => handleClose()}
 					/>
-					<div className='absolute right-0 top-0 z-20 grid h-screen w-screen grid-rows-[40px_1fr_40px] bg-white p-2 md:w-96'>
+					<div className='absolute right-0 top-0 z-30 grid h-screen w-screen grid-rows-[40px_1fr_40px] bg-white p-2 md:w-96'>
 						<div className='flex items-center justify-between'>
 							<h1>{title}</h1>
 							{/* This button is common to all dialogs so keep this in the common component */}
