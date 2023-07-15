@@ -79,7 +79,7 @@ const page = async () => {
 					</form>
 				</div>
 				{/* // Table Container */}
-				<div className='col-span-2 mt-2 h-full w-full rounded-lg bg-white px-4 drop-shadow-md'>
+				<div className='col-span-2 mt-2 h-full w-full overflow-y-scroll rounded-lg bg-white px-4 drop-shadow-md'>
 					<Table columns={columns} data={data} />
 				</div>
 			</div>

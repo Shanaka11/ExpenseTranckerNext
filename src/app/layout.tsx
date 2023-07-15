@@ -3,6 +3,7 @@ import './globals.css';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs/app-beta';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar/Sidebar';
+import { Toaster } from 'react-hot-toast';
 // import { Inter } from 'next/font/google'
 
 // const inter = Inter({ subsets: ['latin'] })
@@ -21,6 +22,7 @@ export default function RootLayout({
 		<html lang='en'>
 			<body className='grid h-screen  grid-rows-[48px_1fr] bg-slate-100 md:grid-cols-[240px_1fr]'>
 				<ClerkProvider>
+					<Toaster />
 					{/* Header */}
 					<div className='col-span-2'>
 						<Header />

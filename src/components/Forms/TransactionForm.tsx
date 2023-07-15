@@ -8,6 +8,7 @@ import CloseIcon from '../Icons/CloseIcon';
 import Button from '../Button';
 import Dialog from '../Dialog/Dialog';
 import useMutation from './useMutation';
+import toast from 'react-hot-toast';
 
 const options = [
 	{ value: 1, label: 'Chocolate' },
@@ -60,12 +61,31 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		},
 	});
 
-	const { isLoading, mutate } = useMutation(async (data: any) => {
-		await fetch('http://localhost:3000/api/transaction', {
-			method: 'POST',
-			body: JSON.stringify(data),
-		});
-	});
+	const { isLoading, mutate } = useMutation(
+		async (data: any) => {
+			let response = await fetch('http://localhost:3000/api/transaction', {
+				method: 'POST',
+				body: JSON.stringify(data),
+			});
+			return response;
+		},
+		{
+			onError: (message) => {
+				toast.error(message);
+				reset(defaultValues);
+				setIsExpense(true);
+			},
+			onScucces: (data) => {
+				if (closeOnSuccessfullSave) {
+					setOpenNewTransactionDialog(false);
+					setCloseOnSuccessfullSave(false);
+				}
+				setIsExpense(true);
+				reset(defaultValues);
+				toast.success('Transaction Added');
+			},
+		}
+	);
 
 	useEffect(() => {
 		setValue('amount', initialAmount ?? 0);
@@ -75,7 +95,6 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		data.date = new Date(date).toISOString();
 		data.amount = isExpense ? -1 * data.amount : data.amount;
 		mutate(data);
-		reset(defaultValues);
 	};
 
 	const handleOnSubmitAndClose = () => {

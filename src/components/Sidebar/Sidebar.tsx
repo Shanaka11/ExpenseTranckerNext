@@ -11,7 +11,6 @@ const Sidebar = () => {
 	const [size, setSize] = useState<'OPEN' | 'CLOSE'>('CLOSE');
 
 	const handleMenuClose = () => {
-		console.log('Close');
 		setSize('CLOSE');
 	};
 

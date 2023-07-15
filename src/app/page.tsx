@@ -10,7 +10,7 @@ export default function Home() {
 		// md:grid-cols-[240px_1fr]
 		<div className='grid place-items-center gap-10 md:h-[calc(100vh-48px)] md:grid-cols-4 md:grid-rows-[140px_140px_400px_1fr] lg:grid-rows-[140px_400px_1fr]'>
 			{/* Input */}
-			<div className='flex h-28 w-full flex-col justify-evenly align-middle md:col-span-2 md:h-full lg:col-span-1'>
+			<div className='col-span-2 flex h-28 w-full flex-col justify-evenly align-middle md:h-full lg:col-span-1'>
 				<DashboardTransactionForm />
 			</div>
 			{/* Balance */}
