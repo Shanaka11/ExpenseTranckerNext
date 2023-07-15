@@ -2,6 +2,7 @@ import Button from '@/components/Button';
 import TransactionForm from '@/components/Forms/TransactionForm';
 import Input from '@/components/Input';
 import Table, { TableColumns } from '@/components/Table/Table';
+import { Transaction } from '@/server/models/Transaction';
 import { auth } from '@clerk/nextjs';
 import React from 'react';
 
@@ -30,7 +31,7 @@ const getTransactions: () => Promise<TransactionResponse[]> = async () => {
 };
 
 const page = async () => {
-	const data = await getTransactions();
+	const data: Transaction[] = await getTransactions();
 
 	const columns: TableColumns[] = [
 		{
@@ -80,7 +81,11 @@ const page = async () => {
 				</div>
 				{/* // Table Container */}
 				<div className='col-span-2 mt-2 h-full w-full overflow-y-scroll rounded-lg bg-white px-4 drop-shadow-md'>
-					<Table columns={columns} data={data} />
+					<Table<Transaction>
+						columns={columns}
+						data={data}
+						UpdateDialog={TransactionForm}
+					/>
 				</div>
 			</div>
 		</>

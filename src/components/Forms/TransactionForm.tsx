@@ -9,6 +9,8 @@ import Button from '../Button';
 import Dialog from '../Dialog/Dialog';
 import useMutation from './useMutation';
 import toast from 'react-hot-toast';
+import { Transaction } from '@/server/models/Transaction';
+import { formatDateToInput } from '@/app/util/formatDate';
 
 const options = [
 	{ value: 1, label: 'Chocolate' },
@@ -29,29 +31,40 @@ type FormInputs = {
 	tags: string[];
 };
 
-type TransactinFormProps = {
+export type TransactinFormProps = {
 	baseFormId?: string;
 	initialAmount?: number;
 	title?: string;
+	dataItem?: any;
+	open?: boolean;
+	noOpenButton?: boolean;
+	handleDialogClose?: () => void;
 };
+
 const TransactionForm: React.FC<TransactinFormProps> = ({
 	baseFormId,
 	initialAmount,
 	title,
+	dataItem,
+	open,
+	noOpenButton,
+	handleDialogClose,
 }) => {
-	const defaultValues = {
-		amount: 0,
-		date: `${date.getFullYear()}-${(date.getMonth() + 1)
-			.toString()
-			.padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`,
-		description: '',
+	const [defaultValues, setDefaultValues] = useState({
+		amount: dataItem !== undefined ? dataItem.amount : 0,
+		date:
+			dataItem !== undefined
+				? formatDateToInput(new Date(dataItem.date))
+				: formatDateToInput(date),
+		description: dataItem !== undefined ? dataItem.description : '',
 		tags: [],
-	};
+	});
 
 	const [isExpense, setIsExpense] = useState(true);
 
-	const [openNewTransactionDialog, setOpenNewTransactionDialog] =
-		useState(false);
+	const [openNewTransactionDialog, setOpenNewTransactionDialog] = useState(
+		open !== undefined ? open : false
+	);
 	const [closeOnSuccessfullSave, setCloseOnSuccessfullSave] = useState(false);
 
 	const { control, handleSubmit, reset, setValue } = useForm<FormInputs>({
@@ -77,7 +90,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 			},
 			onScucces: (data) => {
 				if (closeOnSuccessfullSave) {
-					setOpenNewTransactionDialog(false);
+					closeDialog();
 					setCloseOnSuccessfullSave(false);
 				}
 				setIsExpense(true);
@@ -90,6 +103,26 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	useEffect(() => {
 		setValue('amount', initialAmount ?? 0);
 	}, [initialAmount, setValue]);
+
+	useEffect(() => {
+		if (open) {
+			setOpenNewTransactionDialog(open);
+		}
+	}, [open]);
+
+	useEffect(() => {
+		if (dataItem !== undefined) {
+			// Set each field value
+			setValue('amount', dataItem.amount);
+			setValue('date', formatDateToInput(new Date(dataItem.date)));
+			setValue('description', dataItem.description);
+		}
+	}, [dataItem, setValue]);
+
+	const closeDialog = () => {
+		setOpenNewTransactionDialog(false);
+		if (handleDialogClose) handleDialogClose();
+	};
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
 		data.date = new Date(date).toISOString();
@@ -119,7 +152,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 			<Dialog
 				open={openNewTransactionDialog}
 				handleOpen={() => setOpenNewTransactionDialog(true)}
-				handleClose={() => setOpenNewTransactionDialog(false)}
+				handleClose={() => closeDialog()}
 				handleSubmitAndClose={() => handleOnSubmitAndClose()}
 				title='Add New Transaction'
 				dialogButtonProps={{
@@ -132,6 +165,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 				defaultSubmit={false}
 				formId='TransactionForm'
 				isLoading={isLoading}
+				noOpenButton={noOpenButton}
 			>
 				<form id='TransactionForm' onSubmit={handleSubmit(onSubmit)}>
 					{isLoading && <div>Loading...</div>}

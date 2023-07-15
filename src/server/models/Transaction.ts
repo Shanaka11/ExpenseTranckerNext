@@ -1,25 +1,25 @@
-import { IMakeCreateModel } from "./IMakeCreateModel";
-import { Tag } from "./Tag";
+import { IMakeCreateModel } from './IMakeCreateModel';
+import { Tag } from './Tag';
 
 export type Transaction = {
-  id?: string;
-  date: Date;
-  description: string;
-  amount: number;
-  tags?: Tag[];
-  user: string;
+	id: string;
+	date: string;
+	description: string;
+	amount: number;
+	tags?: Tag[];
+	user: string;
 };
 
 export const makeCreateTransaction = ({
-  validateModel,
-  generateId,
+	validateModel,
+	generateId,
 }: IMakeCreateModel<Transaction>) => {
-  return (data: Transaction) => {
-    if (!data.id) data.id = generateId();
-    validateModel(data);
-    return {
-      ...data,
-      id: data.id,
-    };
-  };
+	return (data: Transaction) => {
+		if (!data.id) data.id = generateId();
+		validateModel(data);
+		return {
+			...data,
+			id: data.id,
+		};
+	};
 };

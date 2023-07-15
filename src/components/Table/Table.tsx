@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { ComponentType, ReactElement } from 'react';
+import TableData from './TableData';
+import { TransactinFormProps } from '../Forms/TransactionForm';
 
 export type TableColumns = {
 	label: string;
@@ -12,14 +14,24 @@ type TableData = {
 	id: string;
 };
 
-type TableProps = {
+type TableProps<T extends TableData> = {
 	columns: TableColumns[];
-	data: any;
+	data: T[];
+	UpdateDialog: ComponentType<TransactinFormProps>;
+};
+
+export type TableMatrix = {
+	cells: ({
+		key: any;
+		label: any;
+		align: 'text-left' | 'text-center' | 'text-right';
+	} | null)[];
+	dataItem: any;
 };
 
 // Map the data sent with the columns
-const createRows = (columns: TableColumns[], data: any) => {
-	const rows = data.map((row: any) => {
+const createRows = (columns: TableColumns[], data: any[]): TableMatrix[] => {
+	const rows = data.map((row) => {
 		const cells = columns.map((column) => {
 			const cell = row[column.accessor];
 			if (cell !== undefined) {
@@ -40,7 +52,7 @@ const createRows = (columns: TableColumns[], data: any) => {
 		});
 		return {
 			cells,
-			id: row.id,
+			dataItem: row,
 		};
 	});
 	return rows;
@@ -63,7 +75,11 @@ export const generateColumnLayout = (columns: TableColumns[]) => {
 // Input Props
 // Header Information, cols - { label, accessor}
 // Data
-const Table: React.FC<TableProps> = ({ columns, data }) => {
+const Table = <T extends TableData>({
+	columns,
+	data,
+	UpdateDialog,
+}: TableProps<T>) => {
 	const rows = createRows(columns, data);
 	const columnLayout = generateColumnLayout(columns);
 
@@ -82,8 +98,13 @@ const Table: React.FC<TableProps> = ({ columns, data }) => {
 			</div>
 			{/* To Open the dialog when a row is clicked make the row a client component */}
 			{/* Table Data */}
-			<div className='mt-1 grid'>
-				{rows.map((item: any) => (
+			<TableData<T>
+				columnLayout={columnLayout}
+				data={rows}
+				UpdateDialog={UpdateDialog}
+			/>
+			{/* <div className='mt-1 grid'>
+				{rows.map((item) => (
 					// Table raw
 					<div
 						className={`grid h-10 w-full cursor-pointer items-center justify-center
@@ -94,19 +115,10 @@ const Table: React.FC<TableProps> = ({ columns, data }) => {
 						style={{ gridTemplateColumns: columnLayout }}
 						key={item.id}
 					>
-						{item.cells.map((cell: any) => {
-							return (
-								<div
-									className={`overflow-hidden text-ellipsis whitespace-nowrap ${cell.align}`}
-									key={cell.key}
-								>
-									{cell.label}
-								</div>
-							);
-						})}
+						<TableRow row={item} />
 					</div>
 				))}
-			</div>
+			</div> */}
 		</>
 	);
 };
