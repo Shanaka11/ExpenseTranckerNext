@@ -73,8 +73,8 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 			amount: initialAmount,
 		},
 	});
-
-	const { isLoading, mutate } = useMutation(
+	// Insert
+	const { isLoading: createIsLoading, mutate: create } = useMutation(
 		async (data: any) => {
 			let response = await fetch('http://localhost:3000/api/transaction', {
 				method: 'POST',
@@ -99,7 +99,49 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 			},
 		}
 	);
-
+	// Delete
+	const { isLoading: updateIsLoading, mutate: remove } = useMutation(
+		async (id: string) => {
+			let response = await fetch(
+				`http://localhost:3000/api/transaction/${id}`,
+				{
+					method: 'DELETE',
+				}
+			);
+			return response;
+		},
+		{
+			onError: (message) => {
+				toast.error(message);
+			},
+			onScucces: (data) => {
+				closeDialog();
+				toast.success('Transaction deleted');
+			},
+		}
+	);
+	// Update
+	const { isLoading: deleteIsLoading, mutate: update } = useMutation(
+		async (data: any) => {
+			let response = await fetch(
+				`http://localhost:3000/api/transaction/${dataItem.id}`,
+				{
+					method: 'PUT',
+					body: JSON.stringify(data),
+				}
+			);
+			return response;
+		},
+		{
+			onError: (message) => {
+				toast.error(message);
+			},
+			onScucces: (data) => {
+				closeDialog();
+				toast.success('Transaction updated');
+			},
+		}
+	);
 	useEffect(() => {
 		setValue('amount', initialAmount ?? 0);
 	}, [initialAmount, setValue]);
@@ -113,7 +155,15 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	useEffect(() => {
 		if (dataItem !== undefined) {
 			// Set each field value
-			setValue('amount', dataItem.amount);
+			if (dataItem.amount > 0) {
+				setIsExpense(false);
+			} else {
+				setIsExpense(true);
+			}
+			setValue(
+				'amount',
+				dataItem.amount < 0 ? dataItem.amount * -1 : dataItem.amount
+			);
 			setValue('date', formatDateToInput(new Date(dataItem.date)));
 			setValue('description', dataItem.description);
 		}
@@ -125,9 +175,19 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	};
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
+		// Depending if dataitem is present then update else create new
 		data.date = new Date(date).toISOString();
 		data.amount = isExpense ? -1 * data.amount : data.amount;
-		mutate(data);
+		console.log(dataItem);
+		if (dataItem !== undefined) {
+			update(data);
+		} else {
+			create(data);
+		}
+	};
+
+	const handleDelete = () => {
+		remove(dataItem.id);
 	};
 
 	const handleOnSubmitAndClose = () => {
@@ -135,13 +195,24 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		setCloseOnSuccessfullSave(true);
 		// Set this to false when an update request either succeeds or fails
 	};
-	const CustomActions = (
+	const CustomActionsNew = (
 		<>
 			<Button
 				type='submit'
 				form='TransactionForm'
 				label='Add Another'
-				disabled={isLoading}
+				disabled={createIsLoading || deleteIsLoading || updateIsLoading}
+			/>
+		</>
+	);
+
+	const CustomActionUpdate = (
+		<>
+			<Button
+				label='Delete'
+				disabled={createIsLoading || deleteIsLoading || updateIsLoading}
+				onClick={() => handleDelete()}
+				className='ml-2 bg-red-400 hover:bg-red-500 disabled:bg-red-200'
 			/>
 		</>
 	);
@@ -154,21 +225,23 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 				handleOpen={() => setOpenNewTransactionDialog(true)}
 				handleClose={() => closeDialog()}
 				handleSubmitAndClose={() => handleOnSubmitAndClose()}
-				title='Add New Transaction'
+				title={title ?? 'Add New Transaction'}
 				dialogButtonProps={{
 					className: 'cursor-pointer rounded-lg bg-blue-400 p-1 text-white ',
 					type: { baseFormId } ? 'submit' : 'button',
 					form: baseFormId,
 					label: title ?? 'Add New Transactions',
 				}}
-				additionalActions={CustomActions}
+				additionalActions={
+					dataItem !== undefined ? CustomActionUpdate : CustomActionsNew
+				}
 				defaultSubmit={false}
 				formId='TransactionForm'
-				isLoading={isLoading}
+				isLoading={createIsLoading || deleteIsLoading || updateIsLoading}
 				noOpenButton={noOpenButton}
+				okButtonLabel='Update'
 			>
 				<form id='TransactionForm' onSubmit={handleSubmit(onSubmit)}>
-					{isLoading && <div>Loading...</div>}
 					<Controller
 						name='amount'
 						control={control}
@@ -192,8 +265,8 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 							className='peer sr-only'
 							checked={isExpense}
 						/>
-						<div className="peer h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
-						<span className='ml-3 text-sm font-medium text-gray-900 dark:text-gray-300'>
+						<div className="peer h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 "></div>
+						<span className='text-gray-90 ml-3 text-sm font-medium'>
 							Expense
 						</span>
 					</label>

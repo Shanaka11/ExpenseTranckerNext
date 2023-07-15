@@ -22,16 +22,25 @@ const useMutation = (callback: any, options?: MutationOptions) => {
 	};
 
 	const mutate = async (data: any) => {
-		setIsLoading(true);
-		setError(false);
-		let response = await callback(data);
-		if (response.status === 500) {
-			handleMutationOnError((await response.json()).message);
-			setError(true);
-		} else {
-			handleMutationOnSuccess(await response.json());
+		try {
+			setIsLoading(true);
+			setError(false);
+			let response = await callback(data);
+			if (response.status === 500) {
+				handleMutationOnError((await response.json()).message);
+				setError(true);
+			} else {
+				if (response.status == 204) {
+					handleMutationOnSuccess({});
+				} else {
+					handleMutationOnSuccess(await response.json());
+				}
+			}
+			setIsLoading(false);
+		} catch (e: any) {
+			console.log(e);
+			setIsLoading(false);
 		}
-		setIsLoading(false);
 	};
 
 	return {

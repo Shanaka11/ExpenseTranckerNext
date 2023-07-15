@@ -17,6 +17,7 @@ type DialogProps = {
 	dialogButtonProps?: ButtonProps;
 	isLoading?: boolean;
 	noOpenButton?: boolean;
+	okButtonLabel?: string;
 };
 
 const Dialog: React.FC<DialogProps> = ({
@@ -32,6 +33,7 @@ const Dialog: React.FC<DialogProps> = ({
 	handleSubmitAndClose,
 	isLoading,
 	noOpenButton,
+	okButtonLabel,
 }) => {
 	return (
 		<>
@@ -67,7 +69,7 @@ const Dialog: React.FC<DialogProps> = ({
 												onClick={() => handleSubmitAndClose()}
 												type={defaultSubmit ? 'submit' : 'submit'}
 												form={defaultSubmit ? formId : formId}
-												label='Add'
+												label={okButtonLabel ?? 'Add'}
 												disabled={isLoading}
 											/>
 											<Button

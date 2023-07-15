@@ -13,8 +13,6 @@ export const POST = async (request: NextRequest) => {
 			status: 200,
 		});
 	} catch (e: any) {
-		console.log(e);
-		// return NextResponse.json({message: 'Could not create transction' })
 		return new NextResponse(
 			JSON.stringify({ message: 'Could not create transction' }),
 			{
