@@ -21,11 +21,11 @@ const useMutation = (callback: any, options?: MutationOptions) => {
 		}
 	};
 
-	const mutate = async (data: any) => {
+	const mutate = async (data: any, id?: string) => {
 		try {
 			setIsLoading(true);
 			setError(false);
-			let response = await callback(data);
+			let response = await callback(data, id);
 			if (response.status === 500) {
 				handleMutationOnError((await response.json()).message);
 				setError(true);

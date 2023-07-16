@@ -11,6 +11,11 @@ import useMutation from './useMutation';
 import toast from 'react-hot-toast';
 import { Transaction } from '@/server/models/Transaction';
 import { formatDateToInput } from '@/app/util/formatDate';
+import {
+	deleteTransactionService,
+	insertTransactionService,
+	updateTransactionService,
+} from '@/ClientServices/ClientTransactionServices';
 
 const options = [
 	{ value: 1, label: 'Chocolate' },
@@ -75,13 +80,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	});
 	// Insert
 	const { isLoading: createIsLoading, mutate: create } = useMutation(
-		async (data: any) => {
-			let response = await fetch('http://localhost:3000/api/transaction', {
-				method: 'POST',
-				body: JSON.stringify(data),
-			});
-			return response;
-		},
+		insertTransactionService,
 		{
 			onError: (message) => {
 				toast.error(message);
@@ -101,15 +100,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	);
 	// Delete
 	const { isLoading: updateIsLoading, mutate: remove } = useMutation(
-		async (id: string) => {
-			let response = await fetch(
-				`http://localhost:3000/api/transaction/${id}`,
-				{
-					method: 'DELETE',
-				}
-			);
-			return response;
-		},
+		deleteTransactionService,
 		{
 			onError: (message) => {
 				toast.error(message);
@@ -122,16 +113,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	);
 	// Update
 	const { isLoading: deleteIsLoading, mutate: update } = useMutation(
-		async (data: any) => {
-			let response = await fetch(
-				`http://localhost:3000/api/transaction/${dataItem.id}`,
-				{
-					method: 'PUT',
-					body: JSON.stringify(data),
-				}
-			);
-			return response;
-		},
+		updateTransactionService,
 		{
 			onError: (message) => {
 				toast.error(message);
@@ -180,7 +162,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		data.amount = isExpense ? -1 * data.amount : data.amount;
 		console.log(dataItem);
 		if (dataItem !== undefined) {
-			update(data);
+			update(data, dataItem.id);
 		} else {
 			create(data);
 		}
@@ -239,7 +221,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 				formId='TransactionForm'
 				isLoading={createIsLoading || deleteIsLoading || updateIsLoading}
 				noOpenButton={noOpenButton}
-				okButtonLabel='Update'
+				okButtonLabel={dataItem !== undefined ? 'Update' : 'Add'}
 			>
 				<form id='TransactionForm' onSubmit={handleSubmit(onSubmit)}>
 					<Controller

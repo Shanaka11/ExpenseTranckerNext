@@ -1,37 +1,13 @@
+import { getTransactionsService } from '@/ServerServices/ServerTransactionServices';
 import Button from '@/components/Button';
 import TransactionForm from '@/components/Forms/TransactionForm';
 import Input from '@/components/Input';
 import Table, { TableColumns } from '@/components/Table/Table';
 import { Transaction } from '@/server/models/Transaction';
-import { auth } from '@clerk/nextjs';
 import React from 'react';
 
-type TransactionResponse = {
-	id: string;
-	date: string;
-	description: string;
-	amount: number;
-	user: string;
-};
-
-const getTransactions: () => Promise<TransactionResponse[]> = async () => {
-	const { getToken } = auth();
-	const token = await getToken();
-	const res = await fetch('http://localhost:3000/api/transaction', {
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	});
-
-	if (!res.ok) {
-		throw new Error('Error');
-	}
-	// const test = await res.json();
-	return await res.json();
-};
-
 const page = async () => {
-	const data: Transaction[] = await getTransactions();
+	const data: Transaction[] = await getTransactionsService();
 
 	const columns: TableColumns[] = [
 		{
