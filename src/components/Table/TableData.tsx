@@ -7,12 +7,14 @@ type TableDataProps<T> = {
 	columnLayout: string;
 	data: TableMatrix[];
 	UpdateDialog: ComponentType<TransactinFormProps>;
+	updateDialogProps?: TransactinFormProps;
 };
 
 const TableData = <T,>({
 	columnLayout,
 	data,
 	UpdateDialog,
+	updateDialogProps,
 }: TableDataProps<T>) => {
 	const [openDialog, setOpenDialog] = useState(false);
 	const [currentDataItem, setCurrentDataItem] = useState<T>(data[0].dataItem);
@@ -34,6 +36,7 @@ const TableData = <T,>({
 				dataItem={currentDataItem}
 				noOpenButton={true}
 				handleDialogClose={() => dialogOnClose()}
+				{...updateDialogProps}
 			/>
 			<div className='mt-1 grid'>
 				{data.map((item) => (

@@ -17,7 +17,6 @@ const DashboardTransactionForm = () => {
 	});
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
-		console.log(data);
 		setAmount(data.amount);
 		reset();
 	};

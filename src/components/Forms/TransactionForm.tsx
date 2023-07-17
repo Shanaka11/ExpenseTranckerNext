@@ -17,15 +17,6 @@ import {
 	updateTransactionService,
 } from '@/ClientServices/ClientTransactionServices';
 
-const options = [
-	{ value: 1, label: 'Chocolate' },
-	{ value: 'strawberry', label: 'Strawberry' },
-	{ value: 'vanilla', label: 'Vanilla' },
-	{ value: 'test', label: 'Test' },
-	{ value: 'test2', label: 'Test2' },
-	{ value: 'test3', label: 'Test3' },
-];
-
 // Today
 const date = new Date();
 // This form will be used to create and edit transactions
@@ -33,7 +24,7 @@ type FormInputs = {
 	amount: number;
 	date: string;
 	description: string;
-	tags: string[];
+	tags: any[];
 };
 
 export type TransactinFormProps = {
@@ -44,6 +35,7 @@ export type TransactinFormProps = {
 	open?: boolean;
 	noOpenButton?: boolean;
 	handleDialogClose?: () => void;
+	options?: any[];
 };
 
 const TransactionForm: React.FC<TransactinFormProps> = ({
@@ -54,7 +46,9 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	open,
 	noOpenButton,
 	handleDialogClose,
+	options,
 }) => {
+	// TODO: Update transaction with tags not working at the moment
 	const [defaultValues, setDefaultValues] = useState({
 		amount: dataItem !== undefined ? dataItem.amount : 0,
 		date:
@@ -62,7 +56,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 				? formatDateToInput(new Date(dataItem.date))
 				: formatDateToInput(date),
 		description: dataItem !== undefined ? dataItem.description : '',
-		tags: [],
+		tags: dataItem !== undefined ? dataItem.tags : [],
 	});
 
 	const [isExpense, setIsExpense] = useState(true);
@@ -148,6 +142,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 			);
 			setValue('date', formatDateToInput(new Date(dataItem.date)));
 			setValue('description', dataItem.description);
+			setValue('tags', dataItem.tags);
 		}
 	}, [dataItem, setValue]);
 
@@ -160,10 +155,12 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		// Depending if dataitem is present then update else create new
 		data.date = new Date(date).toISOString();
 		data.amount = isExpense ? -1 * data.amount : data.amount;
-		console.log(dataItem);
+
+		// console.log(data);
 		if (dataItem !== undefined) {
 			update(data, dataItem.id);
 		} else {
+			data.tags = data.tags.map((item) => item.value);
 			create(data);
 		}
 	};
@@ -276,7 +273,12 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 						name='tags'
 						control={control}
 						render={({ field }) => (
-							<Autocomplete {...field} options={options} />
+							<Autocomplete
+								{...field}
+								options={options}
+								getOptionLabel={(option: any) => option.name}
+								getOptionValue={(option: any) => option.id}
+							/>
 						)}
 					/>
 				</form>

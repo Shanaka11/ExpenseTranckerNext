@@ -18,6 +18,7 @@ type TableProps<T extends TableData> = {
 	columns: TableColumns[];
 	data: T[];
 	UpdateDialog: ComponentType<TransactinFormProps>;
+	updateDialogProps?: TransactinFormProps;
 };
 
 export type TableMatrix = {
@@ -79,6 +80,7 @@ const Table = <T extends TableData>({
 	columns,
 	data,
 	UpdateDialog,
+	updateDialogProps,
 }: TableProps<T>) => {
 	const rows = createRows(columns, data);
 	const columnLayout = generateColumnLayout(columns);
@@ -102,23 +104,8 @@ const Table = <T extends TableData>({
 				columnLayout={columnLayout}
 				data={rows}
 				UpdateDialog={UpdateDialog}
+				updateDialogProps={updateDialogProps}
 			/>
-			{/* <div className='mt-1 grid'>
-				{rows.map((item) => (
-					// Table raw
-					<div
-						className={`grid h-10 w-full cursor-pointer items-center justify-center
-								px-1
-								capitalize
-								odd:bg-blue-100
-								even:bg-blue-200 hover:bg-blue-400`}
-						style={{ gridTemplateColumns: columnLayout }}
-						key={item.id}
-					>
-						<TableRow row={item} />
-					</div>
-				))}
-			</div> */}
 		</>
 	);
 };

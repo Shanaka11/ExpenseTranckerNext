@@ -5,6 +5,7 @@ import Select, {
 	components,
 	Props as SelectProps,
 } from 'react-select';
+import { MultiValueLabel } from 'react-select/dist/declarations/src/components/MultiValue';
 
 const Autocomplete = forwardRef<SelectProps, any>((props, ref) => {
 	return (
@@ -13,12 +14,18 @@ const Autocomplete = forwardRef<SelectProps, any>((props, ref) => {
 			{...props}
 			maxMenuHeight={150}
 			isMulti
-			name='colors'
+			// name='colors'
 			// options={options}
 			isClearable
 			unstyled
 			components={{ Control }}
 			placeholder='Select'
+			styles={{
+				multiValueLabel: (base) => ({
+					...base,
+					textTransform: 'capitalize',
+				}),
+			}}
 			classNames={{
 				placeholder: () => 'hidden',
 				control: ({ isFocused }) =>

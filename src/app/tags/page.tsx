@@ -4,7 +4,6 @@ import TagForm from '@/components/Forms/TagForm';
 import Input from '@/components/Input';
 import Table, { TableColumns } from '@/components/Table/Table';
 import { Tag } from '@/server/models/Tag';
-import { auth } from '@clerk/nextjs';
 import React from 'react';
 
 type TagResponse = {

@@ -1,3 +1,4 @@
+import { getTagsService } from '@/ServerServices/ServerTagServices';
 import { getTransactionsService } from '@/ServerServices/ServerTransactionServices';
 import Button from '@/components/Button';
 import TransactionForm from '@/components/Forms/TransactionForm';
@@ -7,7 +8,11 @@ import { Transaction } from '@/server/models/Transaction';
 import React from 'react';
 
 const page = async () => {
-	const data: Transaction[] = await getTransactionsService();
+	// const data: Transaction[] = await getTransactionsService();
+	const [transactions, tags] = await Promise.all([
+		getTransactionsService(),
+		getTagsService(),
+	]);
 
 	const columns: TableColumns[] = [
 		{
@@ -41,7 +46,7 @@ const page = async () => {
 				{/* Action Section */}
 				<div className='col-span-2 flex h-14 items-center justify-between rounded-lg bg-white px-4 py-2 drop-shadow-md'>
 					{/* <Button label='Add' /> */}
-					<TransactionForm title='Add' />
+					<TransactionForm title='Add' options={tags} />
 					{/* // Add Item Button
 				// Search Box */}
 					<form className='flex'>
@@ -59,8 +64,9 @@ const page = async () => {
 				<div className='col-span-2 mt-2 h-full w-full overflow-y-scroll rounded-lg bg-white px-4 drop-shadow-md'>
 					<Table<Transaction>
 						columns={columns}
-						data={data}
+						data={transactions}
 						UpdateDialog={TransactionForm}
+						updateDialogProps={{ options: tags }}
 					/>
 				</div>
 			</div>
