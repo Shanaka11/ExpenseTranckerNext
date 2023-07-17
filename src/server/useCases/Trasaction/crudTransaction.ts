@@ -1,21 +1,21 @@
 import { IRepository } from '@/infrastructure/repository/prisma';
 import {
-	Transaction,
+	Transaction as ClientTransaction,
 	makeCreateTransaction,
 } from '@/server/models/Transaction';
-import { Tag } from '@/server/models/Tag';
+import { Tag as ClientTag } from '@/server/models/Tag';
 import { generateId } from '..';
-// import { FtdContainer } from '@/server/DependancyContainer';
+import { Tag, Transaction } from '@prisma/client';
 
 type createTransactionInput = {
-	date: Date;
+	date: string;
 	description: string;
 	amount: number;
 	tags: string[];
 	user: string;
 };
 
-const validateModel = (data: Transaction) => {
+const validateModel = (data: ClientTransaction) => {
 	return;
 };
 
@@ -23,8 +23,8 @@ export const makeTransactionCrudUseCase = ({
 	transactionRepository,
 	tagRepository,
 }: {
-	transactionRepository: IRepository<Transaction>;
-	tagRepository: IRepository<Tag>;
+	transactionRepository: IRepository<ClientTransaction, Transaction>;
+	tagRepository: IRepository<ClientTag, Tag>;
 }) => {
 	const createTransaction = makeCreateTransaction({
 		generateId,
@@ -33,6 +33,7 @@ export const makeTransactionCrudUseCase = ({
 	const create = async (data: createTransactionInput) => {
 		try {
 			const rawTransaction = {
+				id: '',
 				date: data.date,
 				description: data.description,
 				amount: data.amount,
@@ -75,7 +76,7 @@ export const makeTransactionCrudUseCase = ({
 		}
 	};
 
-	const update = async (id: string, data: Transaction) => {
+	const update = async (id: string, data: ClientTransaction) => {
 		// Update the Transaction using the repository method
 		try {
 			const transaction = createTransaction({ ...data, id });

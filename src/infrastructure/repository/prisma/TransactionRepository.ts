@@ -1,5 +1,4 @@
 import { Transaction } from '@/server/models/Transaction';
-import { Transaction as PrismaTransaction } from '@prisma/client';
 import { prisma } from './PrismaSingleton';
 
 export const makeTransactionRepository = () => {
@@ -19,7 +18,6 @@ export const makeTransactionRepository = () => {
 				tags: true,
 			},
 		});
-
 		return created;
 	};
 

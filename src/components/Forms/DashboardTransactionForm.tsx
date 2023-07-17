@@ -5,14 +5,14 @@ import Input from '../Input';
 import { useState } from 'react';
 
 type FormInputs = {
-	amount: number | string;
+	amount: number;
 };
 
 const DashboardTransactionForm = () => {
-	const [amount, setAmount] = useState<string | number>(0);
+	const [amount, setAmount] = useState<number>(0);
 	const { control, handleSubmit, reset, getValues } = useForm<FormInputs>({
 		defaultValues: {
-			amount: '',
+			amount: 0,
 		},
 	});
 

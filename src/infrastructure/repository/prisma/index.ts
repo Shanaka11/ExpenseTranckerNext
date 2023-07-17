@@ -1,11 +1,11 @@
 import { tagRepository, transactionRepository } from './Repository';
 
-export interface IRepository<T> {
-	create: (data: T) => Promise<T>;
+export interface IRepository<ClientModel, ServerModel> {
+	create: (data: ClientModel) => Promise<ServerModel>;
 	remove: (id: string) => Promise<boolean>;
-	findAll: () => Promise<T[]>;
-	findById: (id: string) => Promise<T | null>;
-	update: (id: string, data: T) => Promise<T | null>;
+	findAll: () => Promise<ServerModel[]>;
+	findById: (id: string) => Promise<ServerModel | null>;
+	update: (id: string, data: ClientModel) => Promise<ServerModel | null>;
 }
 
 export { tagRepository, transactionRepository };

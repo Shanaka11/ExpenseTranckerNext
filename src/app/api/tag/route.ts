@@ -4,11 +4,9 @@ import { NextRequest } from 'next/server';
 // Create Tag
 export const POST = async (request: NextRequest) => {
 	try {
-		const { name } = await request.json();
+		const input = await request.json();
 
-		const tag = await tagApi.create({
-			name: name,
-		});
+		const tag = await tagApi.create(input);
 
 		return new Response(JSON.stringify(tag), {
 			status: 201,

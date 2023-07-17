@@ -15,7 +15,7 @@ export const makeCreateTransaction = ({
 	generateId,
 }: IMakeCreateModel<Transaction>) => {
 	return (data: Transaction) => {
-		if (!data.id) data.id = generateId();
+		if (!data.id || data.id === '') data.id = generateId();
 		validateModel(data);
 		return {
 			...data,
