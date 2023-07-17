@@ -4,19 +4,17 @@ import Input from '../Input';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import InputArea from '../InputArea';
 import Autocomplete from '../Autocomplete';
-import CloseIcon from '../Icons/CloseIcon';
 import Button from '../Button';
 import Dialog from '../Dialog/Dialog';
 import useMutation from './useMutation';
 import toast from 'react-hot-toast';
-import { Transaction } from '@/server/models/Transaction';
 import { formatDateToInput } from '@/app/util/formatDate';
 import {
 	deleteTransactionService,
 	insertTransactionService,
 	updateTransactionService,
 } from '@/ClientServices/ClientTransactionServices';
-
+import { useRouter } from 'next/navigation';
 // Today
 const date = new Date();
 // This form will be used to create and edit transactions
@@ -48,7 +46,8 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	handleDialogClose,
 	options,
 }) => {
-	// TODO: Update transaction with tags not working at the moment
+	const router = useRouter();
+
 	const [defaultValues, setDefaultValues] = useState({
 		amount: dataItem !== undefined ? dataItem.amount : 0,
 		date:
@@ -78,7 +77,6 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		{
 			onError: (message) => {
 				toast.error(message);
-				reset(defaultValues);
 				setIsExpense(true);
 			},
 			onScucces: (data) => {
@@ -89,6 +87,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 				setIsExpense(true);
 				reset(defaultValues);
 				toast.success('Transaction Added');
+				router.refresh();
 			},
 		}
 	);
@@ -102,6 +101,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 			onScucces: (data) => {
 				closeDialog();
 				toast.success('Transaction deleted');
+				router.refresh();
 			},
 		}
 	);
@@ -115,6 +115,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 			onScucces: (data) => {
 				closeDialog();
 				toast.success('Transaction updated');
+				router.refresh();
 			},
 		}
 	);
@@ -153,14 +154,14 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
 		// Depending if dataitem is present then update else create new
-		data.date = new Date(date).toISOString();
+		data.date = new Date(data.date).toISOString();
 		data.amount = isExpense ? -1 * data.amount : data.amount;
 
 		// console.log(data);
 		if (dataItem !== undefined) {
 			update(data, dataItem.id);
 		} else {
-			data.tags = data.tags.map((item) => item.value);
+			data.tags = data.tags.map((item) => item.id);
 			create(data);
 		}
 	};

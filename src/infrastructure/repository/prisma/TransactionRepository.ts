@@ -36,6 +36,9 @@ export const makeTransactionRepository = () => {
 			include: {
 				tags: true,
 			},
+			orderBy: {
+				date: 'desc',
+			},
 		});
 		return all;
 	};

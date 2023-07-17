@@ -17,7 +17,9 @@ const TableData = <T,>({
 	updateDialogProps,
 }: TableDataProps<T>) => {
 	const [openDialog, setOpenDialog] = useState(false);
-	const [currentDataItem, setCurrentDataItem] = useState<T>(data[0].dataItem);
+	const [currentDataItem, setCurrentDataItem] = useState<T | undefined>(
+		data[0]?.dataItem
+	);
 
 	const handleRowOnClick = (dataItem: T) => {
 		setCurrentDataItem(dataItem);

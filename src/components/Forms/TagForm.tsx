@@ -7,12 +7,12 @@ import Button from '../Button';
 import Dialog from '../Dialog/Dialog';
 import useMutation from './useMutation';
 import toast from 'react-hot-toast';
-import { Tag } from '@/server/models/Tag';
 import {
 	deleteTagService,
 	insertTagService,
 	updateTagService,
 } from '@/ClientServices/ClientTagServices';
+import { useRouter } from 'next/navigation';
 
 // This form will be used to create and edit transactions
 type FormInputs = {
@@ -34,6 +34,7 @@ const TagForm: React.FC<TransactinFormProps> = ({
 	noOpenButton,
 	handleDialogClose,
 }) => {
+	const router = useRouter();
 	const [defaultValues, setDefaultValues] = useState({
 		name: dataItem !== undefined ? dataItem.name : '',
 	});
@@ -63,6 +64,7 @@ const TagForm: React.FC<TransactinFormProps> = ({
 				}
 				reset(defaultValues);
 				toast.success('Transaction Added');
+				router.refresh();
 			},
 		}
 	);
@@ -76,6 +78,7 @@ const TagForm: React.FC<TransactinFormProps> = ({
 			onScucces: (data) => {
 				closeDialog();
 				toast.success('Transaction deleted');
+				router.refresh();
 			},
 		}
 	);
@@ -89,6 +92,7 @@ const TagForm: React.FC<TransactinFormProps> = ({
 			onScucces: (data) => {
 				closeDialog();
 				toast.success('Transaction updated');
+				router.refresh();
 			},
 		}
 	);
@@ -181,6 +185,7 @@ const TagForm: React.FC<TransactinFormProps> = ({
 						rules={{ required: true }}
 						render={({ field }) => (
 							<Input
+								autoFocus
 								type='text'
 								label='Name'
 								id='name'
