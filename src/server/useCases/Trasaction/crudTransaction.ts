@@ -8,6 +8,7 @@ import { generateId } from '..';
 import { Tag, Transaction } from '@prisma/client';
 import { TransactionScehma } from '@/infrastructure/validation/TransactionValidationSchemas';
 import { validateModel as zodValidateModel } from '@/infrastructure/validation/ValidateModel';
+import { count } from 'console';
 
 type createTransactionInput = {
 	date: string;
@@ -63,7 +64,15 @@ export const makeTransactionCrudUseCase = ({
 		}
 	};
 
-	const retrieve = async (id?: string) => {
+	const retrieve = async ({
+		userId,
+		id,
+		count,
+	}: {
+		userId: string;
+		id?: string;
+		count?: number;
+	}) => {
 		// For now all records are retrieved, adjust this so we can include filtering
 		// Retrieve the Transaction using the repository method
 		try {
@@ -71,9 +80,13 @@ export const makeTransactionCrudUseCase = ({
 				const response = await transactionRepository.findById(id);
 				return response;
 			}
-			const response = await transactionRepository.findAll();
+			const response = await transactionRepository.findAll({
+				userId,
+				count: count,
+			});
 			return response;
 		} catch (e) {
+			console.log(e);
 			throw e;
 		}
 	};

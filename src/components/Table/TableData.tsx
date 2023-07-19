@@ -6,7 +6,7 @@ import { TransactinFormProps } from '../Forms/TransactionForm';
 type TableDataProps<T> = {
 	columnLayout: string;
 	data: TableMatrix[];
-	UpdateDialog: ComponentType<TransactinFormProps>;
+	UpdateDialog?: ComponentType<TransactinFormProps>;
 	updateDialogProps?: TransactinFormProps;
 };
 
@@ -22,24 +22,28 @@ const TableData = <T,>({
 	);
 
 	const handleRowOnClick = (dataItem: T) => {
+		if (UpdateDialog === undefined) return;
 		setCurrentDataItem(dataItem);
 		setOpenDialog(true);
 	};
 
 	const dialogOnClose = () => {
+		if (UpdateDialog === undefined) return;
 		setOpenDialog(false);
 	};
 
 	return (
 		<>
-			<UpdateDialog
-				title='Update Transaction'
-				open={openDialog}
-				dataItem={currentDataItem}
-				noOpenButton={true}
-				handleDialogClose={() => dialogOnClose()}
-				{...updateDialogProps}
-			/>
+			{UpdateDialog && (
+				<UpdateDialog
+					title='Update Transaction'
+					open={openDialog}
+					dataItem={currentDataItem}
+					noOpenButton={true}
+					handleDialogClose={() => dialogOnClose()}
+					{...updateDialogProps}
+				/>
+			)}
 			<div className='mt-1 grid'>
 				{data.map((item) => (
 					// Table raw

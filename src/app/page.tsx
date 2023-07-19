@@ -1,7 +1,14 @@
+import { getTransactionsService } from '@/ServerServices/ServerTransactionServices';
 import Card from '@/components/Card';
 import DashboardTransactionForm from '@/components/Forms/DashboardTransactionForm';
+import TransactionTable from '@/components/TransactionTable';
 
-export default function Home() {
+export default async function Home() {
+	const [transactions] = await Promise.all([
+		getTransactionsService({
+			count: 4,
+		}),
+	]);
 	// return (
 	// 	<div className='grid grid-cols-4 place-items-center gap-10 md:grid-cols-4 lg:grid-rows-[140px_400px_1fr]'></div>
 	// );
@@ -24,7 +31,13 @@ export default function Home() {
 			{/* Bar Chart Monthly balance -span 2-cols on large screens if not good then hide on smaller screens*/}
 			<div className='md:col-span-2'>Bar Chart</div>
 			{/* Transaction history table show the last 5 - 10 transactions depending on screen size */}
-			<div className='md:col-span-4'>Transaction history</div>
+			<div className='w-full md:col-span-4'>
+				<TransactionTable
+					transactions={transactions}
+					readonly={true}
+					tags={[]}
+				/>
+			</div>
 		</div>
 	);
 }

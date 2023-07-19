@@ -4,6 +4,7 @@ import Button from '@/components/Button';
 import TransactionForm from '@/components/Forms/TransactionForm';
 import Input from '@/components/Input';
 import Table, { TableColumns } from '@/components/Table/Table';
+import TransactionTable from '@/components/TransactionTable';
 import { Transaction } from '@/server/models/Transaction';
 import React from 'react';
 
@@ -61,14 +62,7 @@ const page = async () => {
 					</form>
 				</div>
 				{/* // Table Container */}
-				<div className='col-span-2 mt-2 h-full w-full overflow-y-scroll rounded-lg bg-white px-4 drop-shadow-md'>
-					<Table<Transaction>
-						columns={columns}
-						data={transactions}
-						UpdateDialog={TransactionForm}
-						updateDialogProps={{ options: tags }}
-					/>
-				</div>
+				<TransactionTable transactions={transactions} tags={tags} />
 			</div>
 		</>
 	);

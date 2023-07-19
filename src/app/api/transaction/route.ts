@@ -21,11 +21,15 @@ export const POST = async (request: NextRequest) => {
 		);
 	}
 };
-export const GET = async () => {
+export const GET = async (request: NextRequest) => {
 	try {
 		const userId = await checkPermissions();
+		const url = new URL(request.url);
+		const count = url.searchParams.get('count')
+			? parseInt(url.searchParams.get('count')!)
+			: undefined;
 
-		const transactions = await transactionApi.retrieve();
+		const transactions = await transactionApi.retrieve({ userId, count });
 
 		return new Response(JSON.stringify(transactions), {
 			status: 200,

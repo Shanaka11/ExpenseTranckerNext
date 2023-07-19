@@ -13,7 +13,10 @@ export const GET = async (
 ) => {
 	try {
 		const userId = await checkPermissions();
-		const tag = await transactionApi.retrieve(params.id);
+		const tag = await transactionApi.retrieve({
+			userId: userId,
+			id: params.id,
+		});
 
 		return new Response(JSON.stringify(tag), {
 			status: 200,

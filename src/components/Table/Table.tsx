@@ -17,7 +17,7 @@ type TableData = {
 type TableProps<T extends TableData> = {
 	columns: TableColumns[];
 	data: T[];
-	UpdateDialog: ComponentType<TransactinFormProps>;
+	UpdateDialog?: ComponentType<TransactinFormProps>;
 	updateDialogProps?: TransactinFormProps;
 };
 

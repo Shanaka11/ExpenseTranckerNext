@@ -1,5 +1,6 @@
 import { Transaction } from '@/server/models/Transaction';
 import { prisma } from './PrismaSingleton';
+import { QueryOptions } from '.';
 
 export const makeTransactionRepository = () => {
 	const create = async (data: Transaction) => {
@@ -31,14 +32,18 @@ export const makeTransactionRepository = () => {
 		return found || null;
 	};
 
-	const findAll = async () => {
+	const findAll = async (options: QueryOptions) => {
 		const all = await prisma.transaction.findMany({
 			include: {
 				tags: true,
 			},
+			where: {
+				user: options?.userId,
+			},
 			orderBy: {
 				date: 'desc',
 			},
+			take: options?.count,
 		});
 		return all;
 	};
