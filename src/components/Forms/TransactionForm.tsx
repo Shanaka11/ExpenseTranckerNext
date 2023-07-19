@@ -15,6 +15,8 @@ import {
 	updateTransactionService,
 } from '@/ClientServices/ClientTransactionServices';
 import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { TransactionScehma } from '@/infrastructure/validation/TransactionValidationSchemas';
 // Today
 const date = new Date();
 // This form will be used to create and edit transactions
@@ -65,11 +67,18 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	);
 	const [closeOnSuccessfullSave, setCloseOnSuccessfullSave] = useState(false);
 
-	const { control, handleSubmit, reset, setValue } = useForm<FormInputs>({
+	const {
+		control,
+		handleSubmit,
+		reset,
+		setValue,
+		formState: { errors },
+	} = useForm<FormInputs>({
 		defaultValues: {
 			...defaultValues,
 			amount: initialAmount,
 		},
+		resolver: zodResolver(TransactionScehma),
 	});
 	// Insert
 	const { isLoading: createIsLoading, mutate: create } = useMutation(
@@ -157,11 +166,11 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		data.date = new Date(data.date).toISOString();
 		data.amount = isExpense ? -1 * data.amount : data.amount;
 
-		// console.log(data);
+		console.log(data);
 		if (dataItem !== undefined) {
 			update(data, dataItem.id);
 		} else {
-			data.tags = data.tags.map((item) => item.id);
+			data.tags = data.tags?.map((item) => item.id);
 			create(data);
 		}
 	};
@@ -232,6 +241,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 								label='Transaction Amount'
 								id='transaction'
 								className='text-right'
+								error={errors?.amount?.message}
 								{...field}
 								onChange={(event) => field.onChange(+event.target.value)}
 							/>
@@ -254,7 +264,14 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 						name='date'
 						control={control}
 						render={({ field }) => (
-							<Input type='date' label='Date' autoFocus id='date' {...field} />
+							<Input
+								type='date'
+								error={errors?.date?.message}
+								label='Date'
+								autoFocus
+								id='date'
+								{...field}
+							/>
 						)}
 					/>
 					{/* This should be a multiline input */}
@@ -266,6 +283,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 								type='text'
 								label='Description'
 								id='description'
+								error={errors?.description?.message}
 								{...field}
 							/>
 						)}

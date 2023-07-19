@@ -7,6 +7,7 @@ type InputProps = {
 	id: string;
 	inputsize?: InputSize;
 	containermargin?: string;
+	error?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
@@ -35,6 +36,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 				>
 					{props.label}
 				</label>
+			)}
+			{props.error && (
+				<p className='ml-1 text-xs text-red-500'>{props.error}</p>
 			)}
 		</div>
 	);

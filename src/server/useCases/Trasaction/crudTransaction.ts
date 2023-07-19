@@ -6,6 +6,8 @@ import {
 import { Tag as ClientTag } from '@/server/models/Tag';
 import { generateId } from '..';
 import { Tag, Transaction } from '@prisma/client';
+import { TransactionScehma } from '@/infrastructure/validation/TransactionValidationSchemas';
+import { validateModel as zodValidateModel } from '@/infrastructure/validation/ValidateModel';
 
 type createTransactionInput = {
 	date: string;
@@ -16,7 +18,7 @@ type createTransactionInput = {
 };
 
 const validateModel = (data: ClientTransaction) => {
-	return;
+	zodValidateModel(TransactionScehma, data);
 };
 
 export const makeTransactionCrudUseCase = ({

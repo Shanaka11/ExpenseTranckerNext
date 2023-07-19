@@ -3,6 +3,7 @@ import React, { InputHTMLAttributes, forwardRef } from 'react';
 type InputProps = {
 	label?: string;
 	id: string;
+	error?: string;
 } & InputHTMLAttributes<HTMLTextAreaElement>;
 
 const InputArea = forwardRef<HTMLTextAreaElement, InputProps>((props, ref) => {
@@ -24,6 +25,9 @@ const InputArea = forwardRef<HTMLTextAreaElement, InputProps>((props, ref) => {
 				>
 					{props.label}
 				</label>
+			)}
+			{props.error && (
+				<p className='ml-1 text-xs text-red-500'>{props.error}</p>
 			)}
 		</div>
 	);

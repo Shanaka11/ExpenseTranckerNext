@@ -13,7 +13,8 @@ import {
 	updateTagService,
 } from '@/ClientServices/ClientTagServices';
 import { useRouter } from 'next/navigation';
-
+import { zodResolver } from '@hookform/resolvers/zod';
+import { TagScehma } from '@/infrastructure/validation/TagValidationSchema';
 // This form will be used to create and edit transactions
 type FormInputs = {
 	name: string;
@@ -44,10 +45,17 @@ const TagForm: React.FC<TransactinFormProps> = ({
 	);
 	const [closeOnSuccessfullSave, setCloseOnSuccessfullSave] = useState(false);
 
-	const { control, handleSubmit, reset, setValue } = useForm<FormInputs>({
+	const {
+		control,
+		handleSubmit,
+		reset,
+		setValue,
+		formState: { errors },
+	} = useForm<FormInputs>({
 		defaultValues: {
 			...defaultValues,
 		},
+		resolver: zodResolver(TagScehma),
 	});
 	// Insert
 	const { isLoading: createIsLoading, mutate: create } = useMutation(
