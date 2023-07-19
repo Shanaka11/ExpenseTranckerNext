@@ -1,14 +1,11 @@
 import { getTransactionsService } from '@/ServerServices/ServerTransactionServices';
 import Card from '@/components/Card';
 import DashboardTransactionForm from '@/components/Forms/DashboardTransactionForm';
+import SummaryContainer from '@/components/SummaryContainer';
 import TransactionTable from '@/components/TransactionTable';
 
 export default async function Home() {
-	const [transactions] = await Promise.all([
-		getTransactionsService({
-			count: 4,
-		}),
-	]);
+	const [transactions] = await Promise.all([getTransactionsService()]);
 	// return (
 	// 	<div className='grid grid-cols-4 place-items-center gap-10 md:grid-cols-4 lg:grid-rows-[140px_400px_1fr]'></div>
 	// );
@@ -20,12 +17,7 @@ export default async function Home() {
 			<div className='col-span-2 flex h-28 w-full flex-col justify-evenly align-middle md:h-full lg:col-span-1'>
 				<DashboardTransactionForm />
 			</div>
-			{/* Balance */}
-			<Card />
-			{/* Income */}
-			<Card />
-			{/* Expense */}
-			<Card />
+			<SummaryContainer transactions={transactions} />
 			{/* Line Chart showing the rolling balance for each day - span 2-cols on large screens if not good then hide on smaller screens*/}
 			<div className='md:col-span-2'>Line Chart</div>
 			{/* Bar Chart Monthly balance -span 2-cols on large screens if not good then hide on smaller screens*/}

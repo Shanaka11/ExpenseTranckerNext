@@ -33,7 +33,7 @@ const page = async () => {
 					<TagForm title='Add' />
 					{/* // Add Item Button
 				// Search Box */}
-					<form className='flex'>
+					{/* <form className='flex'>
 						<Input
 							label='Search Tags'
 							id='SearchTags'
@@ -42,7 +42,7 @@ const page = async () => {
 							inputsize='SMALL'
 						/>
 						<Button label='Search' type='submit' className='ml-1' />
-					</form>
+					</form> */}
 				</div>
 
 				{/* // Table Container */}

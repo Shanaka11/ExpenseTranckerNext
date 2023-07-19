@@ -50,7 +50,7 @@ const page = async () => {
 					<TransactionForm title='Add' options={tags} />
 					{/* // Add Item Button
 				// Search Box */}
-					<form className='flex'>
+					{/* <form className='flex'>
 						<Input
 							label='Search Tags'
 							id='Search Transactions'
@@ -59,7 +59,7 @@ const page = async () => {
 							inputsize='SMALL'
 						/>
 						<Button label='Search' type='submit' className='ml-1' />
-					</form>
+					</form> */}
 				</div>
 				{/* // Table Container */}
 				<TransactionTable transactions={transactions} tags={tags} />
