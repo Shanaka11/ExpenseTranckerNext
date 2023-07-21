@@ -81,3 +81,72 @@ export const makeTransactionRepository = () => {
 		update,
 	};
 };
+
+export const expenseByTags = async (userId: string) => {
+	// Ideally this should only handle the data fetching from db i.e Fet all transactions that has an amount < 0 and the matching user Id, rest of the logic should be in usecase
+	const tagSum = new Map<string, number>();
+	var totalAmount = 0;
+	var addedTotal = 0;
+	var otherAmount = 0;
+	const retArray: { tag: string; amount: number }[] = [];
+
+	const transactions = await prisma.transaction.findMany({
+		where: {
+			amount: {
+				lt: 0,
+			},
+			user: userId,
+		},
+		include: {
+			tags: true,
+		},
+	});
+
+	// Get the summary by tags
+	transactions.forEach((transaction) => {
+		transaction.tags.forEach((tag) => {
+			totalAmount -= transaction.amount;
+			if (tagSum.has(tag.name)) {
+				let tagSumItem = tagSum.get(tag.name);
+				tagSumItem =
+					tagSumItem === undefined
+						? -transaction.amount
+						: tagSumItem - transaction.amount;
+				tagSum.set(tag.name, tagSumItem);
+			} else {
+				tagSum.set(tag.name, -transaction.amount);
+			}
+		});
+	});
+
+	// Sort the map
+	const sortedTagSum = Array.from(tagSum);
+	sortedTagSum.sort((a, b) => b[1] - a[1]);
+
+	sortedTagSum.forEach((item) => {
+		const value = item[1];
+		console.log(
+			((totalAmount - addedTotal) * 100) / totalAmount,
+			addedTotal,
+			totalAmount
+		);
+		if (((totalAmount - addedTotal) * 100) / totalAmount >= 20) {
+			retArray.push({
+				tag: item[0],
+				amount: value,
+			});
+		} else {
+			otherAmount += value;
+		}
+		addedTotal += value;
+	});
+
+	if (otherAmount > 0) {
+		retArray.push({
+			tag: 'Other',
+			amount: otherAmount,
+		});
+	}
+
+	return retArray;
+};

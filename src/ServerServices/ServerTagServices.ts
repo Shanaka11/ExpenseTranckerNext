@@ -3,6 +3,7 @@ import { auth } from '@clerk/nextjs';
 export const getTagsService = async () => {
 	const { getToken } = auth();
 	const token = await getToken();
+
 	const res = await fetch('http://localhost:3000/api/tag', {
 		headers: {
 			Authorization: `Bearer ${token}`,
