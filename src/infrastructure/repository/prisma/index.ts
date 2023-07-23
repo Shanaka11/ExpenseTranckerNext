@@ -1,7 +1,7 @@
 import { tagRepository, transactionRepository } from './Repository';
 
 export type QueryOptions = {
-	userId?: string;
+	where?: any;
 	count?: number;
 };
 export interface IRepository<ClientModel, ServerModel> {

@@ -81,7 +81,7 @@ export const makeTransactionCrudUseCase = ({
 				return response;
 			}
 			const response = await transactionRepository.findAll({
-				userId,
+				where: { user: userId },
 				count: count,
 			});
 			return response;

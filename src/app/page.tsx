@@ -4,7 +4,9 @@ import {
 } from '@/ServerServices/ServerTransactionServices';
 import ExpenseDistributionChart from '@/components/ExpenseDistributionChart';
 import DashboardTransactionForm from '@/components/Forms/DashboardTransactionForm';
+import MonthlyBalanceChart from '@/components/MonthlyBalanceChart';
 import SummaryContainer from '@/components/SummaryContainer';
+import TransactionTable from '@/components/TransactionTable';
 
 export default async function Home() {
 	const [transactions, summary] = await Promise.all([
@@ -27,15 +29,19 @@ export default async function Home() {
 			{/* Bar Chart Monthly balance -span 2-cols on large screens if not good then hide on smaller screens*/}
 			{/* <div className='md:col-span-2'>Bar Chart</div> */}
 			{/* Transaction history table show the last 5 - 10 transactions depending on screen size */}
-			{/* <div className='h-full w-full md:col-span-4'>
+
+			<div className='col-span-2 h-full w-full rounded-lg bg-white px-4  py-2'>
+				<ExpenseDistributionChart summary={summary} />
+			</div>
+			<div className='col-span-2 h-full w-full rounded-lg bg-white px-4  py-2'>
+				<MonthlyBalanceChart />
+			</div>
+			<div className='col-span-2 h-full w-full md:col-span-4'>
 				<TransactionTable
-					transactions={transactions}
+					transactions={transactions.slice(0, 4)}
 					readonly={true}
 					tags={[]}
 				/>
-			</div> */}
-			<div className='col-span-2 h-full w-full rounded-lg bg-white px-4  py-2'>
-				<ExpenseDistributionChart summary={summary} />
 			</div>
 		</div>
 	);
