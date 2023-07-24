@@ -36,7 +36,7 @@ const TableData = <T,>({
 		<>
 			{UpdateDialog && (
 				<UpdateDialog
-					title='Update Transaction'
+					title='Update'
 					open={openDialog}
 					dataItem={currentDataItem}
 					noOpenButton={true}

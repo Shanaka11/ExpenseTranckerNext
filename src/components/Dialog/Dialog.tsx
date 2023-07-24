@@ -3,6 +3,7 @@ import React, { ReactNode, useState } from 'react';
 import CloseIcon from '../Icons/CloseIcon';
 import Button, { ButtonProps } from '../Button';
 import { createPortal } from 'react-dom';
+import AddNewIcon from '../Icons/AddNewIcon';
 
 type DialogProps = {
 	open: boolean;
@@ -40,6 +41,8 @@ const Dialog: React.FC<DialogProps> = ({
 			{!noOpenButton && (
 				<Button
 					label='Add New Transaction'
+					title='Insert'
+					icon={<AddNewIcon />}
 					onClick={() => handleOpen()}
 					{...dialogButtonProps}
 				/>

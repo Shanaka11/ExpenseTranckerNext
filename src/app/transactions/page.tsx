@@ -2,14 +2,17 @@ import { getTagsService } from '@/ServerServices/ServerTagServices';
 import { getTransactionsService } from '@/ServerServices/ServerTransactionServices';
 import Button from '@/components/Button';
 import TransactionForm from '@/components/Forms/TransactionForm';
+import RefreshIcon from '@/components/Icons/RefreshIcon';
 import Input from '@/components/Input';
 import Table, { TableColumns } from '@/components/Table/Table';
+import TableAction from '@/components/Table/TableAction';
 import TransactionTable from '@/components/TransactionTable';
 import { Transaction } from '@/server/models/Transaction';
 import React from 'react';
 
 const page = async () => {
 	// const data: Transaction[] = await getTransactionsService();
+
 	const [transactions, tags] = await Promise.all([
 		getTransactionsService(),
 		getTagsService(),
@@ -45,22 +48,9 @@ const page = async () => {
 				{/* Title */}
 				<h1 className='col-span-2 text-3xl font-bold'>Transactions</h1>
 				{/* Action Section */}
-				<div className='col-span-2 flex h-14 items-center justify-between rounded-lg bg-white px-4 py-2 drop-shadow-md'>
-					{/* <Button label='Add' /> */}
+				<TableAction>
 					<TransactionForm title='Add' options={tags} />
-					{/* // Add Item Button
-				// Search Box */}
-					{/* <form className='flex'>
-						<Input
-							label='Search Tags'
-							id='Search Transactions'
-							type='text'
-							containermargin='m-0'
-							inputsize='SMALL'
-						/>
-						<Button label='Search' type='submit' className='ml-1' />
-					</form> */}
-				</div>
+				</TableAction>
 				{/* // Table Container */}
 				<TransactionTable transactions={transactions} tags={tags} />
 			</div>

@@ -43,6 +43,7 @@ const TagForm: React.FC<TransactinFormProps> = ({
 	const [openNewTagDialog, setOpenNewTagDialog] = useState(
 		open !== undefined ? open : false
 	);
+	const [refresh, setRefresh] = useState(false);
 	const [closeOnSuccessfullSave, setCloseOnSuccessfullSave] = useState(false);
 
 	const {
@@ -72,7 +73,7 @@ const TagForm: React.FC<TransactinFormProps> = ({
 				}
 				reset(defaultValues);
 				toast.success('Transaction Added');
-				router.refresh();
+				if (refresh) router.refresh();
 			},
 		}
 	);
@@ -86,7 +87,7 @@ const TagForm: React.FC<TransactinFormProps> = ({
 			onScucces: (data) => {
 				closeDialog();
 				toast.success('Transaction deleted');
-				router.refresh();
+				if (refresh) router.refresh();
 			},
 		}
 	);
@@ -100,7 +101,7 @@ const TagForm: React.FC<TransactinFormProps> = ({
 			onScucces: (data) => {
 				closeDialog();
 				toast.success('Transaction updated');
-				router.refresh();
+				if (refresh) router.refresh();
 			},
 		}
 	);
@@ -203,6 +204,19 @@ const TagForm: React.FC<TransactinFormProps> = ({
 						)}
 					/>
 				</form>
+				<label className='relative mb-5 inline-flex cursor-pointer items-center'>
+					<input
+						type='checkbox'
+						value=''
+						onChange={(event) => setRefresh((prevState) => !prevState)}
+						className='peer sr-only'
+						checked={refresh}
+					/>
+					<div className="peer h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 "></div>
+					<span className='text-gray-90 ml-3 text-sm font-medium'>
+						Refresh When Done
+					</span>
+				</label>
 			</Dialog>
 		</>
 	);
