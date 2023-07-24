@@ -29,7 +29,7 @@ export default async function Home() {
 			</div>
 			<div className='col-span-2 h-full w-full md:col-span-4'>
 				<TransactionTable
-					transactions={transactions.slice(0, 4)}
+					transactions={transactions?.slice(0, 4) ?? []}
 					readonly={true}
 					tags={[]}
 				/>

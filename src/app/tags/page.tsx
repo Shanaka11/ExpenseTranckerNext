@@ -8,13 +8,12 @@ import TableAction from '@/components/Table/TableAction';
 import { Tag } from '@/server/models/Tag';
 import React from 'react';
 
-type TagResponse = {
-	id: string;
-	name: string;
-};
-
-const page = async () => {
-	const data: TagResponse[] = await getTagsService();
+const page = async ({
+	searchParams,
+}: {
+	searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+	const data = await getTagsService({});
 
 	const columns: TableColumns[] = [
 		{
@@ -36,7 +35,9 @@ const page = async () => {
 				</TableAction>
 				{/* // Table Container */}
 				<div className='col-span-2 mt-2 h-full w-full overflow-y-scroll rounded-lg bg-white px-4 drop-shadow-md'>
-					<Table<Tag> columns={columns} data={data} UpdateDialog={TagForm} />
+					{data && (
+						<Table<Tag> columns={columns} data={data} UpdateDialog={TagForm} />
+					)}
 				</div>
 			</div>
 		</>

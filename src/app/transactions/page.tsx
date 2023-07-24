@@ -15,7 +15,7 @@ const page = async () => {
 
 	const [transactions, tags] = await Promise.all([
 		getTransactionsService(),
-		getTagsService(),
+		getTagsService({}),
 	]);
 
 	const columns: TableColumns[] = [

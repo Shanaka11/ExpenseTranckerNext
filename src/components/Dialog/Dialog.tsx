@@ -12,7 +12,7 @@ type DialogProps = {
 	title: string;
 	formId?: string; // Form inside the dialog if any
 	defaultSubmit?: boolean;
-	handleSubmitAndClose: () => void;
+	handleSubmitAndClose?: () => void;
 	children: ReactNode;
 	additionalActions?: ReactNode;
 	dialogButtonProps?: ButtonProps;
@@ -69,7 +69,9 @@ const Dialog: React.FC<DialogProps> = ({
 										{additionalActions}
 										<div className='ml-auto flex'>
 											<Button
-												onClick={() => handleSubmitAndClose()}
+												onClick={() =>
+													handleSubmitAndClose && handleSubmitAndClose()
+												}
 												type={defaultSubmit ? 'submit' : 'submit'}
 												form={defaultSubmit ? formId : formId}
 												label={okButtonLabel ?? 'Add'}

@@ -1,20 +1,20 @@
 'use client';
 import React, { useMemo } from 'react';
 import Card from './Card';
-import { Transaction } from '@/server/models/Transaction';
+import { Transaction } from '@prisma/client';
 
 type SummaryContainerProps = {
-	transactions: Transaction[];
+	transactions?: Transaction[];
 };
 
-const createSummary = (transactions: Transaction[]) => {
+const createSummary = (transactions?: Transaction[]) => {
 	const summary = {
 		totalExpense: 0,
 		totalIncome: 0,
 		totalBalance: 0,
 	};
 
-	transactions.map((transaction) => {
+	transactions?.map((transaction) => {
 		if (transaction.amount >= 0) {
 			summary.totalIncome += transaction.amount;
 			summary.totalBalance += transaction.amount;

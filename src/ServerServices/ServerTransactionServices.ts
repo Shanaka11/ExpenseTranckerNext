@@ -1,3 +1,5 @@
+import { transactionApi } from '@/server/useCases';
+import getExpensesByTags from '@/server/useCases/Trasaction/expensesByTags';
 import { auth } from '@clerk/nextjs';
 
 type TransactionServiceInput = {
@@ -13,44 +15,36 @@ const createQueryString = (filters?: TransactionServiceInput) => {
 export const getTransactionsService = async (
 	filters?: TransactionServiceInput
 ) => {
-	const { getToken } = auth();
-	const token = await getToken();
-
-	const res = await fetch(
-		`http://localhost:3000/api/transaction${createQueryString(filters)}`,
-		{
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		}
-	);
-
-	if (!res.ok) {
+	try {
+		const { userId } = auth();
+		if (userId === null)
+			throw new Error('You must be logged in to access this page');
+		const res = await transactionApi.retrieve({
+			userId,
+			count: filters?.count,
+		});
+		if (res === null) return undefined;
+		if (Array.isArray(res)) return res;
+		return [res];
+	} catch (e: any) {
 		throw new Error(
 			'Error, unable to fetch data from the server, Try refreshing or contact customer support if the issue persists'
 		);
 	}
-	// const test = await res.json();
-	return await res.json();
 };
 
 export const getTransactionSummary = async (
 	filters?: TransactionServiceInput
 ) => {
-	const { getToken } = auth();
-	const token = await getToken();
-
-	const res = await fetch(`http://localhost:3000/api/transaction/summary`, {
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	});
-
-	if (!res.ok) {
+	try {
+		const { userId } = auth();
+		if (userId === null)
+			throw new Error('You must be logged in to view this content');
+		const res = getExpensesByTags(userId);
+		return res;
+	} catch (e) {
 		throw new Error(
 			'Error, unable to fetch data from the server, Try refreshing or contact customer support if the issue persists'
 		);
 	}
-	// const test = await res.json();
-	return await res.json();
 };
