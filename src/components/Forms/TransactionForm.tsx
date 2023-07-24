@@ -166,7 +166,6 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		data.date = new Date(data.date).toISOString();
 		data.amount = isExpense ? -1 * data.amount : data.amount;
 
-		console.log(data);
 		if (dataItem !== undefined) {
 			update(data, dataItem.id);
 		} else {

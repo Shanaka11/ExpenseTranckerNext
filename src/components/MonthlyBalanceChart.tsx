@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -23,25 +23,40 @@ export const options = {
 	},
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-export const data = {
-	labels,
-	datasets: [
-		{
-			label: 'Balance',
-			data: [120000, 100000, -200000, 123410, 50000, -10000, 100000],
-			backgroundColor: '#60a5fa',
-		},
-	],
+type MonthlyBalanceChartProps = {
+	summary: { month: string; amount: number }[];
 };
 
-const MonthlyBalanceChart = () => {
+const mapToChartData = (summary: { month: string; amount: number }[]) => {
+	const labels: string[] = [];
+	const data: number[] = [];
+
+	summary.forEach((summaryItem) => {
+		labels.push(summaryItem.month);
+		data.push(summaryItem.amount);
+	});
+
+	return {
+		labels,
+		datasets: [
+			{
+				data,
+				backgroundColor: '#60a5fa',
+			},
+		],
+	};
+};
+
+const MonthlyBalanceChart: React.FC<MonthlyBalanceChartProps> = ({
+	summary,
+}) => {
+	const chartData = useMemo(() => mapToChartData(summary), [summary]);
+
 	return (
 		<>
 			<h1 className='font-extrabold'>Monthly Balance</h1>
 			<div className='ml-auto mr-auto grid h-full max-w-full items-center'>
-				<Bar options={options} data={data} />
+				<Bar options={options} data={chartData} />
 			</div>
 		</>
 	);
