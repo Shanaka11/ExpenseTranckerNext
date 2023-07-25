@@ -27,7 +27,7 @@ export const makeTagCrudUseCase = ({
 		}
 	};
 
-	const retrieve = async (id?: string) => {
+	const retrieve = async ({ id, where }: { id?: string; where: any }) => {
 		// For now all records are retrieved, adjust this so we can include filtering
 		// Retrieve the tag using the repository method
 		try {
@@ -35,7 +35,7 @@ export const makeTagCrudUseCase = ({
 				const response = await tagRepository.findById(id);
 				return response;
 			}
-			const response = await tagRepository.findAll();
+			const response = await tagRepository.findAll(where);
 			return response;
 		} catch (e) {
 			throw e;

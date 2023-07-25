@@ -1,17 +1,23 @@
 import { tagApi, transactionApi } from '@/server/useCases';
 import { auth } from '@clerk/nextjs';
 import { Tag } from '@prisma/client';
+import { SearchParams } from './SearchParamType';
+import { generateTagFilter } from '@/infrastructure/filters/prisma/TagFilter';
 
 type ServerServiceArgs = {
 	userId?: string;
 	count?: number;
+	searchParams?: SearchParams;
 };
 
 export const getTagsService: (
 	args: ServerServiceArgs
-) => Promise<Tag[] | undefined> = async ({ count, userId }) => {
+) => Promise<Tag[] | undefined> = async ({ count, userId, searchParams }) => {
 	try {
-		const res = await tagApi.retrieve();
+		const where = generateTagFilter(searchParams);
+		const res = await tagApi.retrieve({
+			where,
+		});
 
 		if (res === null) return undefined;
 		if (Array.isArray(res)) return res;

@@ -1,19 +1,15 @@
+import { SearchParams } from '@/ServerServices/SearchParamType';
 import { getTagsService } from '@/ServerServices/ServerTagServices';
-import Button from '@/components/Button';
 import TagForm from '@/components/Forms/TagForm';
-import RefreshIcon from '@/components/Icons/RefreshIcon';
-import Input from '@/components/Input';
 import Table, { TableColumns } from '@/components/Table/Table';
 import TableAction from '@/components/Table/TableAction';
 import { Tag } from '@/server/models/Tag';
 import React from 'react';
 
-const page = async ({
-	searchParams,
-}: {
-	searchParams: { [key: string]: string | string[] | undefined };
-}) => {
-	const data = await getTagsService({});
+const page = async ({ searchParams }: { searchParams: SearchParams }) => {
+	const data = await getTagsService({
+		searchParams,
+	});
 
 	const columns: TableColumns[] = [
 		{
@@ -35,9 +31,7 @@ const page = async ({
 				</TableAction>
 				{/* // Table Container */}
 				<div className='col-span-2 mt-2 h-full w-full overflow-y-scroll rounded-lg bg-white px-4 drop-shadow-md'>
-					{data && (
-						<Table<Tag> columns={columns} data={data} UpdateDialog={TagForm} />
-					)}
+					<Table<Tag> columns={columns} data={data} UpdateDialog={TagForm} />
 				</div>
 			</div>
 		</>

@@ -14,8 +14,10 @@ export const makeTagRepository = () => {
 		return found || null;
 	};
 
-	const findAll = async () => {
-		const all = await prisma.tag.findMany();
+	const findAll = async (where: any) => {
+		const all = await prisma.tag.findMany({
+			where: where,
+		});
 		return all;
 	};
 

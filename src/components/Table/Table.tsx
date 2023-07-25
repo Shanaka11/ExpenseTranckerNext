@@ -16,7 +16,7 @@ type TableData = {
 
 type TableProps<T extends TableData> = {
 	columns: TableColumns[];
-	data: T[];
+	data?: T[];
 	UpdateDialog?: ComponentType<TransactinFormProps>;
 	updateDialogProps?: TransactinFormProps;
 };
@@ -31,7 +31,11 @@ export type TableMatrix = {
 };
 
 // Map the data sent with the columns
-const createRows = (columns: TableColumns[], data: any[]): TableMatrix[] => {
+const createRows = (
+	columns: TableColumns[],
+	data?: any[]
+): TableMatrix[] | null => {
+	if (data === undefined || data.length === 0) return null;
 	const rows = data.map((row) => {
 		const cells = columns.map((column) => {
 			const cell = row[column.accessor];
@@ -82,6 +86,7 @@ const Table = <T extends TableData>({
 	UpdateDialog,
 	updateDialogProps,
 }: TableProps<T>) => {
+	// if (data === undefined || data.length === 0) return <>No data available</>;
 	const rows = createRows(columns, data);
 	const columnLayout = generateColumnLayout(columns);
 
@@ -100,12 +105,18 @@ const Table = <T extends TableData>({
 			</div>
 			{/* To Open the dialog when a row is clicked make the row a client component */}
 			{/* Table Data */}
-			<TableData<T>
-				columnLayout={columnLayout}
-				data={rows}
-				UpdateDialog={UpdateDialog}
-				updateDialogProps={updateDialogProps}
-			/>
+			{rows === null ? (
+				<div className='mt-2 text-center text-xs text-slate-600'>
+					No Data Available
+				</div>
+			) : (
+				<TableData<T>
+					columnLayout={columnLayout}
+					data={rows}
+					UpdateDialog={UpdateDialog}
+					updateDialogProps={updateDialogProps}
+				/>
+			)}
 		</>
 	);
 };

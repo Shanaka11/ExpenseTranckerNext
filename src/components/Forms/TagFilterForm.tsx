@@ -35,23 +35,21 @@ const TagFilterForm: React.FC<TagFilterFormProps> = ({ handleDialogClose }) => {
 			// Check for operations, for text it could be either empty or =
 			const queryParam = data.name.split(' ');
 			if (queryParam[0] == '=') {
-				queryString += `name=eq:${queryParam
+				queryString += `name=equals:${queryParam
 					.slice(1, queryParam.length)
 					.join(' ')}&`;
 			} else {
 				//The default behaviour
-				queryString += `name=starts_with:${queryParam
+				queryString += `name=startsWith:${queryParam
 					.slice(0, queryParam.length)
 					.join(' ')}&`;
 			}
 		}
 		if (queryString != '?') handleDialogClose(queryString.slice(0, -1));
-		reset();
 	};
 
 	const closeDialog = () => {
 		setOpenNewTagDialog(false);
-		reset();
 		// if (handleDialogClose) handleDialogClose();
 	};
 
