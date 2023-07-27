@@ -1,8 +1,8 @@
-import { tagApi } from '@/server/useCases';
 import { auth } from '@clerk/nextjs';
 import { Tag } from '@prisma/client';
 import { SearchParams } from './SearchParamType';
 import { generateTagFilter } from '@/infrastructure/filters/prisma/TagFilter';
+import { retrieveTag } from '@/server/useCases/RetrieveTag';
 
 type ServerServiceArgs = {
 	userId?: string;
@@ -15,7 +15,7 @@ export const getTagsService: (
 ) => Promise<Tag[] | undefined> = async ({ count, userId, searchParams }) => {
 	try {
 		const where = generateTagFilter(searchParams);
-		const res = await tagApi.retrieve({
+		const res = await retrieveTag({
 			where,
 		});
 
