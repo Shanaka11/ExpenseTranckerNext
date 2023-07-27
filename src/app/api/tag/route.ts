@@ -21,7 +21,7 @@ export const POST = async (request: NextRequest) => {
 // Get Tags / Implement filters later
 export const GET = async (request: NextRequest) => {
 	try {
-		const tags = await tagApi.retrieve();
+		const tags = await tagApi.retrieve({ where: {} });
 
 		return new Response(JSON.stringify(tags), {
 			status: 200,

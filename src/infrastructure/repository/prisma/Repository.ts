@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-import { makeTagRepository } from './TagRepository';
-import { makeTransactionRepository } from './TransactionRepository';
+import tagRepository from './TagRepository';
+import transactionRepository from './TransactionRepository';
 
-export const tagRepository = makeTagRepository();
-export const transactionRepository = makeTransactionRepository();
+export { tagRepository, transactionRepository };

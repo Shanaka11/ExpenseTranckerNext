@@ -1,5 +1,7 @@
 import checkPermissions from '@/app/util/checkPermissions';
-import { transactionApi } from '@/server/useCases';
+import { createTransaction } from '@/server/useCases/CreateTransaction';
+import { retrieveTransaction } from '@/server/useCases/RetrieveTransaction';
+
 import { NextRequest, NextResponse } from 'next/server';
 
 export const POST = async (request: NextRequest) => {
@@ -7,7 +9,7 @@ export const POST = async (request: NextRequest) => {
 		const userId = await checkPermissions();
 		const input = await request.json();
 		input.user = userId;
-		const transaction = await transactionApi.create(input);
+		const transaction = await createTransaction(input);
 
 		return new NextResponse(JSON.stringify(transaction), {
 			status: 200,
@@ -21,6 +23,7 @@ export const POST = async (request: NextRequest) => {
 		);
 	}
 };
+
 export const GET = async (request: NextRequest) => {
 	try {
 		const userId = await checkPermissions();
@@ -29,7 +32,7 @@ export const GET = async (request: NextRequest) => {
 			? parseInt(url.searchParams.get('count')!)
 			: undefined;
 
-		const transactions = await transactionApi.retrieve({ userId, count });
+		const transactions = await retrieveTransaction({ userId, count });
 
 		return new Response(JSON.stringify(transactions), {
 			status: 200,

@@ -11,7 +11,7 @@ export const GET = async (
 	}
 ) => {
 	try {
-		const tag = await tagApi.retrieve(params.id);
+		const tag = await tagApi.retrieve({ id: params.id, where: {} });
 
 		return new Response(JSON.stringify(tag), {
 			status: 200,

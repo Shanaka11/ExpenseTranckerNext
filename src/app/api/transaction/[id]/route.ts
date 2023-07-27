@@ -1,5 +1,8 @@
 import checkPermissions from '@/app/util/checkPermissions';
-import { transactionApi } from '@/server/useCases';
+import { removeTransaction } from '@/server/useCases/RemoveTransactions';
+import { retrieveTransaction } from '@/server/useCases/RetrieveTransaction';
+import { updateTransaction } from '@/server/useCases/UpdateTransaction';
+
 import { NextRequest, NextResponse } from 'next/server';
 
 // Get Tags / Implement filters later
@@ -13,7 +16,7 @@ export const GET = async (
 ) => {
 	try {
 		const userId = await checkPermissions();
-		const tag = await transactionApi.retrieve({
+		const tag = await retrieveTransaction({
 			userId: userId,
 			id: params.id,
 		});
@@ -38,7 +41,7 @@ export const PUT = async (
 ) => {
 	try {
 		const input = await request.json();
-		const tag = await transactionApi.update(params.id, input);
+		const tag = await updateTransaction(params.id, input);
 
 		return new Response(JSON.stringify(tag), {
 			status: 200,
@@ -59,7 +62,7 @@ export const DELETE = async (
 	}
 ) => {
 	try {
-		const tag = await transactionApi.remove(params.id);
+		const tag = await removeTransaction(params.id);
 
 		return new Response(null, {
 			status: 204,

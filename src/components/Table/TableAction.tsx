@@ -10,6 +10,7 @@ type TableActionProps = {
 };
 
 const TableAction: React.FC<TableActionProps> = ({ children }) => {
+	// TODO: Add filter chips to remove filters
 	const router = useRouter();
 
 	const handleApplyFilter = (queryString: string) => {

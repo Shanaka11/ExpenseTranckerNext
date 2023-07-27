@@ -8,7 +8,7 @@ export type Tag = {
 export const makeCreateTag = ({
 	validateModel,
 	generateId,
-}: IMakeCreateModel<Tag>) => {
+}: IMakeCreateModel) => {
 	return (data: Tag) => {
 		if (!data.id) data.id = generateId();
 		data.name = data.name.toLowerCase();

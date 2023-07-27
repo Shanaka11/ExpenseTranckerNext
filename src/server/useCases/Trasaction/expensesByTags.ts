@@ -41,9 +41,6 @@ const getExpensesByTags = async (userId: string) => {
 		const transactions = await transactionRepository.findAll({
 			where: {
 				user: userId,
-				// amount: {
-				// 	lt: 0,
-				// },
 			},
 		});
 

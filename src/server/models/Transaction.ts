@@ -3,6 +3,15 @@ import { Tag } from './Tag';
 
 export type Transaction = {
 	id: string;
+	date: Date;
+	description: string;
+	amount: number;
+	tags?: Tag[];
+	user: string;
+};
+
+export type RawTransaction = {
+	id: string;
 	date: string;
 	description: string;
 	amount: number;
@@ -13,13 +22,15 @@ export type Transaction = {
 export const makeCreateTransaction = ({
 	validateModel,
 	generateId,
-}: IMakeCreateModel<Transaction>) => {
-	return (data: Transaction) => {
+}: IMakeCreateModel) => {
+	return (data: RawTransaction) => {
 		if (!data.id || data.id === '') data.id = generateId();
 		validateModel(data);
-		return {
+		const transaction: Transaction = {
 			...data,
+			date: new Date(data.date),
 			id: data.id,
 		};
+		return transaction;
 	};
 };

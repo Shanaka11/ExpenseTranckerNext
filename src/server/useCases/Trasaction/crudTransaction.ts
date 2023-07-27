@@ -1,14 +1,54 @@
-import { IRepository } from '@/infrastructure/repository/prisma';
+import { QueryOptions } from '@/infrastructure/repository/prisma';
+import { Tag } from '@/server/models/Tag';
 import {
-	Transaction as ClientTransaction,
+	RawTransaction as ClientTransaction,
+	Transaction,
 	makeCreateTransaction,
 } from '@/server/models/Transaction';
-import { Tag as ClientTag } from '@/server/models/Tag';
-import { generateId } from '..';
-import { Tag, Transaction } from '@prisma/client';
-import { TransactionScehma } from '@/infrastructure/validation/TransactionValidationSchemas';
-import { validateModel as zodValidateModel } from '@/infrastructure/validation/ValidateModel';
-import { count } from 'console';
+
+type TransactionRepository = {
+	create: (data: Transaction) => Promise<
+		Transaction & {
+			tags: Tag[];
+		}
+	>;
+	remove: (id: string) => Promise<boolean>;
+	findAll: (options: QueryOptions) => Promise<
+		(Transaction & {
+			tags: Tag[];
+		})[]
+	>;
+	findById: (id: string) => Promise<Transaction | null>;
+	update: (
+		id: string,
+		data: Transaction
+	) => Promise<
+		Transaction & {
+			tags: Tag[];
+		}
+	>;
+};
+
+type MakeCreateTransactionUseCase = {
+	transactionRepository: TransactionRepository;
+	tagRepository: { findById: (id: string) => Promise<Tag | null> };
+	generateId: () => string;
+	validateModel: (data: any) => void;
+};
+
+type MakeRetrieveTransactionUseCase = {
+	transactionRepository: TransactionRepository;
+};
+
+type MakeUpdateTransactionUseCase = {
+	transactionRepository: TransactionRepository;
+	generateId: () => string;
+	validateModel: (data: any) => void;
+};
+
+type MakeRemoveTransactionUseCase = {
+	transactionRepository: TransactionRepository;
+};
 
 type createTransactionInput = {
 	date: string;
@@ -18,21 +58,18 @@ type createTransactionInput = {
 	user: string;
 };
 
-const validateModel = (data: ClientTransaction) => {
-	zodValidateModel(TransactionScehma, data);
-};
-
-export const makeTransactionCrudUseCase = ({
+export const makeCreateTransactionUseCase = ({
 	transactionRepository,
 	tagRepository,
-}: {
-	transactionRepository: IRepository<ClientTransaction, Transaction>;
-	tagRepository: IRepository<ClientTag, Tag>;
-}) => {
+	generateId,
+	validateModel,
+}: MakeCreateTransactionUseCase) => {
+	console.log('Make Create Tranasction Usecase');
 	const createTransaction = makeCreateTransaction({
 		generateId,
 		validateModel,
 	});
+
 	const create = async (data: createTransactionInput) => {
 		try {
 			const rawTransaction = {
@@ -50,6 +87,7 @@ export const makeTransactionCrudUseCase = ({
 					throw new Error('Tag does not exist');
 				})
 			);
+
 			// Then create it
 			if (tags === null) return;
 
@@ -64,6 +102,13 @@ export const makeTransactionCrudUseCase = ({
 		}
 	};
 
+	return create;
+};
+
+export const makeRetrieveTransactionUseCase = ({
+	transactionRepository,
+}: MakeRetrieveTransactionUseCase) => {
+	console.log('Make Retrieve Tranasction Usecase');
 	const retrieve = async ({
 		userId,
 		id,
@@ -91,6 +136,19 @@ export const makeTransactionCrudUseCase = ({
 		}
 	};
 
+	return retrieve;
+};
+
+export const makeUpdateTransactionUseCase = ({
+	transactionRepository,
+	generateId,
+	validateModel,
+}: MakeUpdateTransactionUseCase) => {
+	const createTransaction = makeCreateTransaction({
+		generateId,
+		validateModel,
+	});
+
 	const update = async (id: string, data: ClientTransaction) => {
 		// Update the Transaction using the repository method
 		try {
@@ -102,6 +160,12 @@ export const makeTransactionCrudUseCase = ({
 		}
 	};
 
+	return update;
+};
+
+export const makeRemoveTransactionUseCase = ({
+	transactionRepository,
+}: MakeRemoveTransactionUseCase) => {
 	const remove = async (id: string) => {
 		// Remove the tag using the repository method
 		try {
@@ -112,10 +176,5 @@ export const makeTransactionCrudUseCase = ({
 		}
 	};
 
-	return {
-		create,
-		remove,
-		retrieve,
-		update,
-	};
+	return remove;
 };

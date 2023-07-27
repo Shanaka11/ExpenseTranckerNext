@@ -5,7 +5,6 @@ import FilterIcon from '../Icons/FilterIcon';
 import { Controller, useForm } from 'react-hook-form';
 import Input from '../Input';
 import Button from '../Button';
-import AddNewIcon from '../Icons/AddNewIcon';
 import HelpIcon from '../Icons/HelpIcon';
 
 type TagFilterFormProps = {
@@ -21,7 +20,7 @@ const TagFilterForm: React.FC<TagFilterFormProps> = ({ handleDialogClose }) => {
 
 	const [openNewTagDialog, setOpenNewTagDialog] = useState(false);
 
-	const { control, handleSubmit, reset } = useForm<FormData>({
+	const { control, handleSubmit } = useForm<FormData>({
 		defaultValues: {
 			name: '',
 		},
@@ -50,7 +49,6 @@ const TagFilterForm: React.FC<TagFilterFormProps> = ({ handleDialogClose }) => {
 
 	const closeDialog = () => {
 		setOpenNewTagDialog(false);
-		// if (handleDialogClose) handleDialogClose();
 	};
 
 	return (

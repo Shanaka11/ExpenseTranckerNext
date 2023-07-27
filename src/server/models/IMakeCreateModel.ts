@@ -1,4 +1,4 @@
-export interface IMakeCreateModel<T> {
-	validateModel: (data: T) => void;
+export interface IMakeCreateModel {
+	validateModel: (data: any) => void;
 	generateId: () => string;
 }

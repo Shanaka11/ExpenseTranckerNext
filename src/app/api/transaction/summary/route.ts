@@ -1,12 +1,12 @@
 import checkPermissions from '@/app/util/checkPermissions';
-import getExpensesByTags from '@/server/useCases/Trasaction/expensesByTags';
+import { getExpenseByTags } from '@/server/useCases/ExpenseByTags';
 import { NextRequest } from 'next/server';
 
 export const GET = async (request: NextRequest) => {
 	try {
 		const userId = await checkPermissions();
 
-		const summary = await getExpensesByTags(userId);
+		const summary = await getExpenseByTags(userId);
 
 		return new Response(JSON.stringify(summary), {
 			status: 200,

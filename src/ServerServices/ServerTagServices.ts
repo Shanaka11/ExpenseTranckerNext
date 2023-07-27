@@ -1,4 +1,4 @@
-import { tagApi, transactionApi } from '@/server/useCases';
+import { tagApi } from '@/server/useCases';
 import { auth } from '@clerk/nextjs';
 import { Tag } from '@prisma/client';
 import { SearchParams } from './SearchParamType';

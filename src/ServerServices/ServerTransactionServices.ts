@@ -1,4 +1,4 @@
-import { transactionApi } from '@/server/useCases';
+import { retrieveTransaction } from '@/server/useCases/RetrieveTransaction';
 import getExpensesByTags from '@/server/useCases/Trasaction/expensesByTags';
 import { auth } from '@clerk/nextjs';
 
@@ -19,7 +19,7 @@ export const getTransactionsService = async (
 		const { userId } = auth();
 		if (userId === null)
 			throw new Error('You must be logged in to access this page');
-		const res = await transactionApi.retrieve({
+		const res = await retrieveTransaction({
 			userId,
 			count: filters?.count,
 		});
