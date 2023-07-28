@@ -1,16 +1,12 @@
 import React from 'react';
 
-type ChipProps<FilterKey> = {
-	itemKey: FilterKey;
+type ChipProps = {
+	itemKey: string;
 	label: string;
-	handleChipClose: (key: FilterKey) => void;
+	handleChipClose: (key: string) => void;
 };
 
-const Chip = <FilterKey,>({
-	itemKey,
-	label,
-	handleChipClose,
-}: ChipProps<FilterKey>) => {
+const Chip = ({ itemKey, label, handleChipClose }: ChipProps) => {
 	return (
 		<span className='mr-2 inline-flex cursor-pointer items-center rounded bg-blue-400 px-2 py-1 text-sm font-medium capitalize text-white hover:bg-blue-500'>
 			{label}

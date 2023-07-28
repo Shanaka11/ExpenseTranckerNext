@@ -1,5 +1,6 @@
 import { SearchParams } from '@/ServerServices/SearchParamType';
 import { getTagsService } from '@/ServerServices/ServerTagServices';
+import TagFilterForm from '@/components/Forms/TagFilterForm';
 import TagForm from '@/components/Forms/TagForm';
 import Table, { TableColumns } from '@/components/Table/Table';
 import TableAction from '@/components/Table/TableAction';
@@ -26,7 +27,11 @@ const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 				{/* Title */}
 				<h1 className='col-span-2 text-3xl font-bold'>Tags</h1>
 				{/* Action Section */}
-				<TableAction searchParams={searchParams}>
+				<TableAction
+					searchParams={searchParams}
+					baseUrl='tags'
+					FilterDialog={TagFilterForm}
+				>
 					<TagForm title='Add' />
 				</TableAction>
 				{/* // Table Container */}

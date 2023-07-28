@@ -1,6 +1,7 @@
 import { getTagsService } from '@/ServerServices/ServerTagServices';
 import { getTransactionsService } from '@/ServerServices/ServerTransactionServices';
 import Button from '@/components/Button';
+import TagFilterForm from '@/components/Forms/TagFilterForm';
 import TransactionForm from '@/components/Forms/TransactionForm';
 import RefreshIcon from '@/components/Icons/RefreshIcon';
 import Input from '@/components/Input';
@@ -48,7 +49,11 @@ const page = async () => {
 				{/* Title */}
 				<h1 className='col-span-2 text-3xl font-bold'>Transactions</h1>
 				{/* Action Section */}
-				<TableAction>
+				<TableAction
+					baseUrl='transactions'
+					searchParams={{}}
+					FilterDialog={TagFilterForm}
+				>
 					<TransactionForm title='Add' options={tags} />
 				</TableAction>
 				{/* // Table Container */}

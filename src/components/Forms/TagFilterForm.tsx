@@ -6,6 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import Input from '../Input';
 import Button from '../Button';
 import HelpIcon from '../Icons/HelpIcon';
+import { BaseObjectType } from '../Table/useFilter';
 
 export type TagFilterKey = 'name';
 
@@ -14,8 +15,8 @@ export type TagFilter = {
 };
 
 type TagFilterFormProps = {
-	handleDialogClose: (queryFilters: TagFilter) => void;
-	activeFilters: TagFilter;
+	handleDialogClose: (queryFilters: BaseObjectType) => void;
+	activeFilters: BaseObjectType;
 };
 
 type FormData = {
@@ -32,7 +33,7 @@ const TagFilterForm: React.FC<TagFilterFormProps> = ({
 
 	const { control, handleSubmit, setValue } = useForm<FormData>({
 		defaultValues: {
-			name: activeFilters.name ?? ' ',
+			name: activeFilters.name ?? '',
 		},
 	});
 

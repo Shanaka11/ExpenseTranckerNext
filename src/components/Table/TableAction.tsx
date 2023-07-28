@@ -1,5 +1,11 @@
 'use client';
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
+import React, {
+	ComponentType,
+	ReactElement,
+	ReactNode,
+	useEffect,
+	useState,
+} from 'react';
 import RefreshIcon from '../Icons/RefreshIcon';
 import Button from '../Button';
 import { useRouter } from 'next/navigation';
@@ -7,20 +13,29 @@ import TagFilterForm, { TagFilter, TagFilterKey } from '../Forms/TagFilterForm';
 import Chip from '../Chip';
 import { createQueryString, decodeFilterString } from '@/filterUtil';
 import { SearchParams } from '@/ServerServices/SearchParamType';
-import useFilter from './useFilter';
+import useFilter, { BaseObjectType } from './useFilter';
+
+type FilterDialogProps = {
+	handleDialogClose: (queryFilters: BaseObjectType) => void;
+	activeFilters: BaseObjectType;
+};
 
 type TableActionProps = {
 	children: ReactNode;
 	searchParams: SearchParams;
+	baseUrl: string;
+	FilterDialog: ComponentType<FilterDialogProps>;
 };
 
 const TableAction: React.FC<TableActionProps> = ({
 	children,
 	searchParams,
+	baseUrl,
+	FilterDialog,
 }) => {
 	const router = useRouter();
 	const { activeFilters, handleApplyFilter, handleRemoveFilter } = useFilter(
-		'tags',
+		baseUrl,
 		searchParams
 	);
 
@@ -36,9 +51,9 @@ const TableAction: React.FC<TableActionProps> = ({
 				{Object.entries(activeFilters).map((entry) => {
 					if (entry[1] === '') return null;
 					return (
-						<Chip<TagFilterKey>
+						<Chip
 							key={entry[0]}
-							itemKey={entry[0] as TagFilterKey}
+							itemKey={entry[0]}
 							label={entry[0] + '' + entry[1] + ''}
 							handleChipClose={handleRemoveFilter}
 						/>
@@ -46,9 +61,9 @@ const TableAction: React.FC<TableActionProps> = ({
 				})}
 			</div>
 			<div className='flex gap-1'>
-				<TagFilterForm
+				<FilterDialog
 					handleDialogClose={handleApplyFilter}
-					activeFilters={activeFilters as TagFilter}
+					activeFilters={activeFilters}
 				/>
 				<Button
 					label='Refresh'

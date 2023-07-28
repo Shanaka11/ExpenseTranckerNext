@@ -3,12 +3,12 @@ import { createQueryString, decodeFilterString } from '@/filterUtil';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-type ObjectType = {
+export type BaseObjectType = {
 	[key: string]: string;
 };
 
 const convertSearchParamsToFilters = (searchParams: SearchParams) => {
-	const objectType: ObjectType = {};
+	const objectType: BaseObjectType = {};
 	for (const key in searchParams) {
 		const value = searchParams[key];
 		if (typeof value === 'string') {
@@ -22,11 +22,11 @@ const convertSearchParamsToFilters = (searchParams: SearchParams) => {
 // We need the base URL tag/ , transaction/ etc
 const useFilter = (baseUrl: string, defaultValues: SearchParams) => {
 	const router = useRouter();
-	const [activeFilters, setActiveFilters] = useState<ObjectType>(
+	const [activeFilters, setActiveFilters] = useState<BaseObjectType>(
 		convertSearchParamsToFilters(defaultValues)
 	);
 
-	const handleApplyFilter = (queryFilters: { [key: string]: string }) => {
+	const handleApplyFilter = (queryFilters: BaseObjectType) => {
 		const queryString = createQueryString(queryFilters);
 		router.push(`${baseUrl}/${queryString}`);
 	};
