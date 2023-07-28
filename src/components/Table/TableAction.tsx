@@ -7,6 +7,7 @@ import TagFilterForm, { TagFilter, TagFilterKey } from '../Forms/TagFilterForm';
 import Chip from '../Chip';
 import { createQueryString, decodeFilterString } from '@/filterUtil';
 import { SearchParams } from '@/ServerServices/SearchParamType';
+import useFilter from './useFilter';
 
 type TableActionProps = {
 	children: ReactNode;
@@ -18,30 +19,10 @@ const TableAction: React.FC<TableActionProps> = ({
 	searchParams,
 }) => {
 	const router = useRouter();
-	const [activeFilters, setActiveFilters] = useState<TagFilter>({
-		name:
-			searchParams.name === undefined
-				? ''
-				: decodeFilterString(searchParams.name as string),
-	});
-
-	const handleApplyFilter = (queryFilters: TagFilter) => {
-		const queryString = createQueryString(queryFilters);
-		router.push(`tags/${queryString}`);
-	};
-
-	const handleRemoveFilter = (key: TagFilterKey) => {
-		setActiveFilters((prevValue) => {
-			return {
-				...prevValue,
-				[key]: '',
-			};
-		});
-		handleApplyFilter({
-			...activeFilters,
-			[key]: '',
-		});
-	};
+	const { activeFilters, handleApplyFilter, handleRemoveFilter } = useFilter(
+		'tags',
+		searchParams
+	);
 
 	const handleRefresh = () => {
 		router.refresh();
@@ -58,7 +39,7 @@ const TableAction: React.FC<TableActionProps> = ({
 						<Chip<TagFilterKey>
 							key={entry[0]}
 							itemKey={entry[0] as TagFilterKey}
-							label={entry[0] + '' + entry[1]}
+							label={entry[0] + '' + entry[1] + ''}
 							handleChipClose={handleRemoveFilter}
 						/>
 					);
@@ -67,7 +48,7 @@ const TableAction: React.FC<TableActionProps> = ({
 			<div className='flex gap-1'>
 				<TagFilterForm
 					handleDialogClose={handleApplyFilter}
-					activeFilters={activeFilters}
+					activeFilters={activeFilters as TagFilter}
 				/>
 				<Button
 					label='Refresh'

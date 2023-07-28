@@ -19,10 +19,10 @@ export const encodeFilterString = (key: string, filterString: string) => {
 export const decodeFilterString = (filterString: string) => {
 	const queryParam = filterString.split(':');
 	if (queryParam[0] == 'equals') {
-		return `= ${queryParam[1]}`;
+		return `= "${queryParam[1]}"`;
 	} else {
 		//The default behaviour
-		return `~ ${queryParam[1]}`;
+		return `~ "${queryParam[1]}"`;
 	}
 };
 

@@ -32,7 +32,7 @@ const TagFilterForm: React.FC<TagFilterFormProps> = ({
 
 	const { control, handleSubmit, setValue } = useForm<FormData>({
 		defaultValues: {
-			name: activeFilters.name,
+			name: activeFilters.name ?? ' ',
 		},
 	});
 
@@ -42,23 +42,6 @@ const TagFilterForm: React.FC<TagFilterFormProps> = ({
 
 	const onSubmit = (data: FormData) => {
 		setOpenNewTagDialog(false);
-		// Construct the query params according to the filter texts, do not apply params if input is empty or ''
-		// let queryString = '?';
-		// if (data.name != '' || data.name != null) {
-		// 	// Check for operations, for text it could be either empty or =
-		// 	const queryParam = data.name.split(' ');
-		// 	if (queryParam[0] == '=') {
-		// 		queryString += `name=equals:${queryParam
-		// 			.slice(1, queryParam.length)
-		// 			.join(' ')}&`;
-		// 	} else {
-		// 		//The default behaviour
-		// 		queryString += `name=startsWith:${queryParam
-		// 			.slice(0, queryParam.length)
-		// 			.join(' ')}&`;
-		// 	}
-		// }
-		// if (queryString != '?') handleDialogClose(queryString.slice(0, -1));
 		handleDialogClose(data);
 	};
 
