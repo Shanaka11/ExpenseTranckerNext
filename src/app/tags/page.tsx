@@ -26,7 +26,7 @@ const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 				{/* Title */}
 				<h1 className='col-span-2 text-3xl font-bold'>Tags</h1>
 				{/* Action Section */}
-				<TableAction>
+				<TableAction searchParams={searchParams}>
 					<TagForm title='Add' />
 				</TableAction>
 				{/* // Table Container */}

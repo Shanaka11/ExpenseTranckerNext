@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '../Dialog/Dialog';
 import FilterIcon from '../Icons/FilterIcon';
 import { Controller, useForm } from 'react-hook-form';
@@ -7,44 +7,59 @@ import Input from '../Input';
 import Button from '../Button';
 import HelpIcon from '../Icons/HelpIcon';
 
+export type TagFilterKey = 'name';
+
+export type TagFilter = {
+	name: string;
+};
+
 type TagFilterFormProps = {
-	handleDialogClose: (queryString: string) => void;
+	handleDialogClose: (queryFilters: TagFilter) => void;
+	activeFilters: TagFilter;
 };
 
 type FormData = {
 	name: string;
 };
 
-const TagFilterForm: React.FC<TagFilterFormProps> = ({ handleDialogClose }) => {
+const TagFilterForm: React.FC<TagFilterFormProps> = ({
+	handleDialogClose,
+	activeFilters,
+}) => {
 	// Should be able to add custom filters here
 
 	const [openNewTagDialog, setOpenNewTagDialog] = useState(false);
 
-	const { control, handleSubmit } = useForm<FormData>({
+	const { control, handleSubmit, setValue } = useForm<FormData>({
 		defaultValues: {
-			name: '',
+			name: activeFilters.name,
 		},
 	});
+
+	useEffect(() => {
+		setValue('name', activeFilters.name);
+	}, [activeFilters, setValue]);
 
 	const onSubmit = (data: FormData) => {
 		setOpenNewTagDialog(false);
 		// Construct the query params according to the filter texts, do not apply params if input is empty or ''
-		let queryString = '?';
-		if (data.name != '' || data.name != null) {
-			// Check for operations, for text it could be either empty or =
-			const queryParam = data.name.split(' ');
-			if (queryParam[0] == '=') {
-				queryString += `name=equals:${queryParam
-					.slice(1, queryParam.length)
-					.join(' ')}&`;
-			} else {
-				//The default behaviour
-				queryString += `name=startsWith:${queryParam
-					.slice(0, queryParam.length)
-					.join(' ')}&`;
-			}
-		}
-		if (queryString != '?') handleDialogClose(queryString.slice(0, -1));
+		// let queryString = '?';
+		// if (data.name != '' || data.name != null) {
+		// 	// Check for operations, for text it could be either empty or =
+		// 	const queryParam = data.name.split(' ');
+		// 	if (queryParam[0] == '=') {
+		// 		queryString += `name=equals:${queryParam
+		// 			.slice(1, queryParam.length)
+		// 			.join(' ')}&`;
+		// 	} else {
+		// 		//The default behaviour
+		// 		queryString += `name=startsWith:${queryParam
+		// 			.slice(0, queryParam.length)
+		// 			.join(' ')}&`;
+		// 	}
+		// }
+		// if (queryString != '?') handleDialogClose(queryString.slice(0, -1));
+		handleDialogClose(data);
 	};
 
 	const closeDialog = () => {
