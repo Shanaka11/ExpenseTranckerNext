@@ -38,8 +38,6 @@ const TransactionFilterForm: React.FC<TransactionFilterFormProps> = ({
 		},
 	});
 
-	console.log(formatFilterValueDate(activeFilters.fromDate));
-
 	useEffect(() => {
 		setValue('amount', formatFilterValue(activeFilters.amount));
 		setValue('from', formatFilterValueDate(activeFilters.from));

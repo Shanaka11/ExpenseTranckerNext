@@ -6,11 +6,12 @@ import Table, { TableColumns } from '@/components/Table/Table';
 import TableAction from '@/components/Table/TableAction';
 import { Tag } from '@/server/models/Tag';
 import React from 'react';
+import { isEmptyObject } from '../util/objectUtil';
 
 const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 	const data = await getTagsService({
 		searchParams,
-		count: 100,
+		count: isEmptyObject(searchParams) ? 100 : undefined,
 	});
 
 	const columns: TableColumns[] = [

@@ -22,8 +22,6 @@ export const getTransactionsService = async (
 			user: userId,
 		});
 
-		console.log(where);
-
 		const res = await retrieveTransaction({
 			count: filters?.count,
 			where,

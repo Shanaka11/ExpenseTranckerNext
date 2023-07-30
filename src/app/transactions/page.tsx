@@ -5,11 +5,12 @@ import TransactionFilterForm from '@/components/Forms/TransactionFilterForm';
 import TransactionForm from '@/components/Forms/TransactionForm';
 import TableAction from '@/components/Table/TableAction';
 import TransactionTable from '@/components/TransactionTable';
+import { isEmptyObject } from '../util/objectUtil';
 
 const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 	const [transactions, tags] = await Promise.all([
 		getTransactionsService({
-			count: 100,
+			count: isEmptyObject(searchParams) ? 100 : undefined,
 			searchParams: searchParams,
 		}),
 		getTagsService({}),
