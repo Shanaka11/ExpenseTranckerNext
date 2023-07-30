@@ -10,6 +10,7 @@ import React from 'react';
 const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 	const data = await getTagsService({
 		searchParams,
+		count: 100,
 	});
 
 	const columns: TableColumns[] = [

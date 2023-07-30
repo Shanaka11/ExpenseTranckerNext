@@ -9,6 +9,7 @@ import TransactionTable from '@/components/TransactionTable';
 const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 	const [transactions, tags] = await Promise.all([
 		getTransactionsService({
+			count: 100,
 			searchParams: searchParams,
 		}),
 		getTagsService({}),

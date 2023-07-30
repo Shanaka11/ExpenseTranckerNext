@@ -5,18 +5,18 @@ import { generateTagFilter } from '@/infrastructure/filters/prisma/TagFilter';
 import { retrieveTag } from '@/server/useCases/RetrieveTag';
 
 type ServerServiceArgs = {
-	userId?: string;
 	count?: number;
 	searchParams?: SearchParams;
 };
 
 export const getTagsService: (
 	args: ServerServiceArgs
-) => Promise<Tag[] | undefined> = async ({ count, userId, searchParams }) => {
+) => Promise<Tag[] | undefined> = async ({ count, searchParams }) => {
 	try {
 		const where = generateTagFilter(searchParams);
 		const res = await retrieveTag({
 			where,
+			count,
 		});
 
 		if (res === null) return undefined;
