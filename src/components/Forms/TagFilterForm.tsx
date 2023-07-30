@@ -7,12 +7,7 @@ import Input from '../Input';
 import Button from '../Button';
 import HelpIcon from '../Icons/HelpIcon';
 import { BaseObjectType } from '../Table/useFilter';
-
-export type TagFilterKey = 'name';
-
-export type TagFilter = {
-	name: string;
-};
+import { formatFilterValue } from '@/filterUtil';
 
 type TagFilterFormProps = {
 	handleDialogClose: (queryFilters: BaseObjectType) => void;
@@ -27,18 +22,16 @@ const TagFilterForm: React.FC<TagFilterFormProps> = ({
 	handleDialogClose,
 	activeFilters,
 }) => {
-	// Should be able to add custom filters here
-
 	const [openNewTagDialog, setOpenNewTagDialog] = useState(false);
 
 	const { control, handleSubmit, setValue } = useForm<FormData>({
 		defaultValues: {
-			name: activeFilters.name ?? '',
+			name: formatFilterValue(activeFilters.name),
 		},
 	});
 
 	useEffect(() => {
-		setValue('name', activeFilters.name);
+		setValue('name', formatFilterValue(activeFilters.name));
 	}, [activeFilters, setValue]);
 
 	const onSubmit = (data: FormData) => {

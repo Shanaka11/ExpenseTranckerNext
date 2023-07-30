@@ -1,28 +1,47 @@
 export const encodeFilterString = (key: string, filterString: string) => {
 	const queryParam = filterString.split(' ');
 
-	if (queryParam[0] == '=') {
-		return `${key}=equals:${queryParam.slice(1, queryParam.length).join(' ')}&`;
-	} else if (queryParam[0] == '~') {
-		//The default behaviour
-		return `${key}=startsWith:${queryParam
-			.slice(1, queryParam.length)
-			.join(' ')}&`;
-	} else {
-		//The default behaviour
-		return `${key}=startsWith:${queryParam
-			.slice(0, queryParam.length)
-			.join(' ')}&`;
+	switch (queryParam[0]) {
+		case '=':
+			return `${key}=equals:${queryParam
+				.slice(1, queryParam.length)
+				.join(' ')}&`;
+		case '>':
+			return `${key}=gt:${queryParam.slice(1, queryParam.length).join(' ')}&`;
+		case '>=':
+			return `${key}=gte:${queryParam.slice(1, queryParam.length).join(' ')}&`;
+		case '<':
+			return `${key}=lt:${queryParam.slice(1, queryParam.length).join(' ')}&`;
+		case '<=':
+			return `${key}=lte:${queryParam.slice(1, queryParam.length).join(' ')}&`;
+		case '~':
+			return `${key}=startsWith:${queryParam
+				.slice(1, queryParam.length)
+				.join(' ')}&`;
+		default:
+			return `${key}=startsWith:${queryParam
+				.slice(0, queryParam.length)
+				.join(' ')}&`;
 	}
 };
 
 export const decodeFilterString = (filterString: string) => {
 	const queryParam = filterString.split(':');
-	if (queryParam[0] == 'equals') {
-		return `= "${queryParam[1]}"`;
-	} else {
-		//The default behaviour
-		return `~ "${queryParam[1]}"`;
+	switch (queryParam[0]) {
+		case 'equals':
+			return `= "${queryParam[1]}"`;
+		case 'gt':
+			return `> "${queryParam[1]}"`;
+		case 'gte':
+			return `>= "${queryParam[1]}"`;
+		case 'lt':
+			return `< "${queryParam[1]}"`;
+		case 'lte':
+			return `<= "${queryParam[1]}"`;
+		case 'startsWith':
+			return `~ "${queryParam[1]}"`;
+		default:
+			return `~ "${queryParam[1]}"`;
 	}
 };
 
@@ -31,8 +50,21 @@ export const createQueryString = (data: { [key: string]: string }) => {
 	let queryString = '?';
 
 	Object.entries(data).forEach((entry) => {
-		if (entry[1] != '') queryString += encodeFilterString(entry[0], entry[1]);
+		if (entry[1] !== '' && entry[1] !== undefined)
+			queryString += encodeFilterString(entry[0], entry[1]);
 	});
 
 	return queryString.slice(0, -1);
+};
+
+export const formatFilterValue = (filterValue: string) => {
+	if (filterValue === '' || filterValue === undefined || filterValue === null)
+		return '';
+	return filterValue.replace(/"/g, '');
+};
+
+export const formatFilterValueDate = (filterValue: string) => {
+	if (filterValue === '' || filterValue === undefined || filterValue === null)
+		return '';
+	return formatFilterValue(filterValue.split(' ')[1]);
 };

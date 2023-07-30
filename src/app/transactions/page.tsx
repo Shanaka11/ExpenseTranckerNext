@@ -1,46 +1,18 @@
+import { SearchParams } from '@/ServerServices/SearchParamType';
 import { getTagsService } from '@/ServerServices/ServerTagServices';
 import { getTransactionsService } from '@/ServerServices/ServerTransactionServices';
-import Button from '@/components/Button';
-import TagFilterForm from '@/components/Forms/TagFilterForm';
+import TransactionFilterForm from '@/components/Forms/TransactionFilterForm';
 import TransactionForm from '@/components/Forms/TransactionForm';
-import RefreshIcon from '@/components/Icons/RefreshIcon';
-import Input from '@/components/Input';
-import Table, { TableColumns } from '@/components/Table/Table';
 import TableAction from '@/components/Table/TableAction';
 import TransactionTable from '@/components/TransactionTable';
-import { Transaction } from '@/server/models/Transaction';
-import React from 'react';
 
-const page = async () => {
-	// const data: Transaction[] = await getTransactionsService();
-
+const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 	const [transactions, tags] = await Promise.all([
-		getTransactionsService(),
+		getTransactionsService({
+			searchParams: searchParams,
+		}),
 		getTagsService({}),
 	]);
-
-	const columns: TableColumns[] = [
-		{
-			label: 'Date',
-			accessor: 'date',
-			formatMethod: (value) => new Date(value).toLocaleDateString('en-US'),
-			columnSize: 0.5,
-		},
-		{
-			label: 'Description',
-			accessor: 'description',
-		},
-		{
-			label: 'Transaction Amount',
-			accessor: 'amount',
-			formatMethod: (value) =>
-				typeof value === 'number'
-					? (Math.round(value * 100) / 100).toFixed(2)
-					: value,
-			align: 'text-right',
-			columnSize: 0.6,
-		},
-	];
 
 	return (
 		<>
@@ -51,8 +23,8 @@ const page = async () => {
 				{/* Action Section */}
 				<TableAction
 					baseUrl='transactions'
-					searchParams={{}}
-					FilterDialog={TagFilterForm}
+					searchParams={searchParams}
+					FilterDialog={TransactionFilterForm}
 				>
 					<TransactionForm title='Add' options={tags} />
 				</TableAction>

@@ -1,17 +1,9 @@
 'use client';
-import React, {
-	ComponentType,
-	ReactElement,
-	ReactNode,
-	useEffect,
-	useState,
-} from 'react';
+import React, { ComponentType, ReactNode } from 'react';
 import RefreshIcon from '../Icons/RefreshIcon';
 import Button from '../Button';
 import { useRouter } from 'next/navigation';
-import TagFilterForm, { TagFilter, TagFilterKey } from '../Forms/TagFilterForm';
 import Chip from '../Chip';
-import { createQueryString, decodeFilterString } from '@/filterUtil';
 import { SearchParams } from '@/ServerServices/SearchParamType';
 import useFilter, { BaseObjectType } from './useFilter';
 
@@ -43,7 +35,6 @@ const TableAction: React.FC<TableActionProps> = ({
 		router.refresh();
 	};
 
-	// For now use the hardcoded Tag filter dialog here, later pass the dialog component as a prop from the page
 	return (
 		<div className='col-span-2 flex h-14 items-center justify-between rounded-lg bg-white px-4 py-2 drop-shadow-md'>
 			{children}

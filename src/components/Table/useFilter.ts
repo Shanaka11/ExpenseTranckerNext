@@ -1,5 +1,9 @@
 import { SearchParams } from '@/ServerServices/SearchParamType';
-import { createQueryString, decodeFilterString } from '@/filterUtil';
+import {
+	createQueryString,
+	decodeFilterString,
+	formatFilterValue,
+} from '@/filterUtil';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -12,7 +16,7 @@ const convertSearchParamsToFilters = (searchParams: SearchParams) => {
 	for (const key in searchParams) {
 		const value = searchParams[key];
 		if (typeof value === 'string') {
-			objectType[key] = decodeFilterString(value);
+			objectType[key] = decodeFilterString(formatFilterValue(value));
 		} else if (Array.isArray(value)) {
 			objectType[key] = value.join(',');
 		}
