@@ -36,9 +36,9 @@ const TableAction: React.FC<TableActionProps> = ({
 	};
 
 	return (
-		<div className='col-span-2 flex h-14 items-center justify-between rounded-lg bg-white px-4 py-2 drop-shadow-md'>
-			{children}
-			<div>
+		<div className='col-span-2 flex h-14 w-full items-center justify-between gap-1 overflow-x-auto rounded-lg bg-white px-4 py-2 drop-shadow-md'>
+			<div>{children}</div>
+			<div className='flex-shrink-0'>
 				{Object.entries(activeFilters).map((entry) => {
 					if (entry[1] === '') return null;
 					return (
