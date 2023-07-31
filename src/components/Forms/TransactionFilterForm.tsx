@@ -6,11 +6,21 @@ import Dialog from '../Dialog/Dialog';
 import FilterIcon from '../Icons/FilterIcon';
 import Input from '../Input';
 import InputArea from '../InputArea';
-import { formatFilterValue, formatFilterValueDate } from '@/filterUtil';
+import {
+	formatFilterValue,
+	formatFilterValueArray,
+	formatFilterValueDate,
+	matchFilterArrayToObject,
+} from '@/filterUtil';
+import Autocomplete from '../Autocomplete';
+import { Tag } from '@/server/models/Tag';
 
 type TransactionFilterFormProps = {
 	handleDialogClose: (queryFilters: BaseObjectType) => void;
 	activeFilters: BaseObjectType;
+	options?: {
+		tagList: any[];
+	};
 };
 
 type FormData = {
@@ -18,23 +28,29 @@ type FormData = {
 	date: string; // When date should be exact
 	from: string;
 	to: string;
+	tags: Tag[];
 };
 
 const TransactionFilterForm: React.FC<TransactionFilterFormProps> = ({
 	handleDialogClose,
 	activeFilters,
+	options,
 }) => {
 	const [openNewTagDialog, setOpenNewTagDialog] = useState(false);
 	const [isExactDate, setIsExactDate] = useState(
 		activeFilters.date ? true : false
 	);
-
 	const { control, handleSubmit, setValue } = useForm<FormData>({
 		defaultValues: {
 			amount: formatFilterValue(activeFilters.amount),
 			from: formatFilterValueDate(activeFilters.from),
 			to: formatFilterValueDate(activeFilters.to),
 			date: formatFilterValueDate(activeFilters.date),
+			tags: matchFilterArrayToObject(
+				activeFilters.tags,
+				options?.tagList,
+				(data: Tag) => data.name
+			),
 		},
 	});
 
@@ -43,7 +59,15 @@ const TransactionFilterForm: React.FC<TransactionFilterFormProps> = ({
 		setValue('from', formatFilterValueDate(activeFilters.from));
 		setValue('to', formatFilterValueDate(activeFilters.to));
 		setValue('date', formatFilterValueDate(activeFilters.date));
-	}, [activeFilters, setValue]);
+		setValue(
+			'tags',
+			matchFilterArrayToObject(
+				activeFilters.tags,
+				options?.tagList,
+				(data: Tag) => data.name
+			)
+		);
+	}, [activeFilters, setValue, options?.tagList]);
 
 	const handleSetIsExactDateToggle = () => {
 		if (isExactDate) {
@@ -73,6 +97,7 @@ const TransactionFilterForm: React.FC<TransactionFilterFormProps> = ({
 			from: data.from,
 			to: data.to,
 			date: data.date,
+			tags: `^ ${data.tags.map((tag) => tag.name).join(';')}`,
 		};
 		handleDialogClose(modifiedData);
 	};
@@ -175,18 +200,18 @@ const TransactionFilterForm: React.FC<TransactionFilterFormProps> = ({
 							/>
 						</>
 					)}
-					{/* <Controller
+					<Controller
 						name='tags'
 						control={control}
 						render={({ field }) => (
 							<Autocomplete
 								{...field}
-								options={options}
+								options={options?.tagList}
 								getOptionLabel={(option: any) => option.name}
 								getOptionValue={(option: any) => option.id}
 							/>
 						)}
-					/> */}
+					/>
 				</form>
 			</div>
 		</Dialog>

@@ -27,6 +27,9 @@ const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 					baseUrl='transactions'
 					searchParams={searchParams}
 					FilterDialog={TransactionFilterForm}
+					filterDialogOptions={{
+						tagList: tags,
+					}}
 				>
 					<TransactionForm title='Add' options={tags} />
 				</TableAction>

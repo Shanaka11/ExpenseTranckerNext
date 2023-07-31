@@ -32,9 +32,23 @@ export const generateTransactionFilter = (searchParams?: SearchParams) => {
 		if (key === 'amount') {
 			addToWhere(key, filterKey, Number(filterValue));
 		}
-		// if kys is date, fromDate, toDate then handle it accordingly
+		// if key is date, fromDate, toDate then handle it accordingly
 		if (key === 'date' || key === 'to' || key === 'from') {
 			addToWhere('date', filterKey, new Date(filterValue));
+		}
+
+		// if tags
+		if (key === 'tags') {
+			const tag = {
+				some: {
+					name: {
+						[filterKey]: filterValue.split(';'),
+					},
+				},
+			};
+			where.set('tags', {
+				...tag,
+			});
 		}
 	}
 	return Object.fromEntries(where);

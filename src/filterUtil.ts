@@ -14,6 +14,8 @@ export const encodeFilterString = (key: string, filterString: string) => {
 			return `${key}=lt:${queryParam.slice(1, queryParam.length).join(' ')}&`;
 		case '<=':
 			return `${key}=lte:${queryParam.slice(1, queryParam.length).join(' ')}&`;
+		case '^':
+			return `${key}=in:${queryParam.slice(1, queryParam.length).join(' ')}&`;
 		case '~':
 			return `${key}=startsWith:${queryParam
 				.slice(1, queryParam.length)
@@ -67,4 +69,29 @@ export const formatFilterValueDate = (filterValue: string) => {
 	if (filterValue === '' || filterValue === undefined || filterValue === null)
 		return '';
 	return formatFilterValue(filterValue.split(' ')[1]);
+};
+
+export const formatFilterValueArray = (filterValue: string) => {
+	if (filterValue === '' || filterValue === undefined || filterValue === null)
+		return [];
+	const valueArray = formatFilterValue(filterValue).split(' ')[1].split(';');
+	return valueArray;
+};
+
+export const matchFilterArrayToObject = (
+	filterValue?: string,
+	objectArray?: any[],
+	mapperFunction?: (object: any) => string
+) => {
+	if (
+		filterValue === undefined ||
+		objectArray === undefined ||
+		mapperFunction === undefined
+	)
+		return [];
+	const valueArray = formatFilterValueArray(filterValue);
+	const filteredValue = objectArray.filter((obj) =>
+		valueArray.includes(mapperFunction(obj))
+	);
+	return filteredValue;
 };

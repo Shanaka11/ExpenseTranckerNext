@@ -10,6 +10,7 @@ import useFilter, { BaseObjectType } from './useFilter';
 type FilterDialogProps = {
 	handleDialogClose: (queryFilters: BaseObjectType) => void;
 	activeFilters: BaseObjectType;
+	options?: any;
 };
 
 type TableActionProps = {
@@ -17,6 +18,7 @@ type TableActionProps = {
 	searchParams: SearchParams;
 	baseUrl: string;
 	FilterDialog: ComponentType<FilterDialogProps>;
+	filterDialogOptions?: any;
 };
 
 const TableAction: React.FC<TableActionProps> = ({
@@ -24,6 +26,7 @@ const TableAction: React.FC<TableActionProps> = ({
 	searchParams,
 	baseUrl,
 	FilterDialog,
+	filterDialogOptions,
 }) => {
 	const router = useRouter();
 	const { activeFilters, handleApplyFilter, handleRemoveFilter } = useFilter(
@@ -55,6 +58,7 @@ const TableAction: React.FC<TableActionProps> = ({
 				<FilterDialog
 					handleDialogClose={handleApplyFilter}
 					activeFilters={activeFilters}
+					options={filterDialogOptions}
 				/>
 				<Button
 					label='Refresh'
