@@ -17,7 +17,9 @@ export const GET = async (
 	try {
 		const userId = await checkPermissions();
 		const tag = await retrieveTransaction({
-			userId: userId,
+			where: {
+				user: userId,
+			},
 			id: params.id,
 		});
 

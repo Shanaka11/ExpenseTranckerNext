@@ -32,7 +32,12 @@ export const GET = async (request: NextRequest) => {
 			? parseInt(url.searchParams.get('count')!)
 			: undefined;
 
-		const transactions = await retrieveTransaction({ userId, count });
+		const transactions = await retrieveTransaction({
+			where: {
+				user: userId,
+			},
+			count,
+		});
 
 		return new Response(JSON.stringify(transactions), {
 			status: 200,
