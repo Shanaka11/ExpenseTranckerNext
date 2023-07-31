@@ -123,12 +123,7 @@ const TransactionFilterForm: React.FC<TransactionFilterFormProps> = ({
 			noOpenButton={false}
 			okButtonLabel={'Apply Filter'}
 		>
-			<div>
-				{/* <Button
-			label='Add filter'
-			title='Add filter element'
-			icon={<HelpIcon />}
-		/> */}
+			<div className='relative flex flex-col'>
 				<form id='TransactionFilterForm' onSubmit={handleSubmit(onSubmit)}>
 					<Controller
 						name='amount'
