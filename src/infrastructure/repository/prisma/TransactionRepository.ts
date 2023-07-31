@@ -36,7 +36,7 @@ const findAll = async (options: QueryOptions) => {
 		include: {
 			tags: true,
 		},
-		where: options.where,
+		where: options?.where,
 		orderBy: {
 			date: 'desc',
 		},

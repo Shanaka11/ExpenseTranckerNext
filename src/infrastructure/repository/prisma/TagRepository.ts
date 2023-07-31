@@ -1,5 +1,6 @@
 import { Tag } from '@/server/models/Tag';
 import { prisma } from './PrismaSingleton';
+import { QueryOptions } from '.';
 
 const create = async (data: Tag) => {
 	const created = await prisma.tag.create({ data });
@@ -11,9 +12,10 @@ const findById = async (id: string) => {
 	return found || null;
 };
 
-const findAll = async (where: any) => {
+const findAll = async (options: QueryOptions) => {
 	const all = await prisma.tag.findMany({
-		where: where,
+		where: options?.where,
+		take: options?.count,
 	});
 	return all;
 };

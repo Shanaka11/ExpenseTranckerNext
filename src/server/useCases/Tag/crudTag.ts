@@ -54,7 +54,15 @@ export const makeCreateTagUseCase = ({
 export const makeRetrieveTagUseCase = ({
 	tagRepository,
 }: MakeRetrieveTagUseCase) => {
-	const retrieve = async ({ id, where }: { id?: string; where: any }) => {
+	const retrieve = async ({
+		id,
+		where,
+		count,
+	}: {
+		id?: string;
+		where?: any;
+		count?: number;
+	}) => {
 		// For now all records are retrieved, adjust this so we can include filtering
 		// Retrieve the tag using the repository method
 		try {
@@ -62,7 +70,10 @@ export const makeRetrieveTagUseCase = ({
 				const response = await tagRepository.findById(id);
 				return response;
 			}
-			const response = await tagRepository.findAll(where);
+			const response = await tagRepository.findAll({
+				where,
+				count: count,
+			});
 			return response;
 		} catch (e) {
 			throw e;

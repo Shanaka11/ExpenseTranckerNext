@@ -110,23 +110,21 @@ export const makeRetrieveTransactionUseCase = ({
 }: MakeRetrieveTransactionUseCase) => {
 	console.log('Make Retrieve Tranasction Usecase');
 	const retrieve = async ({
-		userId,
 		id,
 		count,
+		where,
 	}: {
-		userId: string;
 		id?: string;
 		count?: number;
+		where?: any;
 	}) => {
-		// For now all records are retrieved, adjust this so we can include filtering
-		// Retrieve the Transaction using the repository method
 		try {
 			if (id) {
 				const response = await transactionRepository.findById(id);
 				return response;
 			}
 			const response = await transactionRepository.findAll({
-				where: { user: userId },
+				where: where,
 				count: count,
 			});
 			return response;

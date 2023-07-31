@@ -1,15 +1,12 @@
 import { retrieveTransaction } from '@/server/useCases/RetrieveTransaction';
 import getExpensesByTags from '@/server/useCases/Trasaction/expensesByTags';
 import { auth } from '@clerk/nextjs';
+import { SearchParams } from './SearchParamType';
+import { generateTransactionFilter } from '@/infrastructure/filters/prisma/TransactionFilter';
 
 type TransactionServiceInput = {
 	count?: number;
-};
-
-const createQueryString = (filters?: TransactionServiceInput) => {
-	if (filters?.count !== undefined) return `?count=${filters.count}`;
-
-	return '';
+	searchParams?: SearchParams;
 };
 
 export const getTransactionsService = async (
@@ -19,9 +16,15 @@ export const getTransactionsService = async (
 		const { userId } = auth();
 		if (userId === null)
 			throw new Error('You must be logged in to access this page');
+
+		const where = generateTransactionFilter({
+			...filters?.searchParams,
+			user: userId,
+		});
+
 		const res = await retrieveTransaction({
-			userId,
 			count: filters?.count,
+			where,
 		});
 		if (res === null) return undefined;
 		if (Array.isArray(res)) return res;

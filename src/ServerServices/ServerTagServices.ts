@@ -3,20 +3,21 @@ import { Tag } from '@prisma/client';
 import { SearchParams } from './SearchParamType';
 import { generateTagFilter } from '@/infrastructure/filters/prisma/TagFilter';
 import { retrieveTag } from '@/server/useCases/RetrieveTag';
+import { cache } from 'react';
 
 type ServerServiceArgs = {
-	userId?: string;
 	count?: number;
 	searchParams?: SearchParams;
 };
 
 export const getTagsService: (
 	args: ServerServiceArgs
-) => Promise<Tag[] | undefined> = async ({ count, userId, searchParams }) => {
+) => Promise<Tag[] | undefined> = cache(async ({ count, searchParams }) => {
 	try {
 		const where = generateTagFilter(searchParams);
 		const res = await retrieveTag({
 			where,
+			count,
 		});
 
 		if (res === null) return undefined;
@@ -28,4 +29,4 @@ export const getTagsService: (
 			'Error, unable to fetch data from the server, Try refreshing or contact customer support if the issue persists'
 		);
 	}
-};
+});

@@ -1,45 +1,20 @@
+import { SearchParams } from '@/ServerServices/SearchParamType';
 import { getTagsService } from '@/ServerServices/ServerTagServices';
 import { getTransactionsService } from '@/ServerServices/ServerTransactionServices';
-import Button from '@/components/Button';
+import TransactionFilterForm from '@/components/Forms/TransactionFilterForm';
 import TransactionForm from '@/components/Forms/TransactionForm';
-import RefreshIcon from '@/components/Icons/RefreshIcon';
-import Input from '@/components/Input';
-import Table, { TableColumns } from '@/components/Table/Table';
 import TableAction from '@/components/Table/TableAction';
 import TransactionTable from '@/components/TransactionTable';
-import { Transaction } from '@/server/models/Transaction';
-import React from 'react';
+import { isEmptyObject } from '../util/objectUtil';
 
-const page = async () => {
-	// const data: Transaction[] = await getTransactionsService();
-
+const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 	const [transactions, tags] = await Promise.all([
-		getTransactionsService(),
+		getTransactionsService({
+			count: isEmptyObject(searchParams) ? 100 : undefined,
+			searchParams: searchParams,
+		}),
 		getTagsService({}),
 	]);
-
-	const columns: TableColumns[] = [
-		{
-			label: 'Date',
-			accessor: 'date',
-			formatMethod: (value) => new Date(value).toLocaleDateString('en-US'),
-			columnSize: 0.5,
-		},
-		{
-			label: 'Description',
-			accessor: 'description',
-		},
-		{
-			label: 'Transaction Amount',
-			accessor: 'amount',
-			formatMethod: (value) =>
-				typeof value === 'number'
-					? (Math.round(value * 100) / 100).toFixed(2)
-					: value,
-			align: 'text-right',
-			columnSize: 0.6,
-		},
-	];
 
 	return (
 		<>
@@ -48,7 +23,14 @@ const page = async () => {
 				{/* Title */}
 				<h1 className='col-span-2 text-3xl font-bold'>Transactions</h1>
 				{/* Action Section */}
-				<TableAction>
+				<TableAction
+					baseUrl='transactions'
+					searchParams={searchParams}
+					FilterDialog={TransactionFilterForm}
+					filterDialogOptions={{
+						tagList: tags,
+					}}
+				>
 					<TransactionForm title='Add' options={tags} />
 				</TableAction>
 				{/* // Table Container */}
