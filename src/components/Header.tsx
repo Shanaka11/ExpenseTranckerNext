@@ -7,7 +7,9 @@ const Header = () => {
 	return (
 		<div className='flex h-12 items-center border-b border-slate-300 bg-white px-10 md:px-8'>
 			{/* Logo */}
-			<h1 className='font-bold text-blue-500'>Expense Tracker</h1>
+			<a href='/'>
+				<h1 className='font-bold text-blue-500'>Expense Tracker</h1>
+			</a>
 			{/* Sign in, Logout, Avatar */}
 			<SignedIn>
 				<div className='ml-auto'>

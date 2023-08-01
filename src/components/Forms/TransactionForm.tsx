@@ -37,7 +37,7 @@ export type TransactinFormProps = {
 	noOpenButton?: boolean;
 	handleDialogClose?: () => void;
 	options?: any[];
-	hideicon?: boolean;
+	hideicon: boolean;
 };
 
 const TransactionForm: React.FC<TransactinFormProps> = ({

@@ -31,7 +31,7 @@ const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 						tagList: tags,
 					}}
 				>
-					<TransactionForm title='Add' options={tags} />
+					<TransactionForm title='Add' options={tags} hideicon={false} />
 				</TableAction>
 				{/* // Table Container */}
 				<TransactionTable transactions={transactions} tags={tags} />
