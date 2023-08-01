@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='en'>
-			<body className='grid h-screen grid-rows-[48px_1fr] bg-slate-100'>
+			<body className='grid h-screen grid-rows-[48px_1fr] overflow-hidden bg-slate-100'>
 				<ClerkProvider>
 					<Toaster />
 					{/* Header */}
