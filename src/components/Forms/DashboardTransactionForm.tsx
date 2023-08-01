@@ -49,7 +49,7 @@ const DashboardTransactionForm: React.FC<DashboardTransactionFormProps> = ({
 				baseFormId={'DashboardTransactionForm'}
 				initialAmount={amount}
 				options={tags}
-				hideIcon={true}
+				hideicon
 			/>
 		</>
 	);
