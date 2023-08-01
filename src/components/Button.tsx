@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 export type ButtonProps = {
 	label: string;
 	icon?: ReactElement;
+	hideIcon?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button = (props: ButtonProps) => {
@@ -15,7 +16,7 @@ const Button = (props: ButtonProps) => {
 				props.className
 			}`}
 		>
-			{props.icon ? props.icon : props.label}
+			{props.icon && !props.hideIcon ? props.icon : props.label}
 		</button>
 	);
 };

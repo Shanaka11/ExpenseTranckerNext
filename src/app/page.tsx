@@ -1,3 +1,4 @@
+import { getTagsService } from '@/ServerServices/ServerTagServices';
 import {
 	getTransactionSummary,
 	getTransactionsService,
@@ -9,17 +10,16 @@ import SummaryContainer from '@/components/SummaryContainer';
 import TransactionTable from '@/components/TransactionTable';
 
 export default async function Home() {
-	const [transactions, summary] = await Promise.all([
-		getTransactionsService({
-			count: 10,
-		}),
+	const [transactions, summary, tags] = await Promise.all([
+		getTransactionsService({}),
 		getTransactionSummary(),
+		getTagsService({}),
 	]);
 
 	return (
 		<div className='grid place-items-center gap-4 md:h-[calc(100vh-48px)] md:grid-cols-4 md:grid-rows-[140px_140px_400px_1fr] md:gap-10 lg:grid-rows-[140px_550px_1fr]'>
 			<div className='col-span-2 flex h-28 w-full flex-col justify-evenly align-middle md:h-full lg:col-span-1'>
-				<DashboardTransactionForm />
+				<DashboardTransactionForm tags={tags} />
 			</div>
 			<SummaryContainer transactions={transactions} />
 

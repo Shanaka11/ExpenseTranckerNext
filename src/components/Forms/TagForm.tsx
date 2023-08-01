@@ -15,6 +15,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TagScehma } from '@/infrastructure/validation/TagValidationSchema';
+import AddNewIcon from '../Icons/AddNewIcon';
 // This form will be used to create and edit transactions
 type FormInputs = {
 	name: string;
@@ -177,6 +178,7 @@ const TagForm: React.FC<TransactinFormProps> = ({
 					className: 'cursor-pointer rounded-lg bg-blue-400 p-1 text-white ',
 					type: 'button',
 					label: title ?? 'Add New Tag',
+					icon: <AddNewIcon />,
 				}}
 				additionalActions={
 					dataItem !== undefined ? CustomActionUpdate : CustomActionsNew

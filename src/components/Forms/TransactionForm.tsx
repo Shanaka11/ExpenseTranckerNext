@@ -17,6 +17,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TransactionScehma } from '@/infrastructure/validation/TransactionValidationSchemas';
+import AddNewIcon from '../Icons/AddNewIcon';
 // Today
 const date = new Date();
 // This form will be used to create and edit transactions
@@ -36,6 +37,7 @@ export type TransactinFormProps = {
 	noOpenButton?: boolean;
 	handleDialogClose?: () => void;
 	options?: any[];
+	hideIcon?: boolean;
 };
 
 const TransactionForm: React.FC<TransactinFormProps> = ({
@@ -47,6 +49,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	noOpenButton,
 	handleDialogClose,
 	options,
+	hideIcon,
 }) => {
 	const router = useRouter();
 
@@ -220,6 +223,8 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 					type: { baseFormId } ? 'submit' : 'button',
 					form: baseFormId,
 					label: title ?? 'Add New Transactions',
+					icon: <AddNewIcon />,
+					hideIcon: hideIcon,
 				}}
 				additionalActions={
 					dataItem !== undefined ? CustomActionUpdate : CustomActionsNew
