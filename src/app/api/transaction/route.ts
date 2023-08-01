@@ -1,4 +1,4 @@
-import checkPermissions from '@/app/util/checkPermissions';
+import checkPermissions from '@/app/_util/checkPermissions';
 import { createTransaction } from '@/server/useCases/CreateTransaction';
 import { retrieveTransaction } from '@/server/useCases/RetrieveTransaction';
 

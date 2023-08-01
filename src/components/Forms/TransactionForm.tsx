@@ -8,7 +8,7 @@ import Button from '../Button';
 import Dialog from '../Dialog/Dialog';
 import useMutation from './useMutation';
 import toast from 'react-hot-toast';
-import { formatDateToInput } from '@/app/util/formatDate';
+import { formatDateToInput } from '@/app/_util/formatDate';
 import {
 	deleteTransactionService,
 	insertTransactionService,
@@ -37,7 +37,7 @@ export type TransactinFormProps = {
 	noOpenButton?: boolean;
 	handleDialogClose?: () => void;
 	options?: any[];
-	hideIcon?: boolean;
+	hideicon?: boolean;
 };
 
 const TransactionForm: React.FC<TransactinFormProps> = ({
@@ -49,7 +49,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	noOpenButton,
 	handleDialogClose,
 	options,
-	hideIcon,
+	hideicon,
 }) => {
 	const router = useRouter();
 
@@ -224,7 +224,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 					form: baseFormId,
 					label: title ?? 'Add New Transactions',
 					icon: <AddNewIcon />,
-					hideIcon: hideIcon,
+					hideicon: hideicon,
 				}}
 				additionalActions={
 					dataItem !== undefined ? CustomActionUpdate : CustomActionsNew

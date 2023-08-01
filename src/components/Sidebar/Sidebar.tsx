@@ -44,19 +44,19 @@ const Sidebar = () => {
 					<CloseIcon />
 				</button>
 				<SidebarItem
-					href='/'
+					href='/dashboard'
 					title='Dashboard'
 					icon={<DashboardIcon />}
 					handleClick={handleMenuClose}
 				/>
 				<SidebarItem
-					href='/transactions'
+					href='/dashboard/transactions'
 					title='Transactions'
 					icon={<TransactionIcon />}
 					handleClick={handleMenuClose}
 				/>
 				<SidebarItem
-					href='/tags'
+					href='/dashboard/tags'
 					title='Tags'
 					icon={<TagIcon />}
 					handleClick={handleMenuClose}

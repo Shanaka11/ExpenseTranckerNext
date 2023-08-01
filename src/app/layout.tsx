@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='en'>
-			<body className='grid h-screen  grid-rows-[48px_1fr] bg-slate-100 md:grid-cols-[240px_1fr]'>
+			<body className='grid h-screen grid-rows-[48px_1fr] overflow-hidden bg-slate-100'>
 				<ClerkProvider>
 					<Toaster />
 					{/* Header */}
@@ -29,10 +29,10 @@ export default function RootLayout({
 					</div>
 					{/* Sidebar should be shown on larger screen and should be an overlay on smaller screens */}
 					{/* <div className='md:grid md:grid-cols-[240px_1fr]'> */}
-					<Sidebar />
-					<div className='col-span-2 overflow-y-scroll px-4 py-4 md:col-span-1 md:p-4 md:px-10'>
-						{children}
-					</div>
+					{/* <Sidebar /> */}
+					{/* <div className='col-span-2 overflow-y-scroll px-4 py-4 md:col-span-1 md:p-4 md:px-10'> */}
+					{children}
+					{/* </div> */}
 					{/* </div> */}
 				</ClerkProvider>
 			</body>
