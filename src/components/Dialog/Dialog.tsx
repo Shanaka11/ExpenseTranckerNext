@@ -1,9 +1,8 @@
 'use client';
-import React, { ReactNode, useState } from 'react';
-import CloseIcon from '../Icons/CloseIcon';
-import Button, { ButtonProps } from '../Button';
+import React, { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import AddNewIcon from '../Icons/AddNewIcon';
+import Button, { ButtonProps } from '../Button';
+import CloseIcon from '../Icons/CloseIcon';
 
 type DialogProps = {
 	open: boolean;
@@ -42,7 +41,6 @@ const Dialog: React.FC<DialogProps> = ({
 				<Button
 					label='Add New Transaction'
 					title='Insert'
-					icon={<AddNewIcon />}
 					onClick={() => handleOpen()}
 					{...dialogButtonProps}
 				/>
