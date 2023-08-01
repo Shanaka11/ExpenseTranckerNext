@@ -10,9 +10,7 @@ import TransactionTable from '@/components/TransactionTable';
 
 export default async function Home() {
 	const [transactions, summary] = await Promise.all([
-		getTransactionsService({
-			count: 10,
-		}),
+		getTransactionsService({}),
 		getTransactionSummary(),
 	]);
 

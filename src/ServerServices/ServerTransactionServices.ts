@@ -43,7 +43,7 @@ export const getTransactionSummary = async (
 		const { userId } = auth();
 		if (userId === null)
 			throw new Error('You must be logged in to view this content');
-		const res = getExpensesByTags(userId);
+		const res = await getExpensesByTags(userId);
 		return res;
 	} catch (e) {
 		throw new Error(
