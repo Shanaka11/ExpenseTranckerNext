@@ -5,7 +5,7 @@ import TransactionFilterForm from '@/components/Forms/TransactionFilterForm';
 import TransactionForm from '@/components/Forms/TransactionForm';
 import TableAction from '@/components/Table/TableAction';
 import TransactionTable from '@/components/TransactionTable';
-import { isEmptyObject } from '../../util/objectUtil';
+import { isEmptyObject } from '../../_util/objectUtil';
 
 const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 	const [transactions, tags] = await Promise.all([

@@ -1,4 +1,4 @@
-import checkPermissions from '@/app/util/checkPermissions';
+import checkPermissions from '@/app/_util/checkPermissions';
 import { getExpenseByTags } from '@/server/useCases/ExpenseByTags';
 import { NextRequest } from 'next/server';
 

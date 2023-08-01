@@ -6,7 +6,7 @@ import Table, { TableColumns } from '@/components/Table/Table';
 import TableAction from '@/components/Table/TableAction';
 import { Tag } from '@/server/models/Tag';
 import React from 'react';
-import { isEmptyObject } from '../../util/objectUtil';
+import { isEmptyObject } from '../../_util/objectUtil';
 
 const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 	const data = await getTagsService({

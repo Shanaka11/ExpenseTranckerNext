@@ -19,23 +19,13 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang='en'>
-			<body className='grid h-screen  grid-rows-[48px_1fr] bg-slate-100 md:grid-cols-[240px_1fr]'>
-				<ClerkProvider>
-					<Toaster />
-					{/* Header */}
-					<div className='col-span-2'>
-						<Header />
-					</div>
-					{/* Sidebar should be shown on larger screen and should be an overlay on smaller screens */}
-					{/* <div className='md:grid md:grid-cols-[240px_1fr]'> */}
-					<Sidebar />
-					<div className='col-span-2 overflow-y-scroll px-4 py-4 md:col-span-1 md:p-4 md:px-10'>
-						{children}
-					</div>
-					{/* </div> */}
-				</ClerkProvider>
-			</body>
-		</html>
+		<div className='col-span-2 grid w-full md:grid-cols-[240px_1fr]'>
+			{/* Sidebar should be shown on larger screen and should be an overlay on smaller screens */}
+			{/* <div className='md:grid md:grid-cols-[240px_1fr]'> */}
+			<Sidebar />
+			<div className='col-span-2 overflow-y-scroll px-4 py-4 md:col-span-1 md:p-4 md:px-10'>
+				{children}
+			</div>
+		</div>
 	);
 }

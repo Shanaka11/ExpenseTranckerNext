@@ -8,7 +8,7 @@ import Button from '../Button';
 import Dialog from '../Dialog/Dialog';
 import useMutation from './useMutation';
 import toast from 'react-hot-toast';
-import { formatDateToInput } from '@/app/util/formatDate';
+import { formatDateToInput } from '@/app/_util/formatDate';
 import {
 	deleteTransactionService,
 	insertTransactionService,
