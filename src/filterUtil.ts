@@ -7,23 +7,33 @@ export const encodeFilterString = (key: string, filterString: string) => {
 				.slice(1, queryParam.length)
 				.join(' ')}&`;
 		case '>':
-			return `${key}=gt:${queryParam.slice(1, queryParam.length).join(' ')}&`;
+			return `${key}=gt:${formatFilterValue(
+				queryParam.slice(1, queryParam.length).join(' ')
+			)}&`;
 		case '>=':
-			return `${key}=gte:${queryParam.slice(1, queryParam.length).join(' ')}&`;
+			return `${key}=gte:${formatFilterValue(
+				queryParam.slice(1, queryParam.length).join(' ')
+			)}&`;
 		case '<':
-			return `${key}=lt:${queryParam.slice(1, queryParam.length).join(' ')}&`;
+			return `${key}=lt:${formatFilterValue(
+				queryParam.slice(1, queryParam.length).join(' ')
+			)}&`;
 		case '<=':
-			return `${key}=lte:${queryParam.slice(1, queryParam.length).join(' ')}&`;
+			return `${key}=lte:${formatFilterValue(
+				queryParam.slice(1, queryParam.length).join(' ')
+			)}&`;
 		case '^':
-			return `${key}=in:${queryParam.slice(1, queryParam.length).join(' ')}&`;
+			return `${key}=in:${formatFilterValue(
+				queryParam.slice(1, queryParam.length).join(' ')
+			)}&`;
 		case '~':
-			return `${key}=startsWith:${queryParam
-				.slice(1, queryParam.length)
-				.join(' ')}&`;
+			return `${key}=startsWith:${formatFilterValue(
+				queryParam.slice(1, queryParam.length).join(' ')
+			)}&`;
 		default:
-			return `${key}=startsWith:${queryParam
-				.slice(0, queryParam.length)
-				.join(' ')}&`;
+			return `${key}=startsWith:${formatFilterValue(
+				queryParam.slice(0, queryParam.length).join(' ')
+			)}&`;
 	}
 };
 
@@ -42,6 +52,8 @@ export const decodeFilterString = (filterString: string) => {
 			return `<= "${queryParam[1]}"`;
 		case 'startsWith':
 			return `~ "${queryParam[1]}"`;
+		case 'in':
+			return `^ "${queryParam[1]}"`;
 		default:
 			return `~ "${queryParam[1]}"`;
 	}

@@ -6,6 +6,7 @@ import TransactionForm from '@/components/Forms/TransactionForm';
 import TableAction from '@/components/Table/TableAction';
 import TransactionTable from '@/components/TransactionTable';
 import { isEmptyObject } from '../util/objectUtil';
+import { Suspense } from 'react';
 
 const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 	console.log(searchParams);
@@ -24,18 +25,20 @@ const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 				{/* Title */}
 				<h1 className='col-span-2 text-3xl font-bold'>Transactions</h1>
 				{/* Action Section */}
-				<TableAction
-					baseUrl='transactions'
-					searchParams={searchParams}
-					FilterDialog={TransactionFilterForm}
-					filterDialogOptions={{
-						tagList: tags,
-					}}
-				>
-					<TransactionForm title='Add' options={tags} />
-				</TableAction>
-				{/* // Table Container */}
-				<TransactionTable transactions={transactions} tags={tags} />
+				<Suspense fallback={<div>Loading</div>}>
+					<TableAction
+						baseUrl='transactions'
+						searchParams={searchParams}
+						FilterDialog={TransactionFilterForm}
+						filterDialogOptions={{
+							tagList: tags,
+						}}
+					>
+						<TransactionForm title='Add' options={tags} />
+					</TableAction>
+					{/* // Table Container */}
+					<TransactionTable transactions={transactions} tags={tags} />
+				</Suspense>
 			</div>
 		</>
 	);

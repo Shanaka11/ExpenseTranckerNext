@@ -81,7 +81,7 @@ const TransactionFilterForm: React.FC<TransactionFilterFormProps> = ({
 
 	const onSubmit = (data: FormData) => {
 		setOpenNewTagDialog(false);
-		if (data.amount.split(' ').length === 1) {
+		if (data.amount.split(' ').length === 1 && data.amount !== '') {
 			data.amount = `= ${data.amount}`;
 		}
 		// Both dates are not empty
@@ -105,8 +105,6 @@ const TransactionFilterForm: React.FC<TransactionFilterFormProps> = ({
 					? `^ ${data.tags.map((tag) => tag.name).join(';')}`
 					: '',
 		};
-
-		console.log(modifiedData);
 		handleDialogClose(modifiedData);
 	};
 
