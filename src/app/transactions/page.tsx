@@ -8,6 +8,7 @@ import TransactionTable from '@/components/TransactionTable';
 import { isEmptyObject } from '../util/objectUtil';
 
 const page = async ({ searchParams }: { searchParams: SearchParams }) => {
+	console.log(searchParams);
 	const [transactions, tags] = await Promise.all([
 		getTransactionsService({
 			count: isEmptyObject(searchParams) ? 100 : undefined,

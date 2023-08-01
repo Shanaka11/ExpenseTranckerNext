@@ -1,4 +1,5 @@
 import { SearchParams } from '@/ServerServices/SearchParamType';
+import { formatFilterValue } from '@/filterUtil';
 
 export const generateTransactionFilter = (searchParams?: SearchParams) => {
 	const where = new Map();
@@ -30,7 +31,7 @@ export const generateTransactionFilter = (searchParams?: SearchParams) => {
 		const [filterKey, filterValue] = value.split(':');
 		// if key is amount, then convert it to a number
 		if (key === 'amount') {
-			addToWhere(key, filterKey, Number(filterValue));
+			addToWhere(key, filterKey, Number(formatFilterValue(filterValue)));
 		}
 		// if key is date, fromDate, toDate then handle it accordingly
 		if (key === 'date' || key === 'to' || key === 'from') {
