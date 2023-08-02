@@ -5,7 +5,7 @@ import DashboardIcon from './Icons/DashboardIcon';
 
 const Header = () => {
 	return (
-		<div className='flex h-12 items-center border-b border-slate-300 bg-white px-10 md:px-8'>
+		<div className='flex h-12 items-center border-b border-slate-300 bg-white pl-10 pr-1 md:px-8'>
 			{/* Logo */}
 			<a href='/'>
 				<h1 className='font-bold text-blue-500'>Expense Tracker</h1>
