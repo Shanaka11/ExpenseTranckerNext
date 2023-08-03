@@ -39,7 +39,7 @@ export default function Home() {
 					<div className='mt-3 flex gap-1 md:justify-center'>
 						<SignedIn>
 							<a
-								className='w-fit cursor-pointer rounded-2xl bg-blue-500 p-4 text-xs font-semibold uppercase text-slate-50 duration-300 ease-in hover:bg-blue-600'
+								className='w-fit cursor-pointer rounded-2xl bg-blue-500 p-4 text-sm font-semibold uppercase text-slate-50 duration-300 ease-in hover:bg-blue-600'
 								href='/dashboard'
 							>
 								Vist Your Dashboard
@@ -47,12 +47,12 @@ export default function Home() {
 						</SignedIn>
 						<SignedOut>
 							<SignInButton mode='modal'>
-								<button className='w-fit rounded-2xl bg-blue-500 p-4 text-xs font-semibold uppercase text-slate-50 duration-300 ease-in hover:bg-blue-600'>
+								<button className='w-fit rounded-2xl bg-blue-500 p-4 text-sm font-semibold uppercase text-slate-50 duration-300 ease-in hover:bg-blue-600'>
 									Vist Dashboard
 								</button>
 							</SignInButton>
 							<SignInButton mode='modal'>
-								<button className='w-fit rounded-2xl bg-transparent p-4  text-xs font-semibold uppercase text-white duration-300 hover:bg-blue-500'>
+								<button className='w-fit rounded-2xl bg-transparent p-4  text-sm font-semibold uppercase text-white duration-300 hover:bg-blue-500'>
 									Try for free
 								</button>
 							</SignInButton>
