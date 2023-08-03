@@ -48,7 +48,9 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 					columns={columns}
 					data={transactions}
 					UpdateDialog={readonly ? undefined : TransactionForm}
-					updateDialogProps={readonly ? undefined : { options: tags }}
+					updateDialogProps={
+						readonly ? undefined : { options: tags, hideicon: true }
+					}
 				/>
 			</div>
 		</>
