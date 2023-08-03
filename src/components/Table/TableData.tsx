@@ -41,6 +41,7 @@ const TableData = <T,>({
 					dataItem={currentDataItem}
 					noOpenButton={true}
 					handleDialogClose={() => dialogOnClose()}
+					hideicon={true}
 					{...updateDialogProps}
 				/>
 			)}

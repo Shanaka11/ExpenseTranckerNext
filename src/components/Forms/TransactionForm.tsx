@@ -37,7 +37,7 @@ export type TransactinFormProps = {
 	noOpenButton?: boolean;
 	handleDialogClose?: () => void;
 	options?: any[];
-	hideicon?: boolean;
+	hideicon: boolean;
 };
 
 const TransactionForm: React.FC<TransactinFormProps> = ({
@@ -54,7 +54,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 	const router = useRouter();
 
 	const [defaultValues, setDefaultValues] = useState({
-		amount: dataItem !== undefined ? dataItem.amount : 0,
+		amount: dataItem !== undefined ? Number(dataItem.amount) : 0,
 		date:
 			dataItem !== undefined
 				? formatDateToInput(new Date(dataItem.date))
@@ -133,7 +133,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		}
 	);
 	useEffect(() => {
-		setValue('amount', initialAmount ?? 0);
+		setValue('amount', Number(initialAmount ?? 0));
 	}, [initialAmount, setValue]);
 
 	useEffect(() => {
