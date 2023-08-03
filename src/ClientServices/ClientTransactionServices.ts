@@ -1,5 +1,5 @@
 export const insertTransactionService = async (data: any) => {
-	let response = await fetch('api/transaction', {
+	let response = await fetch(`${window.location.origin}/api/transaction`, {
 		method: 'POST',
 		body: JSON.stringify(data),
 	});
@@ -7,16 +7,22 @@ export const insertTransactionService = async (data: any) => {
 };
 
 export const deleteTransactionService = async (id: string) => {
-	let response = await fetch(`api/transaction/${id}`, {
-		method: 'DELETE',
-	});
+	let response = await fetch(
+		`${window.location.origin}/api/transaction/${id}`,
+		{
+			method: 'DELETE',
+		}
+	);
 	return response;
 };
 
 export const updateTransactionService = async (data: any, id: string) => {
-	let response = await fetch(`api/transaction/${id}`, {
-		method: 'PUT',
-		body: JSON.stringify(data),
-	});
+	let response = await fetch(
+		`${window.location.origin}/api/transaction/${id}`,
+		{
+			method: 'PUT',
+			body: JSON.stringify(data),
+		}
+	);
 	return response;
 };
