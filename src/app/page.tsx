@@ -1,4 +1,3 @@
-import Button from '@/components/Button';
 import BalanceTrendAnalysisIcon from '@/components/Icons/BalanceTrendAnalysisIcon';
 import CategoryIcon from '@/components/Icons/CategoryIcon';
 import CustomizeIcon from '@/components/Icons/CustomizeIcon';
