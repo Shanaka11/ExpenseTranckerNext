@@ -14,7 +14,7 @@ import VisualizeIcon from '@/components/Icons/VisualizeIcon';
 import Image from 'next/image';
 export default function Home() {
 	return (
-		<div className='col-span-2 overflow-x-auto'>
+		<div className='col-span-2 overflow-x-auto bg-white'>
 			{/* Hero */}
 			<section className='relative col-span-2 grid h-96 place-items-center md:h-[35rem]'>
 				<Image
@@ -41,7 +41,7 @@ export default function Home() {
 			</section>
 			{/* Features */}
 			<section className='bg-blue-400 py-5'>
-				<h2 className='col-span-12 pb-5 text-center text-3xl font-semibold text-white'>
+				<h2 className='pb-5 text-center text-3xl font-semibold text-white'>
 					Features
 				</h2>
 				<div className='grid grid-cols-12 place-items-center gap-5 px-8 md:gap-10 lg:px-44'>
@@ -149,7 +149,24 @@ export default function Home() {
 					</div>
 				</div>
 			</section>
+			{/* Responsive Design */}
+			<section className='py-5'>
+				<h2 className='pb-5 text-center text-3xl font-semibold text-blue-400'>
+					Responsive Design
+				</h2>
+				<div className='relative h-48 w-full md:h-96 lg:h-[32rem]'>
+					<Image
+						src='https://five12daysgeneral.s3.ap-southeast-1.amazonaws.com/Expense/ResponsiveImage.png'
+						alt='Responsive Design'
+						fill
+						style={{
+							objectFit: 'contain',
+						}}
+					/>
+				</div>
+			</section>
 			{/* Footer */}
+			<section></section>
 		</div>
 	);
 }
