@@ -17,11 +17,18 @@ const Header = () => {
 				</div>
 			</SignedIn>
 			<SignedOut>
-				<SignInButton mode='modal'>
-					<button className='ml-auto w-fit rounded-2xl bg-blue-500 p-1 px-3 py-2 text-xs font-semibold uppercase text-slate-50'>
-						Sign in
-					</button>
-				</SignInButton>
+				<div className='ml-auto flex gap-2'>
+					<SignInButton mode='modal'>
+						<button className='w-fit rounded-2xl bg-blue-500 p-1 px-3 py-2 text-xs font-semibold uppercase text-slate-50 duration-300 ease-in hover:bg-blue-600'>
+							Sign in
+						</button>
+					</SignInButton>
+					<SignInButton mode='modal'>
+						<button className='w-fit rounded-2xl bg-transparent p-1 px-3 py-2 text-xs font-semibold uppercase text-blue-400 duration-300 hover:bg-blue-500 hover:text-white'>
+							Try for free
+						</button>
+					</SignInButton>
+				</div>
 			</SignedOut>
 		</div>
 	);
