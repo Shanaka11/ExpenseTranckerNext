@@ -31,7 +31,7 @@ const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 				{/* Action Section */}
 				<TableAction
 					searchParams={searchParams}
-					baseUrl='tags'
+					baseUrl='dashboard/tags'
 					FilterDialog={TagFilterForm}
 				>
 					<TagForm title='Add' />

@@ -24,7 +24,7 @@ const page = async ({ searchParams }: { searchParams: SearchParams }) => {
 				<h1 className='col-span-2 text-3xl font-bold'>Transactions</h1>
 				{/* Action Section */}
 				<TableAction
-					baseUrl='transactions'
+					baseUrl='dashboard/transactions'
 					searchParams={searchParams}
 					FilterDialog={TransactionFilterForm}
 					filterDialogOptions={{
