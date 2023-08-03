@@ -13,6 +13,8 @@ import TopTransactionIcon from '@/components/Icons/TopTransactionIcon';
 import VisualizeIcon from '@/components/Icons/VisualizeIcon';
 import Image from 'next/image';
 export default function Home() {
+	const date = new Date();
+
 	return (
 		<div className='col-span-2 overflow-x-auto bg-white'>
 			{/* Hero */}
@@ -166,7 +168,12 @@ export default function Home() {
 				</div>
 			</section>
 			{/* Footer */}
-			<section></section>
+			<footer className='bg-blue-400 py-5'>
+				<p className='text-center text-white'>
+					<span>&copy;</span> {date.getFullYear()} Five12Days. All rights
+					reserved.
+				</p>
+			</footer>
 		</div>
 	);
 }
