@@ -20,10 +20,11 @@ const createSummary = (transactions?: Transaction[]) => {
 			summary.totalBalance += transaction.amount;
 		} else {
 			summary.totalExpense += transaction.amount;
-			summary.totalBalance -= transaction.amount;
+			summary.totalBalance += transaction.amount;
 		}
 	});
 
+	summary.totalExpense = summary.totalExpense * -1;
 	return summary;
 };
 
