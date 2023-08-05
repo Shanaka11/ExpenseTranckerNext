@@ -30,9 +30,13 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 		{
 			label: 'Transaction Amount',
 			accessor: 'amount',
+
 			formatMethod: (value) =>
 				typeof value === 'number'
-					? (Math.round(value * 100) / 100).toFixed(2)
+					? (Math.round(value * 100) / 100).toLocaleString(undefined, {
+							maximumFractionDigits: 2,
+							minimumFractionDigits: 2,
+					  })
 					: value,
 			align: 'text-right',
 			columnSize: 0.6,
