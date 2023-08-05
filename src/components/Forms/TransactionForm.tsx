@@ -245,6 +245,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 							<Input
 								type='number'
 								label='Transaction Amount'
+								autoFocus
 								id='transaction'
 								className='text-right'
 								error={errors?.amount?.message}
@@ -274,7 +275,6 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 								type='date'
 								error={errors?.date?.message}
 								label='Date'
-								autoFocus
 								id='date'
 								{...field}
 							/>
