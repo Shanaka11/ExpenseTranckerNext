@@ -77,6 +77,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 		reset,
 		setValue,
 		formState: { errors },
+		getValues,
 	} = useForm<FormInputs>({
 		defaultValues: {
 			...defaultValues,
@@ -98,7 +99,7 @@ const TransactionForm: React.FC<TransactinFormProps> = ({
 					setCloseOnSuccessfullSave(false);
 				}
 				setIsExpense(true);
-				reset(defaultValues);
+				reset({ ...defaultValues, date: getValues('date') });
 				toast.success('Transaction Added');
 				if (refresh) router.refresh();
 			},
