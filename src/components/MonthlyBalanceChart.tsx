@@ -10,16 +10,16 @@ import {
 	Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { useBarChart } from './useBarChart';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
 export const options = {
 	responsive: true,
 	plugins: {
-		// title: {
-		// 	display: true,
-		// 	text: 'Chart.js Bar Chart',
-		// },
+		legend: {
+			display: false,
+		},
 	},
 };
 
@@ -27,30 +27,10 @@ type MonthlyBalanceChartProps = {
 	summary: { month: string; amount: number }[];
 };
 
-const mapToChartData = (summary: { month: string; amount: number }[]) => {
-	const labels: string[] = [];
-	const data: number[] = [];
-
-	summary.forEach((summaryItem) => {
-		labels.push(summaryItem.month);
-		data.push(summaryItem.amount);
-	});
-
-	return {
-		labels,
-		datasets: [
-			{
-				data,
-				backgroundColor: '#60a5fa',
-			},
-		],
-	};
-};
-
 const MonthlyBalanceChart: React.FC<MonthlyBalanceChartProps> = ({
 	summary,
 }) => {
-	const chartData = useMemo(() => mapToChartData(summary), [summary]);
+	const { chartData } = useBarChart(summary);
 
 	return (
 		<>

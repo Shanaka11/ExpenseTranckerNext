@@ -6,6 +6,7 @@ import DashboardIcon from '../Icons/DashboardIcon';
 import TransactionIcon from '../Icons/TransactionIcon';
 import TagIcon from '../Icons/TagIcon';
 import CloseIcon from '../Icons/CloseIcon';
+import AnalyticsIcon from '../Icons/AnalyticsIcon';
 
 const Sidebar = () => {
 	const [size, setSize] = useState<'OPEN' | 'CLOSE'>('CLOSE');
@@ -59,6 +60,12 @@ const Sidebar = () => {
 					href='/dashboard/tags'
 					title='Tags'
 					icon={<TagIcon />}
+					handleClick={handleMenuClose}
+				/>
+				<SidebarItem
+					href='/dashboard/analytics'
+					title='Analytics'
+					icon={<AnalyticsIcon />}
 					handleClick={handleMenuClose}
 				/>
 			</nav>

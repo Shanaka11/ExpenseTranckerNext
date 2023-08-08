@@ -17,8 +17,6 @@ const convertSearchParamsToFilters = (searchParams: SearchParams) => {
 		const value = searchParams[key];
 		if (typeof value === 'string') {
 			objectType[key] = decodeFilterString(formatFilterValue(value));
-		} else if (Array.isArray(value)) {
-			objectType[key] = value.join(',');
 		}
 	}
 	return objectType;
