@@ -2,30 +2,10 @@
 import React, { useMemo } from 'react';
 import Card from './Card';
 import { Transaction } from '@prisma/client';
+import { createSummary } from '@/app/_util/calculateSummar';
 
 type SummaryContainerProps = {
 	transactions?: Transaction[];
-};
-
-const createSummary = (transactions?: Transaction[]) => {
-	const summary = {
-		totalExpense: 0,
-		totalIncome: 0,
-		totalBalance: 0,
-	};
-
-	transactions?.map((transaction) => {
-		if (transaction.amount >= 0) {
-			summary.totalIncome += transaction.amount;
-			summary.totalBalance += transaction.amount;
-		} else {
-			summary.totalExpense += transaction.amount;
-			summary.totalBalance += transaction.amount;
-		}
-	});
-
-	summary.totalExpense = summary.totalExpense * -1;
-	return summary;
 };
 
 const SummaryContainer: React.FC<SummaryContainerProps> = ({

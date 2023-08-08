@@ -1,7 +1,5 @@
 import { Transaction } from '@prisma/client';
-import { Input } from 'postcss';
 import React from 'react';
-import Button from './Button';
 import TransactionForm from './Forms/TransactionForm';
 import Table, { TableColumns } from './Table/Table';
 
@@ -9,12 +7,14 @@ type TransactionTableProps = {
 	transactions: any;
 	tags: any;
 	readonly?: boolean;
+	width?: string;
 };
 
 const TransactionTable: React.FC<TransactionTableProps> = ({
 	transactions,
 	tags,
 	readonly = false,
+	width,
 }) => {
 	const columns: TableColumns[] = [
 		{
@@ -44,10 +44,13 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 	];
 	return (
 		<>
-			{/* // Container */}
-
-			{/* // Table Container */}
-			<div className='col-span-2 mt-2 h-full w-full overflow-y-scroll rounded-lg bg-white px-4 drop-shadow-md'>
+			<div
+				className={
+					width ??
+					'col-span-2' +
+						' mt-2 h-full w-full overflow-y-scroll rounded-lg bg-white px-4 drop-shadow-md'
+				}
+			>
 				<Table<Transaction>
 					columns={columns}
 					data={transactions}
