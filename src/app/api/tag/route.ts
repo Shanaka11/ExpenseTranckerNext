@@ -1,3 +1,4 @@
+import checkPermissions from '@/app/_util/checkPermissions';
 import { createTag } from '@/server/useCases/CreateTag';
 import { retrieveTag } from '@/server/useCases/RetrieveTag';
 import { NextRequest } from 'next/server';
@@ -5,7 +6,9 @@ import { NextRequest } from 'next/server';
 // Create Tag
 export const POST = async (request: NextRequest) => {
 	try {
+		const userId = await checkPermissions();
 		const input = await request.json();
+		input.user = userId;
 
 		const tag = await createTag(input);
 
@@ -22,7 +25,12 @@ export const POST = async (request: NextRequest) => {
 // Get Tags / Implement filters later
 export const GET = async (request: NextRequest) => {
 	try {
-		const tags = await retrieveTag({ where: {} });
+		const userId = await checkPermissions();
+		const tags = await retrieveTag({
+			where: {
+				user: userId,
+			},
+		});
 
 		return new Response(JSON.stringify(tags), {
 			status: 200,
