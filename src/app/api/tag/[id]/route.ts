@@ -1,3 +1,4 @@
+import checkPermissions from '@/app/_util/checkPermissions';
 import { removeTag } from '@/server/useCases/RemoveTag';
 import { retrieveTag } from '@/server/useCases/RetrieveTag';
 import { updateTag } from '@/server/useCases/UpdateTag';
@@ -13,7 +14,13 @@ export const GET = async (
 	}
 ) => {
 	try {
-		const tag = await retrieveTag({ id: params.id, where: {} });
+		const userId = await checkPermissions();
+		const tag = await retrieveTag({
+			id: params.id,
+			where: {
+				user: userId,
+			},
+		});
 
 		return new Response(JSON.stringify(tag), {
 			status: 200,

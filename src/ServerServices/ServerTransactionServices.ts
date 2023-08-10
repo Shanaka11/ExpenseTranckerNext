@@ -17,11 +17,12 @@ export const getTransactionsService = async (
 		if (userId === null)
 			throw new Error('You must be logged in to access this page');
 
-		const where = generateTransactionFilter({
-			...filters?.searchParams,
-			user: userId,
-		});
+		const where =
+			generateTransactionFilter({
+				...filters?.searchParams,
+			}) ?? {};
 
+		where.user = userId;
 		const res = await retrieveTransaction({
 			count: filters?.count,
 			where,

@@ -3,6 +3,7 @@ import { IMakeCreateModel } from './IMakeCreateModel';
 export type Tag = {
 	id: string;
 	name: string;
+	user: string;
 };
 
 export const makeCreateTag = ({
