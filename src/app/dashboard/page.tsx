@@ -10,8 +10,7 @@ import SummaryContainer from '@/components/SummaryContainer';
 import TransactionTable from '@/components/TransactionTable';
 
 export default async function Home() {
-	const [transactions, summary, tags] = await Promise.all([
-		getTransactionsService({}),
+	const [summary, tags] = await Promise.all([
 		getTransactionSummary(),
 		getTagsService({}),
 	]);
@@ -21,7 +20,11 @@ export default async function Home() {
 			<div className='col-span-2 flex h-28 w-full flex-col justify-evenly align-middle md:h-full lg:col-span-1'>
 				<DashboardTransactionForm tags={tags} />
 			</div>
-			<SummaryContainer transactions={transactions} />
+			<SummaryContainer
+				totalAmount={summary.summary.totalAmount}
+				income={summary.summary.income}
+				expense={summary.summary.expense}
+			/>
 
 			<div className='col-span-2 h-fit w-full rounded-lg bg-white px-4 py-2  md:h-full'>
 				<ExpenseDistributionChart summary={summary.tag} />
@@ -31,7 +34,7 @@ export default async function Home() {
 			</div>
 			<div className='col-span-2 h-full w-full md:col-span-4'>
 				<TransactionTable
-					transactions={transactions?.slice(0, 4) ?? []}
+					transactions={summary.recentTransactions ?? []}
 					readonly={true}
 					tags={[]}
 				/>

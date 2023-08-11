@@ -1,26 +1,26 @@
 'use client';
 import React, { useMemo } from 'react';
 import Card from './Card';
-import { Transaction } from '@prisma/client';
-import { createSummary } from '@/app/_util/calculateSummar';
 
 type SummaryContainerProps = {
-	transactions?: Transaction[];
+	income: number;
+	expense: number;
+	totalAmount: number;
 };
 
 const SummaryContainer: React.FC<SummaryContainerProps> = ({
-	transactions,
+	income,
+	expense,
+	totalAmount,
 }) => {
-	const summary = useMemo(() => createSummary(transactions), [transactions]);
-
 	return (
 		<>
 			{/* Balance */}
-			<Card title='Balance' value={summary.totalBalance} />
+			<Card title='Balance' value={totalAmount} />
 			{/* Income */}
-			<Card title='Income' value={summary.totalIncome} />
+			<Card title='Income' value={income} />
 			{/* Expense */}
-			<Card title='Expense' value={summary.totalExpense} />
+			<Card title='Expense' value={expense} />
 		</>
 	);
 };

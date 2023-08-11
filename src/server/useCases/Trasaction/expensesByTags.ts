@@ -34,6 +34,8 @@ const getExpensesByTags = async (userId: string) => {
 		var totalAmount = 0;
 		var addedTotal = 0;
 		var otherAmount = 0;
+		var incomeSummary = 0;
+		var expenseSummary = 0;
 		const retArray: { tag: string; amount: number }[] = [];
 		const monthSummary: { month: string; amount: number }[] = [];
 		const today = new Date();
@@ -72,6 +74,12 @@ const getExpensesByTags = async (userId: string) => {
 						tagSum.set(tag.name, -transaction.amount);
 					}
 				});
+			}
+			// Calculate total Summary
+			if (transaction.amount > 0) {
+				incomeSummary += transaction.amount;
+			} else {
+				expenseSummary += transaction.amount;
 			}
 		});
 
@@ -115,6 +123,12 @@ const getExpensesByTags = async (userId: string) => {
 		return {
 			tag: retArray,
 			month: monthSummary,
+			summary: {
+				income: incomeSummary,
+				expense: -1 * expenseSummary,
+				totalAmount: incomeSummary + expenseSummary,
+			},
+			recentTransactions: transactions.slice(0, 4),
 		};
 	} catch (e) {
 		throw e;
