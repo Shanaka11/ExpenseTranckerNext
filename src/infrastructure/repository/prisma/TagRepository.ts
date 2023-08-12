@@ -3,8 +3,15 @@ import { prisma } from './PrismaSingleton';
 import { QueryOptions } from '.';
 
 const create = async (data: Tag) => {
-	const created = await prisma.tag.create({ data });
-	return created;
+	try {
+		const created = await prisma.tag.create({ data });
+		return created;
+	} catch (e: any) {
+		if (e.code === 'P2002') {
+			throw new Error(`User Already has a tag called ${data.name}`);
+		}
+		throw e;
+	}
 };
 
 const findById = async (id: string) => {
