@@ -16,7 +16,7 @@ export const POST = async (request: NextRequest) => {
 			status: 201,
 		});
 	} catch (e: any) {
-		return new Response(e, {
+		return new Response(JSON.stringify({ message: e.message }), {
 			status: 500,
 		});
 	}
